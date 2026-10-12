@@ -3,65 +3,44 @@ export const dynamic = 'force-dynamic';
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const secret = searchParams.get('secret');
-
-  // Allow your secret
   if (secret!== 'goldy_oldhint_91_secure' && secret!== process.env.AGENT_SECRET) {
-    return Response.json({ error: 'Unauthorized - wrong secret' }, { status: 401 });
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return Response.json({ success: false, error: 'GEMINI_API_KEY missing in Vercel env vars' }, { status: 500 });
-  }
+  const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-3.8-flash'];
 
-  // This will try models in order until one works
-  const modelsToTry = ['gemini-1.5-flash', 'gemini-3.8-flash', 'gemini-2.0-flash'];
-  const prompt = `Generate 1 timeless old wisdom hint (max 15 words). Return ONLY valid JSON like {"hint":"Patience is the oldest wealth.","category":"Wisdom","era":"Ancient"}`;
+  const results = [];
 
   for (const model of modelsToTry) {
     try {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
+          contents: [{ parts: [{ text: `Return JSON: {"hint":"test"}` }] }]
         })
       });
-
       const data = await res.json();
-
-      if (!res.ok) continue; // try next model
-
-      let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      if (!text) continue;
-
-      text = text.replace(/```json|```/g, '').replace(/```/g, '').trim();
-      const hintData = JSON.parse(text);
-
-      return Response.json({
-        success: true,
-        live: true,
-        model_used: model,
-        generated_at: new Date().toISOString(),
-       ...hintData
-      });
-
+      results.push({ model, status: res.status, ok: res.ok, response: data });
+      if (res.ok) {
+        return Response.json({ success: true, model_used: model, full_response: data, all_attempts: results });
+      }
     } catch (e) {
-      // try next model
-      continue;
+      results.push({ model, error: e.message });
     }
   }
 
-  // If all models fail, return fallback so site never breaks
-  return Response.json({
-    success: true,
-    model_used: 'fallback',
-    hint: "Patience is the oldest wealth.",
-    category: "Wisdom",
-    era: "Ancient",
-    source: "Old Proverb",
-    note: "All Gemini models failed - check your API key at aistudio.google.com/app/apikey"
-  });
+  // Also try to list available models for this key
+  try {
+    const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
+    const listRes = await fetch(listUrl);
+    const listData = await listRes.json();
+    results.push({ list_models_attempt: listData, list_status: listRes.status });
+  } catch (e) {
+    results.push({ list_error: e.message });
+  }
+
+  return Response.json({ success: false, model_used: 'fallback', all_errors: results, hint: "Patience is the oldest wealth.", note: "See all_errors above" });
 }
