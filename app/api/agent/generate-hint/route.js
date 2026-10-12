@@ -7,48 +7,25 @@ export async function GET(req) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-
   try {
-    const model = 'gemini-3.8-flash';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const apiKey = process.env.GEMINI_API_KEY;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
 
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `You are an ancient wisdom generator for oldhint.com. Generate 1 timeless wisdom hint. Return ONLY valid JSON without markdown: {"hint":"Your wisdom here (max 15 words)","category":"Wisdom","era":"Ancient","source":"Old Proverb"} Make it short, powerful, viral.`
-          }]
-        }]
+        contents: [{ parts: [{ text: `Generate 1 short timeless wisdom hint for oldhint.com. Return ONLY valid JSON: {"hint":"your wisdom max 15 words","category":"Wisdom","era":"Ancient"}` }] }]
       })
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(JSON.stringify(data));
-
-    let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let text = data.candidates[0].content.parts[0].text;
     text = text.replace(/```json|```/g, '').trim();
+    const hint = JSON.parse(text);
 
-    const hintData = JSON.parse(text);
-
-    return Response.json({
-      success: true,
-      live: true,
-      model_used: model,
-      generated_at: new Date().toISOString(),
-    ...hintData
-    });
-
+    return Response.json({ success: true, live: true, model_used: 'gemini-3.8-flash',...hint, generated_at: new Date().toISOString() });
   } catch (e) {
-    return Response.json({
-      success: true,
-      model_used: 'fallback',
-      hint: "Patience is the oldest wealth.",
-      category: "Wisdom",
-      era: "Ancient",
-      error_detail: e.message
-    });
+    return Response.json({ success: false, error: e.message }, { status: 500 });
   }
 }
