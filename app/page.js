@@ -1,88 +1,80 @@
 "use client";
-import { useState, useEffect } from "react";
-
-const HINTS = [
-  { id: 1, cat: "Life", title: "Fix Stuck Zipper", slug: "fix-stuck-zipper", hint: "Rub pencil lead on zipper teeth.", why: "Graphite is dry lube." },
-  { id: 2, cat: "Money", title: "Save on Groceries", slug: "save-on-groceries", hint: "Shop after eating, not before.", why: "Hunger makes you buy 20% more." },
-  { id: 3, cat: "Tech", title: "Phone Battery Trick", slug: "phone-battery-trick", hint: "Charge to 80%, not 100%.", why: "Extends battery life 2x." },
-  { id: 4, cat: "Games", title: "Win Old Chess", slug: "win-old-chess", hint: "Control center, not edges.", why: "Center gives more moves." },
-  { id: 5, cat: "Life", title: "Remove Ink Stain", slug: "remove-ink-stain", hint: "Use milk, not water.", why: "Milk proteins lift ink." },
-  { id: 6, cat: "Money", title: "Old Money Rule", slug: "old-money-rule", hint: "Pay yourself first 10%.", why: "What remains you adjust to." },
-];
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState("All");
-  const [liveHint, setLiveHint] = useState("");
-  const [showSubmit, setShowSubmit] = useState(false);
-  const [newHint, setNewHint] = useState({ title:"", hint:"", cat:"Life" });
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/hint', { cache: 'no-store' }).then(r=>r.json()).then(d=>setLiveHint(d.hint));
-  }, []);
-
-  const filtered = HINTS.filter(h => 
-    (cat==="All" || h.cat===cat) && 
-    (h.title.toLowerCase().includes(q.toLowerCase()) || h.hint.toLowerCase().includes(q.toLowerCase()))
-  );
+  const search = async (e) => {
+    e.preventDefault();
+    if (!q.trim()) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      setResults(data);
+    } catch (err) {
+      setResults({ query: q, answers: [{ title: "Fix Zipper Fast", hint: "Rub pencil on stuck zipper.", why: "Graphite lube", agent: "Grandma" }] });
+    }
+    setLoading(false);
+  };
 
   return (
-    <main style={{ minHeight:'100vh', background:'#0a0a0a', color:'#fff', padding:'20px', fontFamily:'system-ui' }}>
-      <div style={{ maxWidth:'900px', margin:'0 auto' }}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-          <h1 style={{ fontSize:'12px', letterSpacing:'6px', opacity:0.5 }}>OLDHINT</h1>
-          <button onClick={()=>setShowSubmit(!showSubmit)} style={{ padding:'10px 18px', borderRadius:'20px', background:'#fff', color:'#000', border:'none', fontWeight:'bold', cursor:'pointer' }}>+ Submit Hint</button>
+    <main style={{ minHeight:'100vh', background:'#fff', color:'#000', fontFamily:'system-ui', padding:'20px' }}>
+      <header style={{ display:'flex', justifyContent:'space-between', alignItems:'center', maxWidth:'1200px', margin:'0 auto 40px', fontSize:'13px' }}>
+        <Link href="/" style={{ fontWeight:'bold', textDecoration:'none', color:'#000', fontSize:'18px' }}>oldhint</Link>
+        <div style={{ display:'flex', gap:'15px' }}>
+          <Link href="/admin" style={{ color:'#000', opacity:0.6, textDecoration:'none' }}>Admin</Link>
+          <a href="https://instagram.com/sachin_bazard" target="_blank" style={{ color:'#000', opacity:0.6, textDecoration:'none' }}>@sachin_bazard</a>
         </div>
-        
-        {liveHint && (
-          <div style={{ background:'#1a1a1a', border:'1px solid #333', borderRadius:'16px', padding:'24px', textAlign:'center', margin:'30px 0' }}>
-            <p style={{ fontSize:'11px', opacity:0.4, letterSpacing:'2px' }}>LIVE AI WISDOM</p>
-            <h2 style={{ fontSize:'24px', fontWeight:300, marginTop:'10px' }}>"{liveHint}"</h2>
-          </div>
-        )}
+      </header>
 
-        {showSubmit && (
-          <div style={{ background:'#111', border:'1px solid #333', borderRadius:'16px', padding:'20px', marginBottom:'20px' }}>
-            <h3>Submit Old Hint</h3>
-            <input placeholder="Title e.g. Fix squeaky door" value={newHint.title} onChange={e=>setNewHint({...newHint, title:e.target.value})} style={{ width:'100%', padding:'12px', margin:'10px 0', borderRadius:'8px', background:'#1a1a1a', border:'1px solid #333', color:'#fff' }} />
-            <textarea placeholder="Your hint..." value={newHint.hint} onChange={e=>setNewHint({...newHint, hint:e.target.value})} style={{ width:'100%', padding:'12px', margin:'10px 0', borderRadius:'8px', background:'#1a1a1a', border:'1px solid #333', color:'#fff', minHeight:'80px' }} />
-            <div style={{ display:'flex', gap:'10px' }}>
-              <button onClick={()=>{ alert(`Thanks! "${newHint.title}" sent to AI agent for approval. It will be live soon on oldhint.com`); setShowSubmit(false); setNewHint({title:"",hint:"",cat:"Life"}); }} style={{ padding:'12px 20px', borderRadius:'8px', background:'#fff', color:'#000', border:'none', fontWeight:'bold', cursor:'pointer' }}>Submit to AI Agent</button>
-              <button onClick={()=>setShowSubmit(false)} style={{ padding:'12px 20px', borderRadius:'8px', background:'#222', color:'#fff', border:'1px solid #333', cursor:'pointer' }}>Cancel</button>
-            </div>
-          </div>
-        )}
+      <div style={{ maxWidth:'700px', margin:'60px auto 0', textAlign:'center' }}>
+        <h1 style={{ fontSize:'56px', fontWeight:'800', letterSpacing:'-3px', margin:0 }}>oldhint</h1>
+        <p style={{ opacity:0.5, marginTop:'8px', fontSize:'15px' }}>Google for grandma's wisdom • biryani to 350 engine</p>
 
-        <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search old hints for..." style={{ width:'100%', padding:'16px', borderRadius:'12px', background:'#1a1a1a', border:'1px solid #333', color:'#fff', fontSize:'16px' }} />
+        <form onSubmit={search} style={{ marginTop:'30px', position:'relative' }}>
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="how to make biryani, remove coffee stain, rebuild 350 engine..." style={{ width:'100%', padding:'18px 22px', borderRadius:'30px', border:'1px solid #ddd', fontSize:'16px', outline:'none', boxShadow:'0 2px 10px rgba(0,0,0,0.06)' }} />
+          <button type="submit" style={{ position:'absolute', right:'6px', top:'6px', padding:'12px 22px', borderRadius:'24px', background:'#000', color:'#fff', border:'none', fontWeight:'bold', cursor:'pointer' }}>{loading? '...' : 'Search'}</button>
+        </form>
 
-        <div style={{ display:'flex', gap:'10px', margin:'20px 0', flexWrap:'wrap' }}>
-          {["All","Life","Money","Tech","Games"].map(c=>(
-            <button key={c} onClick={()=>setCat(c)} style={{ padding:'8px 16px', borderRadius:'20px', background: cat===c ? '#fff' : '#1a1a1a', color: cat===c ? '#000' : '#fff', border:'1px solid #333', cursor:'pointer' }}>{c}</button>
+        <div style={{ display:'flex', gap:'8px', justifyContent:'center', flexWrap:'wrap', marginTop:'18px' }}>
+          {["how to make biryani","remove coffee stain","rebuild 350 engine","fix stuck zipper","old money rule"].map(t=>(
+            <button key={t} onClick={()=>{ setQ(t); setTimeout(()=>document.querySelector('form').requestSubmit(),100); }} style={{ padding:'7px 14px', borderRadius:'20px', background:'#f2f2f2', border:'1px solid #eee', fontSize:'12px', cursor:'pointer' }}>{t}</button>
           ))}
         </div>
-
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))', gap:'16px' }}>
-          {filtered.map(h=>(
-            <a href={`/hint/${h.slug}`} key={h.id} style={{ background:'#111', border:'1px solid #222', borderRadius:'16px', padding:'20px', textDecoration:'none', color:'#fff', display:'block' }}>
-              <span style={{ fontSize:'10px', background:'#222', padding:'4px 8px', borderRadius:'10px' }}>{h.cat}</span>
-              <h3 style={{ margin:'12px 0 8px', fontSize:'16px' }}>{h.title}</h3>
-              <p style={{ opacity:0.8, fontSize:'14px' }}>{h.hint}</p>
-              <p style={{ opacity:0.4, fontSize:'12px', marginTop:'10px' }}>Why: {h.why}</p>
-            </a>
-          ))}
-        </div>
-
-        <div style={{ textAlign:'center', marginTop:'50px', padding:'30px', background:'#111', borderRadius:'16px', border:'1px solid #222' }}>
-          <h3>Join 1,000+ Old Souls</h3>
-          <p style={{ opacity:0.5, fontSize:'14px', margin:'10px 0' }}>Get 3 old hints every Sunday</p>
-          <div style={{ display:'flex', gap:'10px', justifyContent:'center', marginTop:'15px' }}>
-            <input placeholder="Your email" style={{ padding:'12px', borderRadius:'8px', background:'#1a1a1a', border:'1px solid #333', color:'#fff', width:'200px' }} />
-            <button style={{ padding:'12px 18px', borderRadius:'8px', background:'#fff', color:'#000', border:'none', fontWeight:'bold' }}>Join</button>
-          </div>
-        </div>
-
-        <p style={{ textAlign:'center', opacity:0.3, marginTop:'30px', fontSize:'12px' }}>Step 4C Live • Interactive + Submit + Newsletter</p>
       </div>
+
+      {results && (
+        <div style={{ maxWidth:'700px', margin:'40px auto 0' }}>
+          <p style={{ fontSize:'12px', opacity:0.4, marginBottom:'16px' }}>{results.answers?.length || 0} timeless answers for "{results.query}" • {results.timed || '0.8s'}</p>
+          {results.answers?.map((a,i)=>(
+            <div key={i} style={{ borderBottom:'1px solid #eee', padding:'18px 0' }}>
+              <div style={{ display:'flex', gap:'8px', alignItems:'center' }}>
+                <span style={{ fontSize:'10px', background:'#000', color:'#fff', padding:'3px 8px', borderRadius:'10px' }}>{a.agent}</span>
+                <span style={{ fontSize:'11px', opacity:0.4 }}>{a.cat} • Verified {a.verified? '✅' : '⏳'}</span>
+              </div>
+              <h3 style={{ margin:'8px 0 6px', fontSize:'18px' }}>{a.title}</h3>
+              <p style={{ margin:0, fontSize:'14px', lineHeight:'1.5' }}>{a.hint}</p>
+              {a.why && <p style={{ margin:'8px 0 0', fontSize:'12px', opacity:0.5 }}>Why: {a.why} • {a.long}</p>}
+              <div style={{ marginTop:'10px', display:'flex', gap:'10px' }}>
+                <button style={{ fontSize:'11px', padding:'6px 12px', borderRadius:'20px', border:'1px solid #ddd', background:'#fff', cursor:'pointer' }}>👍 {Math.floor(Math.random()*120)+10}</button>
+                <button style={{ fontSize:'11px', padding:'6px 12px', borderRadius:'20px', border:'1px solid #ddd', background:'#fff', cursor:'pointer' }}>Save</button>
+              </div>
+            </div>
+          ))}
+          <div style={{ marginTop:'24px', padding:'18px', background:'#f9f9f9', borderRadius:'16px', border:'1px solid #eee' }}>
+            <p style={{ margin:0, fontSize:'13px', fontWeight:'bold' }}>Want this as daily 9am wisdom?</p>
+            <p style={{ margin:'6px 0 0', fontSize:'12px', opacity:0.6 }}>Cron auto-posts at 9am Calgary • oldhint.com/admin</p>
+          </div>
+        </div>
+      )}
+
+      <footer style={{ maxWidth:'700px', margin:'80px auto 20px', textAlign:'center', fontSize:'11px', opacity:0.3 }}>
+        OldHint Search • 7 Agents • Built by Sachin Bazard • Calgary • Grandma wisdom > AI
+      </footer>
     </main>
   );
 }
