@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 
 const HINTS = [
-  { id: 1, cat: "Life", title: "Fix Stuck Zipper", hint: "Rub pencil lead on zipper teeth.", why: "Graphite is dry lube." },
-  { id: 2, cat: "Money", title: "Save on Groceries", hint: "Shop after eating, not before.", why: "Hunger makes you buy 20% more." },
-  { id: 3, cat: "Tech", title: "Phone Battery Trick", hint: "Charge to 80%, not 100%.", why: "Extends battery life 2x." },
-  { id: 4, cat: "Games", title: "Win Old Chess", hint: "Control center, not edges.", why: "Center gives more moves." },
-  { id: 5, cat: "Life", title: "Remove Ink Stain", hint: "Use milk, not water.", why: "Milk proteins lift ink." },
-  { id: 6, cat: "Money", title: "Old Money Rule", hint: "Pay yourself first 10%.", why: "What remains you adjust to." },
+  { id: 1, cat: "Life", title: "Fix Stuck Zipper", slug: "fix-stuck-zipper", hint: "Rub pencil lead on zipper teeth.", why: "Graphite is dry lube." },
+  { id: 2, cat: "Money", title: "Save on Groceries", slug: "save-on-groceries", hint: "Shop after eating, not before.", why: "Hunger makes you buy 20% more." },
+  { id: 3, cat: "Tech", title: "Phone Battery Trick", slug: "phone-battery-trick", hint: "Charge to 80%, not 100%.", why: "Extends battery life 2x." },
+  { id: 4, cat: "Games", title: "Win Old Chess", slug: "win-old-chess", hint: "Control center, not edges.", why: "Center gives more moves." },
+  { id: 5, cat: "Life", title: "Remove Ink Stain", slug: "remove-ink-stain", hint: "Use milk, not water.", why: "Milk proteins lift ink." },
+  { id: 6, cat: "Money", title: "Old Money Rule", slug: "old-money-rule", hint: "Pay yourself first 10%.", why: "What remains you adjust to." },
 ];
 
 export default function Home() {
@@ -50,16 +50,17 @@ export default function Home() {
 
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))', gap:'16px' }}>
           {filtered.map(h=>(
-            <div key={h.id} style={{ background:'#111', border:'1px solid #222', borderRadius:'16px', padding:'20px' }}>
+            <a href={`/hint/${h.slug}`} key={h.id} style={{ background:'#111', border:'1px solid #222', borderRadius:'16px', padding:'20px', textDecoration:'none', color:'#fff', display:'block' }}>
               <span style={{ fontSize:'10px', background:'#222', padding:'4px 8px', borderRadius:'10px' }}>{h.cat}</span>
               <h3 style={{ margin:'12px 0 8px', fontSize:'16px' }}>{h.title}</h3>
               <p style={{ opacity:0.8, fontSize:'14px' }}>{h.hint}</p>
               <p style={{ opacity:0.4, fontSize:'12px', marginTop:'10px' }}>Why: {h.why}</p>
-            </div>
+              <p style={{ opacity:0.3, fontSize:'11px', marginTop:'12px' }}>Click to read more →</p>
+            </a>
           ))}
         </div>
 
-        <p style={{ textAlign:'center', opacity:0.3, marginTop:'40px', fontSize:'12px' }}>Step 4A Live • Next: Detail pages + Submit</p>
+        <p style={{ textAlign:'center', opacity:0.3, marginTop:'40px', fontSize:'12px' }}>Step 4B Live • Tap any card</p>
       </div>
     </main>
   );
