@@ -1,57 +1,34 @@
 export const dynamic = 'force-dynamic';
 
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const secret = searchParams.get('secret');
-  if (secret!== 'goldy_oldhint_91_secure' && secret!== process.env.AGENT_SECRET) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+export async function GET() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const topics = ["Life hack from 1950s", "Money trick grandma used", "Old tech fix", "Ancient game wisdom", "Kitchen trick from 1920s"];
+  const topic = topics[Math.floor(Math.random() * topics.length)];
+
+  if (!apiKey) {
+    return Response.json({ error: "No API key", hint: { title: "Fallback Hint", hint: "Patience is wealth", cat: "Life" } });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  const model = 'gemini-3.8-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
 
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `Generate 1 timeless wisdom hint for oldhint.com. Return ONLY JSON: {"hint":"Patience is the oldest wealth","category":"Wisdom","era":"Ancient"}` }] }],
-          generationConfig: { temperature: 0.9 }
-        })
-      });
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `Generate 1 old timeless hint about "${topic}". Return ONLY JSON: {"title":"short title max 4 words","hint":"hint max 15 words","cat":"Life or Money or Tech or Games","why":"why it works max 12 words","long":"long explanation 2 sentences"}` }] }]
+      })
+    });
+    const data = await res.json();
+    if (!data.candidates) return Response.json({ error: "AI limit", fallback: true });
 
-      const data = await res.json();
+    let t = data.candidates[0].content.parts[0].text.replace(/```json/g,'').replace(/```/g,'').trim();
+    const m = t.match(/\{.*\}/s); if (m) t = m[0];
+    const hint = JSON.parse(t);
 
-      if (res.status=== 503 && attempt < 3) {
-        await new Promise(r => setTimeout(r, 2000 * attempt)); // wait 2s, 4s
-        continue;
-      }
-
-      if (!res.ok) {
-        return Response.json({ success: false, google_error: data, attempt }, { status: 500 });
-      }
-
-      let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      text = text.replace(/```json|```/g, '').trim();
-      const match = text.match(/\{[\s\S]*\}/);
-      if (match) text = match[0];
-      const hintData = JSON.parse(text);
-
-      return Response.json({
-        success: true,
-        live: true,
-        model_used: model,
-        attempt,
-        generated_at: new Date().toISOString(),
-      ...hintData
-      });
-
-    } catch (e) {
-      if (attempt=== 3) {
-        return Response.json({ success: true, model_used: 'fallback (503 busy)', hint: "Even the busiest sky finds time for stars.", category: "Wisdom", era: "Ancient", note: "Gemini 3.8 busy, will auto-retry next time" });
-      }
-    }
+    // Here agent would save to DB — for now return
+    return Response.json({ success: true, hint, message: "Agent generated hint — ready to auto-post" });
+  } catch (e) {
+    return Response.json({ error: e.message });
   }
 }
