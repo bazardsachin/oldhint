@@ -1,10 +1,10 @@
-export default function sitemap() {
-  const base = "https://oldhint.com";
-  const qs = ["how to make biryani","how to boil egg perfectly","how to fix leaky faucet","remove coffee stain","fix flat tire fast","fix stuck zipper","remove dark circles","speed up slow laptop","how to keep roti soft","clean microwave no scrub","rebuild 350 engine","save money old way"];
-  return [
-    { url: base, lastModified: new Date() },
-    { url: `${base}/explore`, lastModified: new Date() },
-    { url: `${base}/ebook`, lastModified: new Date() },
-    ...qs.map(q=>({ url: `${base}/search?q=${encodeURIComponent(q)}`, lastModified: new Date() }))
-  ];
+export default function Page() {
+  return (
+    <div style={{ padding:'40px', fontFamily:'system-ui', maxWidth:'700px', margin:'0 auto' }}>
+      <h1>101 Old Hints That Still Work - $7 Ebook</h1>
+      <p>Grandma wisdom • Food • Home • Cleaning • Car • Money • Videos</p>
+      <p style={{ marginTop:'20px', background:'#000', color:'#fff', padding:'16px', borderRadius:'12px', textAlign:'center' }}>Buy $7 - Stripe link coming soon</p>
+      <a href="/explore" style={{ display:'block', marginTop:'20px' }}>← Back to Explore</a>
+    </div>
+  );
 }
