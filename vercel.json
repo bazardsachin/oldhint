@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/api/agent/generate-hint?secret=goldy_oldhint_91_secure",
-      "schedule": "0 * * * *"
-    }
-  ]
-}
