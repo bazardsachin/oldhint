@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { ScoutAgent } from "@/lib/agents/scout.js";
-import { WriterAgent } from "@/lib/agents/writer.js";
-import { BuilderAgent } from "@/lib/agents/builder.js";
+import { ScoutAgent } from "../../../../lib/agents/scout.js";
+import { WriterAgent } from "../../../../lib/agents/writer.js";
+import { BuilderAgent } from "../../../../lib/agents/builder.js";
 
 export async function POST(req) {
   try {
