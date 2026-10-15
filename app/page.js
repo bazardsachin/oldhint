@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 export default function Home(){
   const [q,setQ]=useState("");
-  const count=8;
+  const count=9;
   return (<div style={{maxWidth:"1100px",margin:"0 auto",padding:"20px",fontFamily:"sans-serif"}}>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><Link href="/" style={{fontWeight:"900",fontSize:"24px",color:"#000",textDecoration:"none"}}>OldHint Inc.</Link><div style={{display:"flex",gap:"12px"}}><Link href="/vault">Family Vault</Link><Link href="/family">Families</Link><Link href="/time-machine">Time Machine</Link><Link href="/admin" style={{background:"#000",color:"#fff",padding:"6px 12px",borderRadius:"8px"}}>Corporate HQ</Link></div></div>
     <div style={{marginTop:"60px",textAlign:"center"}}><h1 style={{fontSize:"52px",fontWeight:"900",lineHeight:"1.1"}}>Google forgets.<br/>Grandmothers remember.</h1><p style={{fontSize:"20px",color:"#555",marginTop:"16px"}}><b>{count} tricks from 1920-1990</b>, preserved for your kids. Built by 8 AI Employees in Calgary T3J.</p>
