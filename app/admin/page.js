@@ -1,108 +1,63 @@
 "use client";
 import { useState, useEffect } from "react";
+export default function Admin(){
+  const [cmd,setCmd]=useState("/build-family-social");
+  const [logs,setLogs]=useState(["[Chief] OldHint 'the lost knowledge' — 8 AI Employees Online","Type command: /help to see all commands"]);
+  const [stats,setStats]=useState({guides:51});
+  useEffect(()=>{fetch("/api/stats").then(r=>r.json()).then(d=>setStats(d)).catch(()=>{});},[]);
 
-export default function AdminPage() {
-  const [topic, setTopic] = useState("keep rotis soft");
-  const [decade, setDecade] = useState("1960s");
-  const [logs, setLogs] = useState([
-    "[11:09:30 PM] Chief Agent: Assigning tasks to 7 departments...",
-    "[11:09:31 PM] Writer Agent: Completed + Builder deployed + SEO indexed"
-  ]);
-  const [loading, setLoading] = useState(false);
-  const [stats, setStats] = useState({ guides: 48, seo: "48/48", revenue: "$7", today: "+3 today" });
+  const commands={
+    "/help": "Commands: /build-family-social, /create-family bazard, /post-trick keep rotis soft 1960s, /add-member dad elder, /build-feed, /build-stories, /build-dm, /build-logo, /deploy-all",
+    "/build-family-social": "Builder Agent: Building /family, /family/[name], family tree visual, Follow/Friend, Stories, Videos, Posts",
+    "/create-family": "Chief: Creating family account The Bazard Family Est. 1980 Calgary T3J",
+    "/build-logo": "Design Agent: Logo OldHint 'the lost knowledge' — timeless serif + lost book icon",
+    "/build-feed": "Builder: Instagram-like feed but family wisdom only",
+  };
 
-  // REAL-TIME STATS FETCH
-  useEffect(() => {
-    fetch("/api/stats").then(r=>r.json()).then(d=>setStats(d)).catch(()=>{});
-  }, []);
-
-  const runAgents = async () => {
-    if (!topic) return;
-    setLoading(true);
-    setLogs([`[Chief] 🎯 Mission: ${topic} | Decade: ${decade}`, "[Chief] Dispatching 8 AI Employees..."]);
-
-    try {
-      const res = await fetch("/api/agent/run-all", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, decade })
-      });
-      const data = await res.json();
-      if (data.logs) {
-        setLogs(data.logs);
-        // Auto-refresh count after publish
-        setTimeout(() => {
-          fetch("/api/stats").then(r=>r.json()).then(d=>setStats(d));
-        }, 2000);
-      }
-    } catch (e) {
-      setLogs(prev => [...prev, `[Error] ${e.message}`]);
-    }
-    setLoading(false);
+  const run=async()=>{
+    setLogs(prev=>[...prev, `[You] ${cmd}`, `[Chief] Dispatching agents for: ${cmd}`]);
+    try{
+      const res=await fetch("/api/agent/run-all",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({topic:cmd, decade:"family-social"})});
+      const data=await res.json();
+      if(data.logs) setLogs(data.logs);
+    }catch(e){ setLogs(prev=>[...prev, `[Error] ${e.message}`]); }
   };
 
   return (
-    <div style={{ background: "#0a0a0a", color: "#fff", minHeight: "100vh", padding: "20px", fontFamily: "sans-serif" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
-        <h1 style={{ fontSize: "28px", fontWeight: "900" }}><span style={{ background: "#0a5cff", padding: "4px 10px", marginRight: "8px" }}>P</span>H OldHint Inc. — AI Corporate Control Centre</h1>
-        <div style={{ fontSize: "14px" }}>PH Launch: 01:50:42 • <a href="/" style={{ color: "#fff", textDecoration: "underline" }}>View Site</a></div>
+    <div style={{background:"#0a0a0a",color:"#fff",minHeight:"100vh",padding:"20px",fontFamily:"sans-serif"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><h1><span style={{background:"#0a5cff",padding:"4px 10px"}}>P</span> OldHint — the lost knowledge — AI Command Centre</h1><div>{stats.guides} guides • <a href="/" style={{color:"#fff"}}>View Site</a></div></div>
+      <div style={{border:"2px solid #00ff88",borderRadius:"12px",padding:"16px",display:"flex",gap:"12px",marginTop:"16px"}}>
+        <input value={cmd} onChange={e=>setCmd(e.target.value)} placeholder="/build-family-social" style={{flex:1,padding:"12px",borderRadius:"8px",color:"#000",fontWeight:"700"}}/>
+        <button onClick={run} style={{background:"#00ff88",color:"#000",fontWeight:"900",padding:"12px 24px",borderRadius:"8px",border:"none",cursor:"pointer"}}>🚀 Run Agent Command</button>
       </div>
-
-      <div style={{ color: "#00ff88", fontSize: "12px", marginBottom: "15px" }}>Live: oldhint.com • 8 AI Employees • All Systems Online 🟢</div>
-
-      <div style={{ border: "2px solid #00ff88", borderRadius: "12px", padding: "16px", display: "flex", gap: "12px", marginBottom: "20px" }}>
-        <input value={topic} onChange={e=>setTopic(e.target.value)} placeholder="keep rotis soft" style={{ flex: 2, padding: "12px", borderRadius: "8px", color: "#000", fontWeight: "700" }} />
-        <input value={decade} onChange={e=>setDecade(e.target.value)} style={{ flex: 0.5, padding: "12px", borderRadius: "8px", color: "#000", fontWeight: "700" }} />
-        <button onClick={runAgents} disabled={loading} style={{ flex: 1, background: loading?"#555":"#00ff88", color: "#000", fontWeight: "900", borderRadius: "8px", border: "none", cursor: "pointer" }}>
-          {loading? "⏳ Running 8 Agents..." : "🚀 Run All 8 AI Employees"}
-        </button>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "16px" }}>
-        <div style={{ background: "#1a1a1a", padding: "16px", borderRadius: "12px", border: "1px solid #333" }}><div style={{ fontSize: "11px", color: "#888" }}>GUIDES LIVE</div><div style={{ fontSize: "26px", fontWeight: "900" }}>{stats.guides}</div><div style={{ color: "#00ff88", fontSize: "12px" }}>{stats.today}</div></div>
-        <div style={{ background: "#1a1a1a", padding: "16px", borderRadius: "12px", border: "1px solid #333" }}><div style={{ fontSize: "11px", color: "#888" }}>REVENUE</div><div style={{ fontSize: "26px", fontWeight: "900" }}>{stats.revenue}</div><div style={{ color: "#00ff88", fontSize: "12px" }}>Stripe LIVE</div></div>
-        <div style={{ background: "#1a1a1a", padding: "16px", borderRadius: "12px", border: "1px solid #333" }}><div style={{ fontSize: "11px", color: "#888" }}>SEO INDEXED</div><div style={{ fontSize: "26px", fontWeight: "900" }}>{stats.seo}</div><div style={{ color: "#00ff88", fontSize: "12px" }}>sitemap.xml OK</div></div>
-        <div style={{ background: "#1a1a1a", padding: "16px", borderRadius: "12px", border: "1px solid #333" }}><div style={{ fontSize: "11px", color: "#888" }}>PH STATUS</div><div style={{ fontSize: "26px", fontWeight: "900" }}>Scheduled</div><div style={{ color: "#00ff88", fontSize: "12px" }}>Oct 13 12:01 AM PT</div></div>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "16px" }}>
-        {[
-          ["Chief Agent","CEO/COO","Online"],
-          ["Builder Agent","Engineering","Working"],
-          ["Writer + Scout","Content Team","Working"],
-          ["Video Agent","Media","Online"],
-          ["CMO Agent","Marketing","Deploying"],
-          ["Sales Agent","Sales","Online"],
-          ["SEO Agent","Growth","Online"],
-          ["Support Agent","Support","Online"],
-        ].map(([name, role, status])=>(
-          <div key={name} style={{ background: "#1a1a1a", padding: "12px 16px", borderRadius: "12px", border: "1px solid #333", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div><div style={{ fontWeight: "800" }}>{name}</div><div style={{ fontSize: "11px", color: "#888" }}>{role}</div></div>
-            <div style={{ background: status==="Online"?"#00aa55":status==="Working"?"#00bb66":"#00aa55", padding: "2px 8px", borderRadius: "10px", fontSize: "11px" }}>● {status}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "12px" }}>
-        <div style={{ background: "#141414", borderRadius: "12px", padding: "16px" }}>
-          <div style={{ fontWeight: "800", marginBottom: "10px" }}>Mission Control — Live Activity Feed</div>
-          <div style={{ background: "#000", color: "#00ff88", fontFamily: "monospace", fontSize: "12px", padding: "12px", borderRadius: "8px", height: "220px", overflowY: "auto", whiteSpace: "pre-wrap" }}>
-            {logs.map((l,i)=><div key={i}>{l}</div>)}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px",marginTop:"16px"}}>
+        <div style={{background:"#141414",padding:"16px",borderRadius:"12px"}}>
+          <div style={{fontWeight:"800"}}>Agent Commands — Type these in box:</div>
+          <div style={{fontFamily:"monospace",fontSize:"12px",marginTop:"8px",lineHeight:"1.8"}}>
+            <div><b>/build-family-social</b> — Build FB/Insta clone for families, tree visual, Follow/Friend, Stories, Videos, Posts, DM, Comments</div>
+            <div><b>/build-logo</b> — Build logo OldHint "the lost knowledge" — appealing layout</div>
+            <div><b>/create-family bazard</b> — Create The Bazard Family Est. 1980 Calgary T3J + members as branches</div>
+            <div><b>/post-trick fix 350 engine 1972</b> — Post video trick as Bazard Family root Dada</div>
+            <div><b>/build-feed</b> — Build social feed page /feed</div>
+            <div><b>/build-stories</b> — Build stories bar like Instagram</div>
+            <div><b>/build-dm</b> — Build Text/DM + Comments system</div>
+            <div><b>/deploy-all</b> — Deploy homepage + vault + family + feed + logo</div>
           </div>
         </div>
-        <div style={{ background: "#141414", borderRadius: "12px", padding: "16px" }}>
-          <div style={{ fontWeight: "800", marginBottom: "10px" }}>Corporate Structure</div>
-          <div style={{ fontSize: "12px", color: "#ccc", lineHeight: "1.5" }}>
-            Founder: Sachin Bazard — Calgary T3J<br/>
-            Chief Agent (COO) — Decision maker<br/>
-            Engineering • Content • Media<br/>
-            Marketing • Sales • SEO<br/>
-            Support — 24/7<br/><br/>
-            GitHub: bazardsachin/oldhint<br/>
-            Vercel: oldhint-qbof<br/>
-            Domain: oldhint.com
-          </div>
+        <div style={{background:"#000",color:"#00ff88",fontFamily:"monospace",fontSize:"12px",padding:"12px",borderRadius:"8px",height:"300px",overflowY:"auto"}}>
+          {logs.map((l,i)=><div key={i}>{l}</div>)}
         </div>
+      </div>
+      <div style={{marginTop:"16px",background:"#1a1a1a",padding:"16px",borderRadius:"12px"}}>
+        <b>Database Schema for Family Social (Supabase — Agent will create):</b>
+        <pre style={{fontSize:"11px",color:"#aaa"}}>{`
+families: id, name (Bazard Family), slug (bazard), est_year 1980, city Calgary T3J, origin Punjab, story, logo, members_count, tricks_count, followers_count
+family_members: id, family_id, name, role (Elder/Keeper/Explorer), generation (Root/Trunk/Branch/Leaf), photo, bio (fix 350 engine)
+family_hints: id, family_id, member_id, type (post/story/video), title (fix 350 engine at home), content, era 1960s, media_url, trust (1200 families), is_public
+follows: follower_family_id, following_family_id, type (follow/friend)
+comments: hint_id, family_id, text
+messages: from_family_id, to_family_id, text
+`}</pre>
       </div>
     </div>
   );
