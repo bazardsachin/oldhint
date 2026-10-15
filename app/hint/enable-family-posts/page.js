@@ -1,0 +1,1 @@
+export default function Page(){return <div style={{maxWidth:'800px',margin:'40px auto',padding:'20px'}}><a href='/'>Back</a><h1>How to /enable-family-posts - 1960ss OldHint</h1><p>My 1960ss dadi used to /enable-family-posts without chemicals. Calgary T3J.</p></div>}
