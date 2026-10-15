@@ -44,6 +44,9 @@ export async function POST(req) {
     return NextResponse.json({ success: false, error: e.message }, { status: 500 });
   }
 }
+// After Builder Agent
+const publishResult = await publisherAgent(slug, title, content);
+logs.push(publishResult.log);
 
 export async function GET() {
   return NextResponse.json({ status: "Real Team API Ready — 8 agents with real logic", version: "2.0 REAL" });
