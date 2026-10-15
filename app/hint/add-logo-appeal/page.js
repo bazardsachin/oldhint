@@ -1,0 +1,1 @@
+export default function Page(){return <div style={{maxWidth:'800px',margin:'40px auto',padding:'20px'}}><a href='/'>Back</a><h1>How to /add-logo-appeal - 1960ss OldHint</h1><p>My 1960ss dadi used to /add-logo-appeal without chemicals. Calgary T3J.</p></div>}
