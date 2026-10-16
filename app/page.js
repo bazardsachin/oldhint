@@ -19,11 +19,11 @@ export default function Home(){
 
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"4px",border:"2px solid #111",borderRadius:"16px",overflow:"hidden",height:"520px",background:"#000"}}>
           <div style={{position:"relative"}}>
-            <video autoPlay muted loop playsInline src="/videos/dada-charger-1969.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video>
+            <video autoPlay muted loop playsInline src="/videos/image_20261015_213541.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video>
             <div style={{position:"absolute",bottom:"8px",left:"8px",background:"rgba(0,0,0,0.7)",color:"#fff",padding:"6px 10px",borderRadius:"10px",fontSize:"11px"}}><b>🔴 LIVE MOTION</b><br/>Dada building 1969 Charger<br/>Wrench turning • Calgary 1972</div>
           </div>
           <div style={{position:"relative"}}>
-            <video autoPlay muted loop playsInline src="/videos/nani-pickles-21day.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video>
+            <video autoPlay muted loop playsInline src="/videos/image_20261015_213543.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video>
             <div style={{position:"absolute",bottom:"8px",left:"8px",background:"rgba(0,0,0,0.7)",color:"#fff",padding:"6px 10px",borderRadius:"10px",fontSize:"11px"}}><b>🔴 LIVE MOTION</b><br/>Nani making pickles — 21 days<br/>Hands mixing • Jars in sun</div>
           </div>
           <div style={{background:"#FFF3D6",display:"grid",placeItems:"center",padding:"10px",textAlign:"center"}}><div><div style={{fontSize:"28px"}}>🌳</div><b>Bazard Family — Est. 1980</b><br/><span style={{fontSize:"11px"}}>Root Dada • Trunk Papa • Branch You • Leaf Kids</span></div></div>
