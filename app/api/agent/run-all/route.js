@@ -1,88 +1,105 @@
-import { NextResponse } from "next/server";
-
-export async function POST(req){
-  try{
-    const body=await req.json();
-    const rawTopic=(body.topic||"").toLowerCase();
-    const decade=body.decade||"1960s";
-    const token=process.env.GITHUB_TOKEN;
-    const owner="bazardsachin";
-    const repo="oldhint";
-    const logs=[];
-    logs.push("[Chief] Mission: "+rawTopic);
-
-    // FACEBOOK CLONE COMMAND
-    if(rawTopic.includes("build-facebook") || rawTopic.includes("build-family") || rawTopic.includes("facebook")){
-      logs.push("[FacebookBuilder] Detected /build-facebook — Building WHOLE site like Facebook — Appealing + Family Tree Concept");
-      const homeCode=`"use client";
+"use client";
 import { useState } from "react";
-import Link from "next/link";
-export default function Home(){
-  const [q,setQ]=useState("");
-  const count=51;
-  const stories=[{n:"Bazard",l:"B"},{n:"Sharma",l:"S"},{n:"Singh",l:"S"},{n:"Patel",l:"P"},{n:"You",l:"Y"}];
+
+const AGENTS = [
+  { id:"chief", name:"👔 Chief Agent (COO)", role:"Reads PDF roadmap, assigns tasks to 7", color:"#111", task:"Approve Family Social Vault Phase 4" },
+  { id:"builder", name:"💻 Builder Agent", role:"Coding + Backend + Frontend — Builds app/hint/[slug], sitemap.xml, GitHub push", color:"#2563eb", task:"Fix homepage black boxes → Real motion videos" },
+  { id:"writer", name:"✍️ Writer+Scout", role:"Scout finds viral 'my grandma used to...' — Writer writes Hint era/origin/trustScore", color:"#059669", task:"Generate 3 hints: Dadi Mango Pickle 1960s" },
+  { id:"video", name:"🎥 Video Agent", role:"Media + UI/UX — Finds YouTube, thumbnail, embeds your 2 real motion videos", color:"#dc2626", task:"Embed Dada Charger + Nani Pickles" },
+  { id:"cmo", name:"📈 CMO Agent", role:"Marketing — Twitter/X, Reddit r/lifehacks, Product Hunt", color:"#7c3aed", task:"Post Reddit: Nani 1962 roti trick" },
+  { id:"seo", name:"🔍 SEO Agent", role:"SEO + Frontend — Schema.org HowTo, /generations/[era], Trust bar", color:"#ea580c", task:"Add sitemap /family /vault" },
+  { id:"sales", name:"💰 Sales Agent", role:"Sales — Stripe LIVE $7 Heirloom + $49 Vault + $299 Legacy", color:"#0891b2", task:"Check Stripe $7 sales target $10" },
+  { id:"support", name:"💬 Support Agent", role:"Support + Social — Replies PH comments, 12 templates", color:"#be123c", task:"Monitor PH comments queue" },
+];
+
+export default function AdminV4(){
+  const [logs,setLogs]=useState(["[09:00] CEO Sachin Bazard — Calgary T3J HQ — Billion dollar roadmap loaded — Family Social Vault"," [09:01] Chief: PDF approved — Multi-gen model — Root=Dada Trunk=Papa Branch=You Leaf=Kids"]);
+  const [running,setRunning]=useState("");
+  const [status,setStatus]=useState("");
+
+  const addLogs=(newLogs:string[])=>setLogs(l=>[...newLogs.reverse(),...l].slice(0,100));
+
+  const runAgent = async (id:string)=>{
+    setRunning(id);
+    setStatus(`Running ${id}...`);
+    try{
+      const res = await fetch("/api/agent/run-all",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({agentId:id})
+      });
+      const data = await res.json();
+      if(data.logs) addLogs(data.logs);
+      if(data.error){
+        addLogs([`[ERROR] ${data.error}`, `[FIX] ${data.instructions || "Set GITHUB_TOKEN in Vercel > Settings > Env Vars"}`]);
+        setStatus(`❌ Need GITHUB_TOKEN — See logs`);
+      } else {
+        setStatus(`✅ ${id} done — ${data.nextStep || "Check Vercel deploy"}`);
+      }
+    }catch(e:any){
+      addLogs([`[ERROR] ${e.message} — Is /api/agent/run-all deployed? Commit route.ts first`]);
+      setStatus("❌ API not found — Deploy route.ts first");
+    }
+    setRunning("");
+  };
+
+  const runAll = async ()=>{
+    setRunning("all");
+    setStatus("Running ALL 8 Agents — Chief assigns...");
+    try{
+      const res = await fetch("/api/agent/run-all",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agentId:"all"})});
+      const data = await res.json();
+      if(data.logs) addLogs(data.logs);
+      if(data.error) setStatus(`❌ ${data.error}`);
+      else setStatus(`✅ All 8 Agents done — Go Vercel > oldhint-qbof > Wait Ready > Refresh oldhint.com`);
+    }catch(e:any){
+      addLogs([`[ERROR] ${e.message}`]);
+      setStatus("❌ Deploy route.ts first");
+    }
+    setRunning("");
+  };
+
   return(
-    <div style={{background:"#f0f2f5",minHeight:"100vh",fontFamily:"Inter, sans-serif"}}>
-      <header style={{background:"#fff",height:"56px",display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 16px",position:"sticky",top:0,boxShadow:"0 1px 2px rgba(0,0,0,0.1)"}}>
-        <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-          <div style={{width:"40px",height:"40px",background:"#1877f2",color:"#fff",display:"grid",placeItems:"center",borderRadius:"50%",fontWeight:"900"}}>OH</div>
-          <div><div style={{fontWeight:"900",fontSize:"20px"}}>OldHint</div><div style={{fontSize:"9px",letterSpacing:"1px",color:"#888"}}>the lost knowledge</div></div>
-          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search 51 family secrets - fix 350 engine, make cheese, rotis soft" style={{marginLeft:"12px",width:"320px",padding:"8px 14px",borderRadius:"999px",border:"none",background:"#f0f2f5"}}/>
-        </div>
-        <div style={{display:"flex",gap:"20px"}}><span>🏠</span><span>👥</span><span>📺</span></div>
-        <Link href="/admin" style={{background:"#000",color:"#fff",padding:"8px 12px",borderRadius:"20px",textDecoration:"none",fontSize:"12px",fontWeight:"700"}}>Corporate HQ - 51 LIVE</Link>
+    <div style={{background:"#FFFDF7",minHeight:"100vh",color:"#111",fontFamily:"Inter,sans-serif",padding:"16px"}}>
+      <header style={{display:"flex",justifyContent:"space-between",alignItems:"center",border:"2px solid #111",padding:"12px 16px",borderRadius:"12px",background:"#fff"}}>
+        <div><div style={{fontWeight:"900",fontSize:"22px"}}>OLDHINT INC. — CORPORATE HQ v4 — REAL AI BACKEND</div><div style={{fontSize:"11px",opacity:0.7}}>CEO: Bāżārd Śåçhïn — Calgary T3J — 1 Human + 8 AI Employees — REAL GitHub API — Password: goldy123 / billion — {status}</div></div>
+        <button onClick={runAll} disabled={!!running} style={{background:running?"#999":"#111",color:"#fff",padding:"14px 22px",borderRadius:"999px",fontWeight:"800",border:"none",cursor:"pointer"}}>{running==="all"?"Running All...":"▶ Run All 8 Agents (REAL)"}</button>
       </header>
-      <main style={{maxWidth:"1200px",margin:"0 auto",display:"grid",gridTemplateColumns:"280px 1fr 280px",gap:"16px",padding:"16px"}}>
-        <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
-          <div style={{background:"#fff",borderRadius:"8px",padding:"12px",fontSize:"13px"}}><b>Bazard Family - Est. 1980 Calgary T3J</b><div style={{marginTop:"8px",lineHeight:"1.8"}}>🌳 Root: Dada - Elder - Fix 350 engine at home 1972<br/>🌿 Trunk: Papa - Keeper - Keep rice fresh<br/>🍃 Branch: You - Explorer - 51 tricks<br/>🍃 Leaf: Kids - Next gen</div><button style={{marginTop:"8px",width:"100%",padding:"8px",borderRadius:"8px",border:"none",background:"#e7f3ff",color:"#1877f2",fontWeight:"700"}}>+ Add Branch Member</button></div>
-          <div style={{background:"#fff",borderRadius:"8px",padding:"12px",fontSize:"12px"}}><b>Family Vault</b><br/>⏳ 40 years • 3 gen • 1200 families<br/>Google forgets. Grandmothers remember.</div>
-        </div>
-        <div style={{display:"flex",flexDirection:"column",gap:"16px"}}>
-          <div style={{background:"#fff",borderRadius:"8px",padding:"12px",display:"flex",gap:"12px",overflowX:"auto"}}>
-            {stories.map(s=>(<div key={s.n} style={{textAlign:"center",minWidth:"70px"}}><div style={{width:"56px",height:"56px",borderRadius:"50%",background:"linear-gradient(45deg,#feda75,#d62976)",padding:"2px"}}><div style={{width:"52px",height:"52px",borderRadius:"50%",background:"#fff",display:"grid",placeItems:"center",fontWeight:"800"}}>{s.l}</div></div><div style={{fontSize:"11px",marginTop:"4px"}}>{s.n} Family</div></div>))}
+
+      <div style={{display:"grid",gridTemplateColumns:"1.2fr 0.8fr",gap:"12px",marginTop:"12px"}}>
+        <div style={{border:"1.5px solid #111",borderRadius:"12px",padding:"12px",background:"#fff"}}>
+          <div style={{fontWeight:"800"}}>📄 Billion Dollar Roadmap — Auto-Read by Agents — REAL BACKEND</div>
+          <div style={{fontSize:"12px",marginTop:"6px",lineHeight:"1.5",background:"#f7f3e8",padding:"10px",borderRadius:"8px"}}>
+            <b>Vision:</b> OldHint = World's First Generational Knowledge Network — Knowledge that almost disappeared — Not on Google, In your family<br/><br/>
+            <b>Family Tree Social:</b> Root=Dada (Elder), Trunk=Papa (Keeper), Branch=You (Explorer), Leaf=Kids (Finders) — Follow family line, not person<br/><br/>
+            <b>Hint Format:</b> Title {'>'} Category {'>'} Era(1960s) {'>'} Origin(Punjab) {'>'} Media(60sec video+voice) {'>'} Secret Tool {'>'} Warning — Structured data moat<br/><br/>
+            <b>Pricing:</b> Free 3 hints, $7 Heirloom Ebook PDF, $49 Vault/year unlimited, $299 Legacy smith.oldhint.com — 10M paying x $8 = $960M ARR<br/><br/>
+            <b>Phase 0-1 Cult (0-100k Families):</b> Seed 5000 hints — Punjabi diaspora Calgary, Classic Car Mechanics, Rural Crafts<br/>
+            <b>Phase 2 Library (100k-1M):</b> OldHint Originals documentary — Home Depot sponsors Garage Hints — Freemium $7.99<br/>
+            <b>Phase 3 Infrastructure (1M-100M):</b> License human dataset to OpenAI/Google — IPO<br/><br/>
+            <b style={{color:"#dc2626"}}>REAL BACKEND NEEDS: GITHUB_TOKEN in Vercel — github.com/settings/tokens/new → repo scope → Copy ghp_ → Vercel oldhint-qbof → Settings → Environment Variables → GITHUB_TOKEN → Save → Redeploy</b>
           </div>
-          <div style={{background:"#fff",borderRadius:"8px",padding:"12px",display:"flex",gap:"8px"}}><div style={{width:"40px",height:"40px",borderRadius:"50%",background:"#000",color:"#fff",display:"grid",placeItems:"center"}}>S</div><input placeholder="Share a family secret - How grandpa fixed 350 engine?" style={{flex:1,background:"#f0f2f5",border:"none",borderRadius:"999px",padding:"10px 14px"}}/><button style={{background:"#1877f2",color:"#fff",border:"none",padding:"8px 16px",borderRadius:"8px",fontWeight:"700"}}>Post</button></div>
-          <div style={{background:"#fff",borderRadius:"8px",padding:"12px"}}><div style={{display:"flex",justifyContent:"space-between"}}><div><b>Bazard Family</b><div style={{fontSize:"11px",color:"#666"}}>Calgary T3J - 3 gen - Elder Root Dada - Video 60s</div></div><div><button style={{background:"#e7f3ff",color:"#1877f2",border:"none",padding:"6px 12px",borderRadius:"6px",fontWeight:"700",fontSize:"12px"}}>Follow Family</button></div></div><div style={{marginTop:"8px",fontWeight:"700"}}>How my grandpa fixed 350 Chevy engine at home - No shop needed - 1972 Calgary</div><div style={{marginTop:"8px",height:"200px",background:"#e4e6eb",borderRadius:"8px",display:"grid",placeItems:"center"}}>📹 Video Placeholder</div><div style={{marginTop:"8px",fontSize:"12px",color:"#666"}}>❤️ 234 - 💬 12 comments - 🔖 Save to Vault - 📩 Text Family - 👥 Friend Family</div></div>
-          <div style={{background:"#fff",borderRadius:"8px",padding:"12px"}}><b>Sharma Family - Delhi 1965 - Grandma</b><div style={{marginTop:"6px",fontWeight:"700"}}>Grandma cheese at home trick without store - Daily necessity</div><div style={{marginTop:"6px",fontSize:"12px",color:"#666"}}>Stories - Videos - Posts - People follow for secret hints - 189 likes</div></div>
         </div>
-        <div style={{background:"#fff",borderRadius:"8px",padding:"12px",fontSize:"12px",height:"fit-content"}}><b>Suggested Families to Follow</b><div style={{marginTop:"8px"}}><b>Singh Family</b> - 12 secrets - 350 engine trick - <button style={{background:"#e7f3ff",color:"#1877f2",border:"none",padding:"4px 8px",borderRadius:"6px"}}>Follow</button><br/><br/><b>Patel Family</b> - 8 secrets - Keep rotis soft<br/><br/><b>Your Vault</b> - Save tricks - Like Instagram Save</div><div style={{marginTop:"16px"}}><b>Pricing Roadmap</b><br/>$7 Ebook - $49 Vault/year - $299 Legacy Website</div></div>
-      </main>
+
+        <div style={{border:"1.5px solid #111",borderRadius:"12px",padding:"12px",background:"#111",color:"#fff"}}>
+          <div style={{fontWeight:"800"}}>📡 Mission Control Logs — LIVE — REAL GitHub Commits</div>
+          <div style={{marginTop:"8px",height:"380px",overflow:"auto",fontSize:"11px",fontFamily:"monospace",lineHeight:"1.6",background:"#000",padding:"8px",borderRadius:"8px"}}>
+            {logs.map((l,i)=><div key={i} style={{borderBottom:"1px solid #222",padding:"3px 0"}}>{l}</div>)}
+          </div>
+          <div style={{marginTop:"6px",fontSize:"10px",opacity:0.7}}>Builder auto-fixes video names image_20261015_... — Commits via GitHub API — Vercel auto-deploys — oldhint.com shows LIVE MOTION</div>
+        </div>
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"10px",marginTop:"12px"}}>
+        {AGENTS.map(a=>(
+          <div key={a.id} style={{border:`2px solid ${a.color}`,borderRadius:"12px",padding:"10px",background:"#fff"}}>
+            <div style={{fontWeight:"800",fontSize:"12px"}}>{a.name}</div>
+            <div style={{fontSize:"10px",marginTop:"3px",color:"#555",minHeight:"36px"}}>{a.role}</div>
+            <div style={{fontSize:"10px",marginTop:"4px",background:"#f0f0f0",padding:"4px 6px",borderRadius:"6px"}}><b>Task:</b> {a.task}</div>
+            <button onClick={()=>runAgent(a.id)} disabled={!!running} style={{marginTop:"6px",width:"100%",background:running===a.id?"#999":a.color,color:"#fff",padding:"8px",borderRadius:"8px",border:"none",fontWeight:"700",cursor:"pointer",fontSize:"11px"}}>{running===a.id?"Working... REAL GitHub API":"▶ Train / Run (REAL)"}</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
-`;
-      let homeSha=null;
-      try{ const r=await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/app/page.js?ref=main",{headers:{Authorization:"token "+token},cache:"no-store"}); if(r.ok){ const d=await r.json(); homeSha=d.sha; } }catch(e){}
-      const b64=Buffer.from(homeCode).toString("base64");
-      const res=await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/app/page.js",{method:"PUT",headers:{Authorization:"token "+token,"Content-Type":"application/json"},body:JSON.stringify({message:"FacebookBuilder: Build WHOLE site like Facebook - 51 tricks - Family Tree",content:b64,branch:"main",...(homeSha?{sha:homeSha}:{})})});
-      logs.push(res.ok?"[FacebookBuilder] Built app/page.js like Facebook - 51 tricks - Family Tree Root Trunk Branch Leaf - Stories - Feed - Follow Friend Text Comment Save":"[FacebookBuilder] Failed "+res.status);
-      return NextResponse.json({success:true, logs, finalPage:{slug:"", fullUrl:"https://oldhint.com"}});
-    }
-
-    // NORMAL HINT BUILDER
-    const slug=rawTopic.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80)||"test";
-    const title="How to "+rawTopic+" - "+decade+"s OldHint";
-    const content="My "+decade+"s dadi used to "+rawTopic+" without chemicals. Calgary T3J.";
-    logs.push("[Publisher] Publishing /hint/"+slug);
-    const filePath="app/hint/"+slug+"/page.js";
-    const fileCode="export default function Page(){return <div style={{maxWidth:'800px',margin:'40px auto',padding:'20px'}}><a href='/'>Back</a><h1>"+title+"</h1><p>"+content+"</p></div>}";
-    const b64Content=Buffer.from(fileCode).toString("base64");
-    let sha=null;
-    try{ const r=await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+filePath+"?ref=main",{headers:{Authorization:"token "+token},cache:"no-store"}); if(r.ok){ const d=await r.json(); sha=d.sha; } }catch(e){}
-    await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+filePath,{method:"PUT",headers:{Authorization:"token "+token,"Content-Type":"application/json"},body:JSON.stringify({message:"Publish "+slug,content:b64Content,branch:"main",...(sha?{sha}:{})})});
-    logs.push("[Publisher] AUTO-PUBLISHED /hint/"+slug);
-
-    // ALSO FIX HOMEPAGE COUNT TO 51 HARDCODED
-    const homePath="app/page.js";
-    try{
-      const r=await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+homePath+"?ref=main",{headers:{Authorization:"token "+token},cache:"no-store"});
-      if(r.ok){
-        const d=await r.json();
-        let code=Buffer.from(d.content,"base64").toString();
-        if(code.includes("11 tricks")){ code=code.replace(/11 tricks/g,"51 tricks").replace(/Search 11 timeless/g,"Search 51 timeless"); const nb64=Buffer.from(code).toString("base64"); await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+homePath,{method:"PUT",headers:{Authorization:"token "+token,"Content-Type":"application/json"},body:JSON.stringify({message:"Fix count 11->51",content:nb64,branch:"main",sha:d.sha})}); logs.push("[Builder] Fixed count 11->51"); }
-      }
-    }catch(e){}
-
-    return NextResponse.json({success:true, logs, finalPage:{slug, fullUrl:"https://oldhint.com/hint/"+slug}});
-  }catch(e){ return NextResponse.json({success:false, logs:["Error "+e.message]}); }
 }
