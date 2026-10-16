@@ -1,82 +1,87 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Home(){
-  const hints=[
-    { id:1, icon:"🔧", title:"1969 Charger Rebuild", who:"Dada - Root • 1972 Calgary", motion:"Wrench turning • Engine roars", color:"#f59e0b", x:10, y:20 },
-    { id:2, icon:"🥒", title:"Grandma's Pickles 21-Day", who:"Nani - Root • 1965 Punjab", motion:"Hands mixing • Jars sealing", color:"#10b981", x:70, y:15 },
-    { id:3, icon:"🧀", title:"Cheese at Home No Store", who:"Biji - Trunk • 1968", motion:"Milk curdling • Cloth straining", color:"#f5f5f0", x:20, y:60 },
-    { id:4, icon:"🏠", title:"Keep Rotis Soft 24h", who:"Mummy - Branch • 1985", motion:"Dough folding • Tawa puff", color:"#e7c9a9", x:75, y:55 },
-    { id:5, icon:"🚜", title:"350 Engine At Home", who:"Papa - Trunk • 1980", motion:"350 block • Garage light", color:"#333", x:45, y:75 },
+  const [active,setActive]=useState(null);
+  const canopy=[
+    { id:1, leaf:"🔧", family:"Bazard", title:"1969 Charger Rebuild", motion:"Wrench turning • Garage light • 1972", who:"Dada - Root", age:"52 yrs", save:234 },
+    { id:2, leaf:"🥒", family:"Sharma", title:"Pickles 21-Day No Store", motion:"Hands mixing • Jars sealing • Sun roof", who:"Nani - Root", age:"59 yrs", save:189 },
+    { id:3, leaf:"🛞", family:"Singh", title:"350 Engine At Home Trick", motion:"350 block lifting • Chai steam", who:"Papa - Trunk", age:"44 yrs", save:120 },
+    { id:4, leaf:"🧀", family:"Bazard", title:"Cheese At Home No Store", motion:"Milk curdling • Cloth straining", who:"Biji - Trunk", age:"40 yrs", save:98 },
+  ];
+  const families=[
+    { name:"Bazard", est:"Est. 1980 Calgary T3J", trunk:"Root Dada - Fix 350 engine 1972", leaves:51 },
+    { name:"Sharma", est:"Est. 1965 Delhi", trunk:"Root Nani - Pickles 21-day", leaves:23 },
+    { name:"Singh", est:"Est. 1972 Punjab", trunk:"Root Baba - 1969 Charger", leaves:12 },
   ];
 
   return(
-    <div style={{background:"#FFFEF9",minHeight:"100vh",overflow:"hidden",fontFamily:"Georgia, serif"}}>
-      {/* HEADER - OldHint the lost knowledge - Appealing */}
-      <header style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 28px",position:"relative",zIndex:10}}>
-        <div style={{display:"flex",alignItems:"center",gap:"12px"}}>
-          <div style={{width:"48px",height:"48px",background:"#111",color:"#FFFEF9",borderRadius:"12px",display:"grid",placeItems:"center",fontWeight:"900",fontSize:"22px",transform:"rotate(-3deg)"}}>OH</div>
-          <div><div style={{fontWeight:"900",fontSize:"26px",letterSpacing:"-0.5px"}}>OldHint</div><div style={{fontSize:"10px",letterSpacing:"3px",textTransform:"uppercase",color:"#888",fontFamily:"Inter, sans-serif"}}>the lost knowledge</div></div>
+    <div style={{background:"#FBF6EF",minHeight:"100vh",color:"#111"}}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+      @keyframes drift{0%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}100%{transform:translateY(0) rotate(-1deg)}}
+      body{font-family:Inter, sans-serif;}`}</style>
+
+      <header style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 20px",borderBottom:"2px solid #111",position:"sticky",top:0,background:"#FBF6EF",zIndex:10}}>
+        <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+          <div style={{width:"40px",height:"40px",background:"#111",color:"#FBF6EF",display:"grid",placeItems:"center",fontWeight:"900",borderRadius:"8px"}}>OH</div>
+          <div><div style={{fontWeight:"900",fontSize:"20px"}}>OldHint</div><div style={{fontSize:"9px",letterSpacing:"2px",textTransform:"uppercase",opacity:0.6}}>the lost knowledge</div></div>
         </div>
-        <div style={{display:"flex",gap:"12px",fontFamily:"Inter, sans-serif"}}><Link href="/vault" style={{textDecoration:"none",color:"#111",fontSize:"13px",border:"1px solid #111",padding:"8px 14px",borderRadius:"999px"}}>Family Vault • 51 LIVE</Link><Link href="/admin" style={{background:"#111",color:"#fff",padding:"8px 14px",borderRadius:"999px",textDecoration:"none",fontSize:"13px",fontWeight:"700"}}>Corporate HQ</Link></div>
+        <Link href="/admin" style={{background:"#111",color:"#fff",padding:"8px 14px",borderRadius:"20px",textDecoration:"none",fontSize:"12px",fontWeight:"700"}}>Corporate HQ - 51 LIVE</Link>
       </header>
 
-      {/* HERO - Old Families In Motion */}
-      <div style={{textAlign:"center",padding:"20px 20px 0",position:"relative"}}>
-        <div style={{fontFamily:"Inter, sans-serif",display:"inline-block",background:"#111",color:"#FFFEF9",padding:"6px 14px",borderRadius:"999px",fontSize:"11px",letterSpacing:"1px"}}>CALGARY T3J HQ • 8 AI EMPLOYEES • BUILT FOR KIDS</div>
-        <h1 style={{fontSize:"72px",fontWeight:"900",lineHeight:"0.9",margin:"18px 0 0",letterSpacing:"-2px"}}>Google forgets.<br/><span style={{fontStyle:"italic",fontWeight:"400"}}>Grandmothers</span> remember.</h1>
-        <p style={{fontFamily:"Inter, sans-serif",fontSize:"17px",color:"#555",marginTop:"14px"}}>51 tricks from 1920-1990, preserved for your kids. Watch them move like family tree — Root to Leaf.</p>
+      <div style={{textAlign:"center",padding:"24px 20px 10px"}}>
+        <div style={{display:"inline-block",background:"#111",color:"#fff",padding:"6px 12px",borderRadius:"20px",fontSize:"11px"}}>CALGARY T3J HQ • 8 AI EMPLOYEES • FOREST SOCIAL</div>
+        <h1 style={{fontSize:"56px",fontWeight:"900",lineHeight:"0.95",marginTop:"16px",letterSpacing:"-1px"}}>Google forgets.<br/>Grandmothers remember.</h1>
+        <p style={{marginTop:"10px",color:"#555"}}>51 tricks from 1920-1990, preserved. Watch them move like family tree — Root to Leaf.</p>
       </div>
 
-      {/* MOTION FAMILY TREE - Center Stage */}
-      <div style={{position:"relative",width:"100%",height:"560px",marginTop:"20px",maxWidth:"1200px",marginLeft:"auto",marginRight:"auto"}}>
-        {/* SVG Tree Trunk and Branches - Animated */[STRIPPED 23 bytes]"0 0 1000 560" style={{position:"absolute",width:"100%",height:"100%",left:0,top:0}}>
-          <path d="M500 520 Q500 350 500 180" stroke="#111" strokeWidth="8" fill="none" strokeLinecap="round" style={{strokeDasharray:"800",strokeDashoffset:"0",animation:"draw 3s ease"}}/>
-          <path d="M500 380 Q300 320 180 220" stroke="#111" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.8"/>
-          <path d="M500 380 Q700 320 820 220" stroke="#111" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.8"/>
-          <path d="M500 260 Q350 200 250 120" stroke="#111" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.6"/>
-          <path d="M500 260 Q650 200 750 120" stroke="#111" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.6"/>
-          {/* Animated flowing dots - knowledge moving */}
-          <circle r="6" fill="#f59e0b"><animateMotion path="M500 520 Q500 350 500 180" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/></circle>
-          <circle r="5" fill="#10b981"><animateMotion path="M500 380 Q300 320 180 220" dur="3.5s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="opacity" values="0;1;0" dur="3.5s" repeatCount="indefinite"/></circle>
-          <circle r="5" fill="#111"><animateMotion path="M500 380 Q700 320 820 220" dur="3.2s" repeatCount="indefinite" begin="1s"/><animate attributeName="opacity" values="0;1;0" dur="3.2s" repeatCount="indefinite"/></circle>
-        </svg>
+      <div style={{maxWidth:"1300px",margin:"20px auto",display:"grid",gridTemplateColumns:"280px 1fr 300px",gap:"16px",padding:"0 16px"}}>
 
-        {/* Floating Hint Leaves - In Motion */}
-        {hints.map(h=>(
-          <div key={h.id} style={{position:"absolute",left:`${h.x}%`,top:`${h.y}%`,transform:"translate(-50%,-50%)",animation:`float ${4+h.id*0.5}s ease-in-out infinite`}}>
-            <div style={{background:"#fff",border:"1.5px solid #111",borderRadius:"20px",padding:"12px 14px",boxShadow:"6px 6px 0 #111",width:"220px",transform:`rotate(${h.id%2?2:-2}deg)`}}>
-              <div style={{display:"flex",gap:"8px",alignItems:"center"}}>
-                <div style={{width:"40px",height:"40px",background:h.color,borderRadius:"12px",display:"grid",placeItems:"center",fontSize:"20px",border:"1px solid #111"}}>{h.icon}</div>
-                <div><div style={{fontWeight:"800",fontSize:"13px",lineHeight:"1.1"}}>{h.title}</div><div style={{fontSize:"10px",color:"#666",fontFamily:"Inter, sans-serif",marginTop:"2px"}}>{h.who}</div></div>
-              </div>
-              <div style={{marginTop:"8px",fontSize:"10px",background:"#FFFEF9",border:"1px dashed #ccc",padding:"4px 6px",borderRadius:"8px",fontFamily:"Inter, sans-serif"}}>🎬 {h.motion}</div>
-              <div style={{marginTop:"6px",fontSize:"9px",color:"#888",fontFamily:"Inter, sans-serif"}}>Root → Trunk → Branch → Leaf • Knowledge moving</div>
+        <div style={{border:"2px solid #111",borderRadius:"16px",padding:"14px",background:"#fff",height:"fit-content"}}>
+          <div style={{fontSize:"10px",letterSpacing:"2px",opacity:0.5}}>YOUR FOREST • 3 TREES</div>
+          {families.map(f=>(
+            <div key={f.name} style={{marginTop:"12px",border:"1.5px solid #111",borderRadius:"12px",padding:"10px"}}>
+              <div style={{fontWeight:"800",fontSize:"13px"}}>{f.name} Family - {f.est}</div>
+              <div style={{fontSize:"11px",marginTop:"4px"}}>{f.trunk}</div>
+              <div style={{marginTop:"8px",display:"flex",gap:"4px"}}><div style={{flex:1,height:"6px",background:"#111",borderRadius:"999px"}}></div><div style={{flex:1,height:"6px",background:"#ddd",borderRadius:"999px"}}></div><div style={{flex:1,height:"6px",background:"#ddd",borderRadius:"999px"}}></div></div>
+              <div style={{marginTop:"8px",display:"flex",gap:"6px"}}><button style={{flex:1,background:"#111",color:"#fff",border:"none",padding:"6px",borderRadius:"8px",fontSize:"11px"}}>Water Tree • Follow</button><button style={{background:"#fff",border:"1px solid #111",padding:"6px",borderRadius:"8px",fontSize:"11px"}}>Ask Elder</button></div>
             </div>
-          </div>
-        ))}
-
-        {/* Center Root Label */}
-        <div style={{position:"absolute",left:"50%",top:"88%",transform:"translate(-50%,-50%)",background:"#111",color:"#FFFEF9",padding:"8px 16px",borderRadius:"999px",fontFamily:"Inter, sans-serif",fontSize:"12px",fontWeight:"700"}}>🌳 Bazard Family • Est. 1980 Calgary T3J • Root → Leaf</div>
-      </div>
-
-      {/* Welcome Strip */}
-      <div style={{maxWidth:"1000px",margin:"10px auto 40px",display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:"14px",padding:"0 20px"}}>
-        <div style={{background:"#fff",border:"1.5px solid #111",borderRadius:"16px",padding:"16px",fontFamily:"Inter, sans-serif"}}><b>Someone building 1969 Charger</b><div style={{fontSize:"12px",color:"#555",marginTop:"4px"}}>Dada's garage trick flows to you. Watch it move on tree.</div></div>
-        <div style={{background:"#00FF88",border:"1.5px solid #111",borderRadius:"16px",padding:"16px",fontFamily:"Inter, sans-serif"}}><b>Someone making pickles</b><div style={{fontSize:"12px",color:"#111",marginTop:"4px"}}>Nani's 21-day pickle flows to branch. Like leaf in wind.</div></div>
-        <div style={{background:"#fff",border:"1.5px solid #111",borderRadius:"16px",padding:"16px",fontFamily:"Inter, sans-serif"}}><b>51 Hidden Knowledge in Motion</b><div style={{fontSize:"12px",color:"#555",marginTop:"4px"}}>Search, follow family, preserve for kids. $7 Heirloom.</div></div>
-      </div>
-
-      {/* Search - Kept */}
-      <div style={{textAlign:"center",paddingBottom:"50px"}}>
-        <div style={{maxWidth:"640px",margin:"0 auto",display:"flex",gap:"10px",padding:"0 20px"}}>
-          <input placeholder="Search 51 family secrets - 1969 charger, pickles, rotis, cheese" style={{flex:1,padding:"16px 20px",borderRadius:"999px",border:"2px solid #111",fontFamily:"Inter, sans-serif"}}/>
-          <button style={{background:"#111",color:"#fff",padding:"0 28px",borderRadius:"999px",fontWeight:"800",border:"2px solid #111",fontFamily:"Inter, sans-serif"}}>Search</button>
+          ))}
         </div>
-      </div>
 
-      <style>{`@keyframes float{0%,100%{transform:translate(-50%,-50%) translateY(0px)}50%{transform:translate(-50%,-50%) translateY(-10px)}} @keyframes draw{from{stroke-dashoffset:800}to{stroke-dashoffset:0}}`}</style>
+        <div>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:"12px"}}>
+            <div style={{fontWeight:"800"}}>CANOPY • KNOWLEDGE IN MOTION</div>
+            <div style={{fontSize:"11px",border:"1px dashed #111",padding:"4px 8px",borderRadius:"20px"}}>Wind Slow • 51 leaves drifting</div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
+            {canopy.map(c=>(
+              <div key={c.id} onClick={()=>setActive(c.id)} style={{background:"#fff",border:"2px solid #111",borderRadius:"16px",padding:"12px",transform:"rotate("+(c.id%2?1:-1)+"deg)",animation:"drift "+(4+c.id)+"s ease-in-out infinite",boxShadow:active===c.id?"8px 8px 0 #111":"4px 4px 0 #111",cursor:"pointer"}}>
+                <div style={{display:"flex",justifyContent:"space-between",fontSize:"10px"}}><span style={{background:"#111",color:"#fff",padding:"2px 8px",borderRadius:"20px"}}>{c.family} {c.leaf}</span><span>{c.age}</span></div>
+                <div style={{marginTop:"8px",fontWeight:"800",fontSize:"16px",lineHeight:"1.1"}}>{c.title}</div>
+                <div style={{marginTop:"6px",fontSize:"11px",background:"#FBF6EF",border:"1px dashed #111",padding:"6px",borderRadius:"8px"}}>Motion: {c.motion}</div>
+                <div style={{marginTop:"8px",fontSize:"10px",opacity:0.6}}>{c.who} • Root to Leaf • Knowledge traveling</div>
+                <div style={{marginTop:"8px",display:"flex",gap:"6px"}}><button style={{background:"#111",color:"#fff",border:"none",padding:"6px 10px",borderRadius:"20px",fontSize:"11px"}}>Pick leaf {c.save}</button><button style={{background:"#fff",border:"1px solid #111",padding:"6px 10px",borderRadius:"20px",fontSize:"11px"}}>Ask Elder</button></div>
+              </div>
+            ))}
+          </div>
+          <div style={{marginTop:"16px",background:"#111",color:"#fff",borderRadius:"12px",padding:"12px",display:"flex",gap:"10px",alignItems:"center"}}>
+            <div style={{fontSize:"24px"}}>📽️</div>
+            <div style={{fontSize:"12px"}}><b>Someone building 1969 Charger, someone making pickles, someone fixing 350 engine — All in motion</b><br/>Not Facebook feed. Forest walk. Leaves drift, you catch one. Follow = Water tree. Save = Pick leaf.</div>
+          </div>
+        </div>
+
+        <div style={{border:"2px solid #111",borderRadius:"16px",padding:"14px",background:"#fff",height:"fit-content"}}>
+          <div style={{fontSize:"10px",letterSpacing:"2px",opacity:0.5}}>ELDERS TENDING • LIVE</div>
+          <div style={{marginTop:"10px",fontSize:"12px"}}><b>Dada Bazard</b> - Building 1969 Charger • Live 🟢<br/><b>Nani Sharma</b> - Sealing pickle jars • Live 🟢<br/><b>You</b> - Tending 51 leaves</div>
+          <div style={{marginTop:"12px",border:"1px dashed #111",borderRadius:"10px",padding:"10px",fontSize:"11px"}}>
+            How social works - Unique:<br/>Follow = Water tree<br/>Save = Pick leaf<br/>Comment = Ask elder<br/>Post = Drop leaf
+          </div>
+          <div style={{marginTop:"12px",background:"#00FF88",border:"1px solid #111",borderRadius:"10px",padding:"10px",textAlign:"center",fontWeight:"800",fontSize:"12px"}}>Get $7 Heirloom Basket - 51 leaves</div>
+        </div>
+
+      </div>
     </div>
   );
 }
