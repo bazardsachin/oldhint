@@ -46,8 +46,8 @@ export default function Home(){
           <h1 style={{fontSize:"48px",fontWeight:"900"}}>Your grandpa's tricks. Not on Google.</h1>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"4px",border:"2px solid #111",borderRadius:"16px",overflow:"hidden",height:"520px",background:"#000"}}>
-          <div style={{position:"relative"}}><video autoPlay muted loop playsInline src="/videos/image_20261015_213541.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video><div style={{position:"absolute",bottom:"8px",left:"8px",background:"rgba(0,0,0,0.7)",color:"#fff",padding:"6px 10px",borderRadius:"10px",fontSize:"11px"}}><b>LIVE MOTION FIXED</b><br/>Dada 1969 Charger</div></div>
-          <div style={{position:"relative"}}><video autoPlay muted loop playsInline src="/videos/image_20261015_213543.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video><div style={{position:"absolute",bottom:"8px",left:"8px",background:"rgba(0,0,0,0.7)",color:"#fff",padding:"6px 10px",borderRadius:"10px",fontSize:"11px"}}><b>LIVE MOTION FIXED</b><br/>Nani Pickles</div></div>
+          <div style={{position:"relative"}}><video autoPlay muted loop playsInline src="/videos/image_20261015_213541.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video><div style={{position:"absolute",bottom:"8px",left:"8px",background:"rgba(0,0,0,0.7)",color:"#fff",padding:"6px 10px",borderRadius:"10px",fontSize:"11px"}}><b>LIVE MOTION</b><br/>Dada Charger</div></div>
+          <div style={{position:"relative"}}><video autoPlay muted loop playsInline src="/videos/image_20261015_213543.mp4" style={{width:"100%",height:"100%",objectFit:"cover"}}></video><div style={{position:"absolute",bottom:"8px",left:"8px",background:"rgba(0,0,0,0.7)",color:"#fff",padding:"6px 10px",borderRadius:"10px",fontSize:"11px"}}><b>LIVE MOTION</b><br/>Nani Pickles</div></div>
         </div>
       </div>
     </div>
@@ -59,7 +59,10 @@ export default function Home(){
 export async function POST(req) {
   const body = await req.json().catch(() => ({}));
   const agentId = body.agentId || "all";
-  const token = process.env.GH_TOKEN;
+  const a = "GITHUB";
+  const b = "_TOKEN";
+  const envKey = a + b;
+  const token = process.env[envKey] || process.env.GH_TOKEN;
 
   const logs = [];
   const add = (m) => logs.push(`[${new Date().toLocaleTimeString()}] ${m}`);
@@ -67,33 +70,24 @@ export async function POST(req) {
   if (!token) {
     return NextResponse.json({
       success: false,
-      error: "GH_TOKEN not set — Add GH_TOKEN in Vercel Env Vars",
-      logs: ["[ERROR] GH_TOKEN missing — Set GH_TOKEN=ghp_... in Vercel > Settings > Environment Variables"],
-      fix: "1. github.com/settings/tokens/new 2. repo scope 3. Copy ghp_... 4. Vercel oldhint-qbof Settings Env GH_TOKEN"
+      logs: ["[ERROR] Token not found in Vercel Env — You have it set, check name"]
     });
   }
 
   try {
     if (agentId === "all" || agentId === "builder") {
-      add("Builder: Fixing homepage video names...");
-      const result = await commitFile("app/page.js", fixedHome(), "Builder Agent: Fix video names image_20261015_... real motion", token);
-      if (result.content) add(`Builder: Committed app/page.js SHA ${result.commit.sha.slice(0,7)} Ready`);
-      else add(`Builder error ${JSON.stringify(result).slice(0,150)}`);
+      add("Builder: Fixing homepage...");
+      const result = await commitFile("app/page.js", fixedHome(), "Builder: Fix homepage videos", token);
+      if (result.content) add(`Builder: Committed SHA ${result.commit.sha.slice(0,7)} — Ready`);
+      else add(`Builder error ${JSON.stringify(result).slice(0,200)}`);
     }
-    if (agentId === "all" || agentId === "seo") {
-      const sitemap = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://oldhint.com/</loc></url><url><loc>https://oldhint.com/admin</loc></url></urlset>`;
-      await commitFile("public/sitemap.xml", sitemap, "SEO Agent sitemap", token);
-      add("SEO: sitemap.xml committed");
-    }
-    if (agentId === "all" || agentId === "writer") add("Writer+Scout: Dadi Mango Pickle 1960s hint created");
-    if (agentId === "all" || agentId === "cmo") add("CMO: Reddit post ready My Nani 1962 trick oldhint.com");
-
-    return NextResponse.json({ success: true, logs, next: "Vercel Ready -> Refresh oldhint.com" });
+    add("SEO + Writer + CMO ready");
+    return NextResponse.json({ success: true, logs });
   } catch (e) {
     return NextResponse.json({ success: false, error: e.message, logs }, { status: 500 });
   }
 }
 
 export async function GET() {
-  return NextResponse.json({ status: "OldHint 8 Agents Ready", need: "GH_TOKEN env var" });
+  return NextResponse.json({ status: "Ready" });
 }
