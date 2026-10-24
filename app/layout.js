@@ -1,3 +1,4 @@
+import './globals.css';
 export const metadata = {
   title: 'oldhint.com - Timeless Hints From The Past',
   description: 'Rediscover forgotten wisdom, old-school tricks, and timeless life hints that still work today.',
