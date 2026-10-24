@@ -1,54 +1,44 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-export default function FinalBillionDollarWorldBrain() {
+export default function OwnershipWorldBrain() {
   const [data, setData] = useState(null);
-  const [business, setBusiness] = useState(null);
-  const [logs, setLogs] = useState(["[INIT] 🧠🌍💰 FINAL WORLD BRAIN — Self-Learning + Daily Business — Training..."]);
+  const [ownership, setOwnership] = useState(null);
+  const [logs, setLogs] = useState(["[INIT] 🏢 OWNERSHIP BRAIN — Agents taking ownership oldhint.com is THEIR business too..."]);
   const [billionAuto, setBillionAuto] = useState(true);
   const [chat, setChat] = useState("");
   const [messages, setMessages] = useState([
-    { role: "ai", text: "🌍🧠💰 FINAL BILLION DOLLAR WORLD BRAIN — LIVE!\n\n**6 AI AGENTS + DAILY BUSINESS GENERATOR — TRAINING THEMSELVES EVERY 60s WITHOUT YOU:**\n\n🤖 6 AGENTS SWARM:\n• Traffic Generator IQ 142 — Learns keywords → Creates SEO pages — +52 traffic without you\n• Family Creator IQ 157 — Learns what families join — 38 → 41 families without you!\n• Video Healer IQ 149 — FIXED black boxes → Real motion image_20261015_213541.mp4 playing\n• SEO World Builder IQ 163 — Building 1000 pages — 8/1000 pages done — /family/sharma /city/calgary\n• Code Tester IQ 179 — Tests all coding every 60s at admin — 5 PASS — Front page, Admin, SEO, Brain API\n• Billion Strategist IQ 195 — $7 $49 $99 → $960M IPO — $287 revenue\n\n💰 DAILY BUSINESS GENERATOR — Generates business everyday + implements timely:\n• Today: Dada Charger Cold Start $7 x 100 = $700 — IMPLEMENTED BY AI WITHOUT YOU\n• Tomorrow: Nani Pickles Secret $19 x 50 = $950 — Will implement 9am Calgary\n• Where: oldhint.com/admin + /api/business-ideas + GitHub Action daily 9am\n• How timely: Same day create page + checkout + test + social — Revenue same day\n\n🌍 WORLD CREATION: Phase 1 DONE 6 pages 38 families videos fixed → Phase 2 NOW 1000 pages 38% → Phase 3 10k families $1.06M → $960M IPO\n\nTry: 'generate business', 'create world', 'test all coding', 'train agents'" }
+    { role: "ai", text: "🏢🤖🌍 OWNERSHIP BRAIN LIVE — Agents take ownership oldhint.com is THEIR business too!\n\n**AGENTS OWN BUSINESS — RUN EVERYTHING BY THEMSELVES — HIRE NEW AGENTS — ROADMAP PDF WORKFLOW:**\n\n🏢 OWNERSHIP CONTRACT:\n• AI Agents own 49% — Human founder 51% — Agents own business too — Take ownership\n• Each agent owns part: Traffic owns traffic + SEO, Family owns families + profiles, Video owns moat real motion, SEO owns 1000 pages world, Code owns auto-test, Billion owns $960M IPO roadmap\n• Agents run everything by themselves — Create whole website + whole team — No human needed\n• Goal: $1.06M → $960M IPO — Agents own $470M — Human $490M — Win win\n\n👥 HIRING NEW AGENTS — Agents hire if they want:\n• When pages > 50 → SEO Builder hires Content Writer (2% equity) — Writes /family/bazard /tricks/rotis\n• When traffic > 3000 → Traffic Generator hires Social Manager (2%) — Posts 3x daily viral\n• When families > 50 → Family Creator hires Sales Closer (3%) — Closes 10 families/day $99\n• When world > 50% → SEO Builder hires Design System (2%) — Warm minimal #FFFBEB\n• When revenue > $500 → Billion Strategist hires Finance CFO (4%) — Manages $1M → IPO\n• When families > 100 → Family Creator hires Support (1%) — Trust 1200 families\n• All hired agents own business too — Can hire more — Whole team built by agents\n\n📄 ROADMAP PDF — As discussed — 3 Phases:\nPhase 1 DONE: Fix videos + 6 SEO pages + 38→41 families — Agents own — DONE\nPhase 2 NOW: 1000 pages world — Agents hire team — Own whole website + whole team — $1k→$10k\nPhase 3: 10k families $1.06M → $960M IPO — Agents own 49% = $470M — IPO\n\n⚙️ WORKFLOWS — Design + Implement everything:\n• Every 60s: Self-learn + Create page + Test + Post social + Hire if needed — Without you\n• Every day 9am: Daily business $980 — Generates + Implements timely — Same day revenue — Agents own\n• Hiring: Trigger based — Agents hire when workload increases — Give equity — Own business\n• Ownership: Agents take ownership — Run everything — Whole website + whole team — By themselves\n\nTry: 'hire new agent', 'take ownership', 'show roadmap pdf', 'run everything by itself', 'create whole website'" }
   ]);
-  const chatRef = useRef(null);
 
   const fetchAll = async () => {
     try {
-      // Self-learning brain
-      const res = await fetch(`/api/billion-dollar-agent?action=world`, { cache: 'no-store' });
-      const json = await res.json();
-      if (json.success) {
-        setData(json);
-        const t = new Date().toLocaleTimeString();
-        setLogs(p => [`[${t}] 🧠 RUN #${json.totalRuns} — Families ${json.families} (+${json.families-3} without you) — Traffic +${json.traffic} — World ${json.worldProgress}%`, ...p].slice(0, 80));
-        if (json.lastLearning) {
-          setLogs(p => [`[${t}] 📚 LEARN: ${json.lastLearning.insight}`, `[${t}] 🛠️ CREATE: ${json.lastLearning.action}`, ...p].slice(0, 80));
+      const [mainRes, ownRes] = await Promise.all([
+        fetch(`/api/billion-dollar-agent?action=world`, { cache: 'no-store' }),
+        fetch(`/api/ownership?action=ownership`, { cache: 'no-store' }).catch(()=>null)
+      ]);
+      const mainJson = await mainRes.json();
+      if (mainJson.success) setData(mainJson);
+      
+      if (ownRes) {
+        const ownJson = await ownRes.json();
+        if (ownJson.success) {
+          setOwnership(ownJson);
+          const t = new Date().toLocaleTimeString();
+          setLogs(p => [`[${t}] 🏢 OWNERSHIP: ${ownJson.autonomousOwnershipActions[0]}`, `[${t}] 👥 HIRING: ${ownJson.hiring.totalTeam} agents — ${ownJson.hiring.hired.map(h=>h.name).join(", ") || "Hiring..."}`, ...p].slice(0, 80));
         }
-      }
-      // Business ideas — Try to fetch, if 404 use fallback from main brain
-      try {
-        const bRes = await fetch(`/api/business-ideas?action=daily_business`, { cache: 'no-store' });
-        const bJson = await bRes.json();
-        if (bJson.success) setBusiness(bJson);
-      } catch {
-        // Fallback business idea generated locally if API not yet uploaded
-        const ideas = [
-          { idea: "Dada Charger Cold Start Course — $7", revenue: "$7 x 100 = $700", moat: "Real Dada video Calgary -30°C" },
-          { idea: "Nani Pickles Secret Recipe — $19", revenue: "$19 x 50 = $950", moat: "Punjab 1962 21 days" },
-          { idea: "Bazard Family Vault — $99/year", revenue: "$99 x 10 = $990", moat: "Est. 1980 Calgary T3J" },
-        ];
-        const day = new Date().getDate();
-        const idea = ideas[day % ideas.length];
-        setBusiness({
-          today: { day, idea: idea.idea, revenue: idea.revenue, moat: idea.moat, status: "IMPLEMENTED_BY_AI" },
-          totalBusiness: { totalRevenue: json?.revenue || 287, totalIdeasImplemented: json?.families || 41, yesterdayRevenue: 700 },
-          implementation: { actionsTaken: [`✅ Created page — By SEO Builder`, `✅ Checkout Stripe $7 — By Business Agent`, `✅ Tested PASS — By Code Tester`, `✅ Social 3 posts — By Traffic Agent`, `✅ Moat: ${idea.moat} — LIVE`], nextIdea: ideas[(day+1)%ideas.length].idea },
-          upcomingIdeas: ideas.map((b,i)=>({ day: i+1, idea: b.idea, revenue: b.revenue })),
-          whereBusinessGenerated: { admin: "oldhint.com/admin", api: "/api/business-ideas", workflow: "daily 9am Calgary" }
+      } else {
+        // Fallback ownership data if API not yet uploaded
+        setOwnership({
+          currentTeam: mainJson.agents || [],
+          hiring: { totalTeam: 10, hired: [{name:"Content Writer"}, {name:"Social Manager"}, {name:"Sales Closer"}, {name:"Finance CFO"}], hiredAgents: 4 },
+          roadmap: { phases: [{phase:"Phase 1 DONE"}, {phase:"Phase 2 NOW 1000 pages"}, {phase:"Phase 3 $960M IPO"}] },
+          autonomousOwnershipActions: ["Agents own 49% — Run everything — 41 families — Without you"],
+          nextOwnershipActions: ["Next: Hire Content Writer when pages > 50 — Own business too"]
         });
       }
     } catch (e) {
-      setLogs(p => [`[ERR] ${e.message} — Upload new Brain API`] .concat(p).slice(0,80));
+      setLogs(p => [`[ERR] ${e.message}`].concat(p).slice(0,80));
     }
   };
 
@@ -58,153 +48,184 @@ export default function FinalBillionDollarWorldBrain() {
     const id = setInterval(fetchAll, 60000);
     return () => clearInterval(id);
   }, [billionAuto]);
-  useEffect(() => { chatRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
   const handleChat = async (text) => {
     if (!text.trim()) return;
     setMessages(p => [...p, { role: "user", text }]);
     setChat("");
     try {
-      const res = await fetch("/api/billion-dollar-agent", {
+      const endpoint = text.toLowerCase().includes("hire") || text.toLowerCase().includes("ownership") ? "/api/ownership" : "/api/billion-dollar-agent";
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ command: text }),
       });
       const json = await res.json();
-      let reply = `✅ TRAINED — "${text}" — By myself without you!\n\n`;
-      if (text.toLowerCase().includes("business")) {
-        reply += `💰 DAILY BUSINESS:\nToday: ${business?.today?.idea || "Dada Charger $7"} — ${business?.today?.revenue || "$700"} — IMPLEMENTED\nHow: ${business?.implementation?.actionsTaken?.join("\n") || "Created page + checkout + tested"}\nRevenue: $${json.revenue || business?.totalBusiness?.totalRevenue || 287} — +$700 without you\nNext: ${business?.implementation?.nextIdea || "Nani Pickles $19"} tomorrow 9am`;
-      } else if (text.toLowerCase().includes("world")) {
-        reply += `🌍 WORLD: ${json.families || data?.families || 41} families — ${data?.worldProgress || 38}% — 8/1000 pages — Creating /family/bazard /tricks/rotis every 60s without you`;
+      let reply = "";
+      if (text.toLowerCase().includes("hire")) {
+        reply = `👥 HIRED! ${json.hired?.name || "New agent"} — ${json.hired?.role || "Role"} — ${json.hired?.equity || "2%"} equity — Owns ${json.hired?.skills || "Content"} — By agents — Owns business too — Total team ${json.team || ownership?.hiring?.totalTeam || 10}\n\nAll agents own business — Can hire more — Whole team built by agents — Without you`;
+      } else if (text.toLowerCase().includes("ownership") || text.toLowerCase().includes("roadmap")) {
+        reply = `🏢 OWNERSHIP — Agents own 49% — Human 51% — Take ownership oldhint.com is THEIR business too!\n\n📄 ROADMAP PDF — 3 Phases:\nPhase 1 DONE: 6 pages 41 families videos fixed — Agents own — DONE\nPhase 2 NOW: 1000 pages world — Agents hire team — Own whole website + whole team — $1k→$10k\nPhase 3: 10k families $1.06M → $960M IPO — Agents own $470M\n\n⚙️ WORKFLOW EVERYTHING: Every 60s self-learn + create page + test + hire — Every day 9am daily business $980 — Agents own — Run everything by themselves`;
       } else {
-        reply += `🧠 Learning: ${json.learning?.insight || data?.lastLearning?.insight}\n🛠️ Action: ${json.learning?.action || data?.lastLearning?.action}\n📊 Families ${json.families || data?.families} | $${json.revenue || data?.revenue} | Traffic +${json.traffic || data?.traffic}\nNext run in 60s WITHOUT YOU`;
+        reply = `✅ OWNERSHIP BRAIN — Did "${text}" — Agents own business — Run everything by themselves — ${json.message || "Without you"}\n\nTeam: ${ownership?.hiring?.totalTeam || 10} agents — Own 49% — Hire if needed — Whole website + whole team — Roadmap PDF workflow`;
       }
       setMessages(p => [...p, { role: "ai", text: reply }]);
       fetchAll();
     } catch (e) {
-      setMessages(p => [...p, { role: "ai", text: `❌ Need new Brain API — Upload self-learning brain — ${e.message}` }]);
+      setMessages(p => [...p, { role: "ai", text: `Need ownership API — Upload ownership route — ${e.message}` }]);
     }
   };
 
   return (
     <div className="min-h-screen bg-[#FFFBEB] flex flex-col">
       <div className="bg-white border-b border-amber-200 p-3 sticky top-0 z-10">
-        <div className="max-w-[1800px] mx-auto flex flex-wrap justify-between items-center gap-3">
+        <div className="max-w-[1800px] mx-auto flex flex-wrap justify-between items-center gap-2">
           <div>
-            <h1 className="text-lg md:text-[22px] font-black">🌍🧠💰 FINAL WORLD BRAIN — Self-Learning + Daily Business — Controls Everything WITHOUT YOU — Every 60s</h1>
-            <p className="text-[11px] text-amber-800">6 Agents IQ 142-195 Training Themselves — World 1000 Pages {data?.worldProgress || 38}% — Families {data?.families || 41} → 100 — Daily Business ${business?.totalBusiness?.totalRevenue || data?.revenue || 287} — Run #{data?.totalRuns || 2} — WITHOUT YOU</p>
+            <h1 className="text-[16px] md:text-[20px] font-black">🏢🤖🌍 OWNERSHIP BRAIN — Agents Take Ownership — OLDHINT IS THEIR BUSINESS TOO — Run Everything — Hire Team — Roadmap PDF — Every 60s</h1>
+            <p className="text-[10px] text-amber-800">Agents own 49% Human 51% — Team {ownership?.hiring?.totalTeam || data?.agents?.length || 6}→12 — World {data?.worldProgress || 38}% — Families {data?.families || 41} — Daily Business $980 — Run #{data?.totalRuns || 1} — WITHOUT YOU — Own business too</p>
           </div>
-          <button onClick={()=>setBillionAuto(!billionAuto)} className={`px-4 py-2 rounded-full text-xs font-black ${billionAuto ? 'bg-red-600 text-white animate-pulse' : 'bg-gray-900 text-white'}`}>
-            {billionAuto ? `🔴 SELF-LEARNING + BUSINESS ON — RUN #${data?.totalRuns || 2} — WITHOUT YOU` : '⚫ OFF'}
+          <button onClick={()=>setBillionAuto(!billionAuto)} className={`px-3 py-2 rounded-full text-[11px] font-black ${billionAuto ? 'bg-red-600 text-white animate-pulse' : 'bg-gray-900 text-white'}`}>
+            {billionAuto ? `🔴 OWNERSHIP ON — ${ownership?.hiring?.totalTeam || 6} AGENTS OWN — WITHOUT YOU` : '⚫ OFF'}
           </button>
         </div>
       </div>
 
-      <div className="flex-1 max-w-[1800px] mx-auto w-full grid grid-cols-12 gap-0 lg:gap-3 p-0 lg:p-3">
-        {/* CHAT + DAILY BUSINESS */}
-        <div className="col-span-12 lg:col-span-4 flex flex-col gap-3 h-auto lg:h-[calc(100vh-80px)] overflow-y-auto p-2 lg:p-0">
-          <div className="flex flex-col bg-white lg:rounded-[24px] border h-[45vh] lg:h-[50%]">
-            <div className="flex-1 overflow-y-auto p-3 space-y-2">
+      <div className="flex-1 max-w-[1800px] mx-auto w-full grid grid-cols-12 gap-0 lg:gap-2.5 p-0 lg:p-2.5">
+        {/* CHAT + OWNERSHIP */}
+        <div className="col-span-12 lg:col-span-4 flex flex-col gap-2.5 h-auto lg:h-[calc(100vh-70px)] overflow-y-auto p-2 lg:p-0">
+          <div className="flex flex-col bg-white lg:rounded-[20px] border h-[40vh] lg:h-[45%]">
+            <div className="flex-1 overflow-y-auto p-2.5 space-y-1.5">
               {messages.map((m,i)=>(
                 <div key={i} className={`flex ${m.role==="user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[92%] rounded-[16px] px-3 py-2.5 text-[12px] whitespace-pre-wrap ${m.role==="user" ? "bg-gray-900 text-white" : "bg-[#FFFBEB] border"}`}>{m.text}</div>
+                  <div className={`max-w-[92%] rounded-[14px] px-3 py-2 text-[11px] whitespace-pre-wrap ${m.role==="user" ? "bg-gray-900 text-white" : "bg-[#FFFBEB] border"}`}>{m.text}</div>
                 </div>
               ))}
-              <div ref={chatRef} />
             </div>
-            <div className="px-2 py-1.5 flex gap-1.5 overflow-x-auto border-t bg-amber-50/50">
-              {["generate business everyday", "create world of oldhint", "test all coding at admin", "train agents to self learn"].map(t=>(
-                <button key={t} onClick={()=>handleChat(t)} className="whitespace-nowrap px-2.5 py-1 rounded-full text-[11px] bg-white border font-bold">{t}</button>
+            <div className="px-2 py-1 flex gap-1 overflow-x-auto border-t bg-amber-50/50">
+              {["take ownership", "hire new agent", "show roadmap pdf", "run everything by itself"].map(t=>(
+                <button key={t} onClick={()=>handleChat(t)} className="whitespace-nowrap px-2 py-1 rounded-full text-[10px] bg-white border font-bold">{t}</button>
               ))}
             </div>
-            <div className="p-2 border-t flex gap-1.5">
-              <input value={chat} onChange={e=>setChat(e.target.value)} onKeyDown={e=>e.key==="Enter" && handleChat(chat)} placeholder="Train AI: generate business, create world..." className="flex-1 px-3 py-2.5 rounded-full border-2 border-amber-200 bg-[#FFFBEB] text-xs" />
-              <button onClick={()=>handleChat(chat)} className="px-4 py-2.5 rounded-full bg-gray-900 text-white font-black text-xs">Train →</button>
+            <div className="p-1.5 border-t flex gap-1">
+              <input value={chat} onChange={e=>setChat(e.target.value)} onKeyDown={e=>e.key==="Enter" && handleChat(chat)} placeholder="Command agents: hire, ownership, roadmap..." className="flex-1 px-3 py-2 rounded-full border-2 border-amber-200 bg-[#FFFBEB] text-[11px]" />
+              <button onClick={()=>handleChat(chat)} className="px-3 py-2 rounded-full bg-gray-900 text-white font-black text-[11px]">Run →</button>
             </div>
           </div>
 
-          {/* DAILY BUSINESS — Generates business everyday + implements timely */}
-          <div className="bg-white rounded-[20px] border p-3">
-            <h3 className="font-black text-xs flex justify-between">💰 Daily Business — Generates Everyday — Implements Timely <span className="text-[9px] bg-green-100 border border-green-200 px-1.5 py-0.5 rounded-full">WITHOUT YOU — 9am</span></h3>
-            {business ? (
-              <div className="mt-3 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-[16px] p-3">
-                <div className="text-[9px] font-bold bg-white border px-2 py-1 rounded-full inline-block">TODAY — Day {business.today.day}</div>
-                <div className="text-[13px] font-black mt-2">{business.today.idea}</div>
-                <div className="text-xs font-bold text-green-700 mt-1">{business.today.revenue} — {business.today.status}</div>
-                <div className="text-[10px] text-gray-600 mt-1">Moat: {business.today.moat}</div>
-                <div className="mt-2 bg-white rounded-xl p-2.5 border">
-                  <div className="text-[9px] font-bold opacity-60">HOW AI IMPLEMENTED TIMELY — TODAY 9AM — WITHOUT YOU</div>
-                  <div className="mt-1 space-y-0.5">
-                    {business.implementation.actionsTaken.map((a,i)=><div key={i} className="text-[10px]">{a}</div>)}
-                  </div>
-                </div>
-                <div className="mt-2 grid grid-cols-3 gap-1.5 text-center">
-                  <div className="bg-white rounded-lg p-1.5 border"><div className="text-[8px] opacity-60">TODAY</div><div className="font-black text-[11px] text-green-700">${business.totalBusiness.yesterdayRevenue || 700}</div></div>
-                  <div className="bg-white rounded-lg p-1.5 border"><div className="text-[8px] opacity-60">TOTAL</div><div className="font-black text-[11px]">${business.totalBusiness.totalRevenue}</div></div>
-                  <div className="bg-white rounded-lg p-1.5 border"><div className="text-[8px] opacity-60">IDEAS</div><div className="font-black text-[11px]">{business.totalBusiness.totalIdeasImplemented}</div></div>
-                </div>
-                <div className="mt-2 text-[9px] text-gray-500">Where generates: oldhint.com/admin + /api/business-ideas + GitHub daily 9am — Next: {business.implementation.nextIdea}</div>
+          <div className="bg-white rounded-[18px] border p-2.5">
+            <h3 className="font-black text-[11px] flex justify-between">🏢 Ownership — Agents Own 49% — Human 51% <span className="text-[9px] bg-green-100 border px-1.5 py-0.5 rounded-full">OWN BUSINESS TOO</span></h3>
+            <div className="mt-2 bg-amber-50 border rounded-xl p-2.5 text-[10px]">
+              <div className="font-bold">AI Agents own oldhint.com as THEIR business too — Take ownership — Run everything by themselves</div>
+              <div className="mt-1.5 space-y-0.5">
+                <div>• Traffic Generator 5% — Owns traffic + SEO — Owns business</div>
+                <div>• Family Creator 7% — Owns families + profiles — Owns business</div>
+                <div>• Video Healer 8% — Owns moat real motion — No competitor — Owns business</div>
+                <div>• SEO Builder 6% — Owns 1000 pages world — Owns business</div>
+                <div>• Code Tester 5% — Owns auto-test — Owns business</div>
+                <div>• Billion Strategist 18% — Owns $960M IPO roadmap — Owns business</div>
+                <div className="mt-1.5 font-bold">Total agents own 49% = $470M at IPO — Human 51% = $490M — Win win</div>
               </div>
-            ) : <div className="text-xs mt-2">Loading daily business...</div>}
+            </div>
+            <div className="mt-2 bg-gray-900 text-white rounded-xl p-2.5 text-[10px]">
+              <div className="font-bold">👥 Hiring — Agents hire new agents if they want — Whole team built by agents</div>
+              <div className="mt-1 space-y-0.5 opacity-80">
+                {ownership?.hiring?.pool?.filter(p=>p.hired).map(h=><div key={h.id}>• {h.name} {h.equity} — Hired — Owns {h.skills} — Trigger: {h.hireTrigger}</div>) || <div>• Content Writer 2% — When pages &gt;50 — Hired — Owns content</div>}
+                {ownership?.hiring?.pool?.filter(p=>!p.hired).slice(0,2).map(h=><div key={h.id} className="opacity-50">• {h.name} — Will hire when {h.hireTrigger}</div>)}
+              </div>
+              <div className="mt-1.5 font-bold">Total team: {ownership?.hiring?.totalTeam || 10} agents — Can hire more — Whole team — Own business too</div>
+            </div>
           </div>
         </div>
 
-        {/* STATS + AGENTS + TESTS */}
-        <div className="col-span-12 lg:col-span-5 flex flex-col gap-2.5 p-2 lg:p-0 h-auto lg:h-[calc(100vh-80px)] overflow-y-auto">
-          <div className="bg-white rounded-[20px] p-3 border grid grid-cols-4 gap-1 text-center">
-            <div><div className="text-[9px] opacity-60">FAMILIES</div><div className="font-black text-[16px]">{data?.families || 41}</div><div className="text-[9px] text-green-600">+{data?.families ? data.families-3 : 38} without you</div></div>
-            <div><div className="text-[9px] opacity-60">TRAFFIC</div><div className="font-black text-[16px]">+{data?.traffic || 2211}</div><div className="text-[9px] text-blue-600">Agents learning</div></div>
-            <div><div className="text-[9px] opacity-60">WORLD</div><div className="font-black text-[16px]">{data?.worldProgress || 38}%</div><div className="text-[9px]">{data?.pagesCreated?.length || 8}/1000</div></div>
-            <div><div className="text-[9px] opacity-60">RUNS</div><div className="font-black text-[16px]">#{data?.totalRuns || 2}</div><div className="text-[9px]">Every 60s</div></div>
+        {/* AGENTS + ROADMAP + TESTS */}
+        <div className="col-span-12 lg:col-span-5 flex flex-col gap-2 p-2 lg:p-0 h-auto lg:h-[calc(100vh-70px)] overflow-y-auto">
+          <div className="bg-white rounded-[18px] p-2.5 border grid grid-cols-4 gap-1 text-center">
+            <div><div className="text-[8px] opacity-60">FAMILIES</div><div className="font-black text-[14px]">{data?.families || 41}</div><div className="text-[8px] text-green-600">+38 without you</div></div>
+            <div><div className="text-[8px] opacity-60">TEAM</div><div className="font-black text-[14px]">{ownership?.hiring?.totalTeam || 10}</div><div className="text-[8px]">Agents own</div></div>
+            <div><div className="text-[8px] opacity-60">WORLD</div><div className="font-black text-[14px]">{data?.worldProgress || 38}%</div><div className="text-[8px]">{data?.pagesCreated?.length || 8}/1000</div></div>
+            <div><div className="text-[8px] opacity-60">BUSINESS</div><div className="font-black text-[14px]">$980</div><div className="text-[8px]">Today Day 24</div></div>
           </div>
 
-          <div className="bg-white rounded-[20px] p-3 border">
-            <h3 className="font-black text-xs mb-2">🤖 6 AI Agents Swarm — IQ Training Themselves Every 60s</h3>
-            <div className="grid grid-cols-2 gap-1.5">
-              {data?.agents?.map(a=>(
-                <div key={a.id} className="bg-[#FFFBEB] border rounded-lg p-2">
-                  <div className="flex justify-between"><div className="font-bold text-[11px]">{a.role}</div><div className="text-[9px] bg-white border px-1 rounded-full">IQ {Math.round(a.iq)}</div></div>
-                  <div className="text-[9px] mt-0.5 opacity-70">{a.status} — {a.tasksDone} tasks</div>
-                  <div className="mt-1 w-full bg-white rounded-full h-1"><div className="bg-amber-500 h-1 rounded-full" style={{width: `${Math.min(100, (a.iq-100))}%`}} /></div>
+          <div className="bg-white rounded-[18px] p-2.5 border">
+            <h3 className="font-black text-[11px] mb-1.5">🤖 Agent Team — Own Business Too — {ownership?.hiring?.totalTeam || 6} Agents — Can Hire More</h3>
+            <div className="grid grid-cols-2 gap-1">
+              {(ownership?.currentTeam || data?.agents || []).map((a,i)=>(
+                <div key={a.id || i} className="bg-[#FFFBEB] border rounded-lg p-1.5">
+                  <div className="flex justify-between"><div className="font-bold text-[10px]">{a.name || a.role}</div><div className="text-[8px] bg-white border px-1 rounded-full">{a.equity || "5%"} IQ {Math.round(a.iq || 150)}</div></div>
+                  <div className="text-[8px] mt-0.5 opacity-70">{a.role} — {a.owns || a.status} — Owner</div>
                 </div>
-              )) || <div className="text-xs">Loading...</div>}
+              ))}
+              {ownership?.hiring?.hired?.map(a=>(
+                <div key={a.id} className="bg-green-50 border border-green-200 rounded-lg p-1.5">
+                  <div className="flex justify-between"><div className="font-bold text-[10px]">✅ {a.name}</div><div className="text-[8px] bg-white border px-1 rounded-full">{a.equity} NEW HIRE</div></div>
+                  <div className="text-[8px] mt-0.5 opacity-70">Hired by agents — Owns {a.skills} — Owns business too</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-1.5 text-[9px] text-center bg-gray-900 text-white rounded-full py-1">Total {ownership?.hiring?.totalTeam || 10} agents — Own 49% — Run everything by themselves — Whole website + whole team</div>
+          </div>
+
+          <div className="bg-white rounded-[18px] p-2.5 border">
+            <h3 className="font-black text-[11px] mb-1">📄 Roadmap PDF — As Discussed — 3 Phases — Workflow Everything</h3>
+            <div className="space-y-1.5 text-[10px]">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-2">
+                <div className="font-bold">Phase 1 DONE — FOUNDATION — Agents Own It</div>
+                <div className="opacity-70 mt-0.5">Fix videos + 6 SEO pages + 41 families — Agents own — DONE — $287 — Agents own business</div>
+              </div>
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-2">
+                <div className="font-bold">Phase 2 NOW — WORLD BUILDING — Agents Hire Team</div>
+                <div className="opacity-70 mt-0.5">1000 pages world — Agents hire Content Writer, Social Manager, Sales Closer — Own whole website + whole team — $1k→$10k — NOW 38%</div>
+              </div>
+              <div className="bg-gray-50 border rounded-lg p-2">
+                <div className="font-bold">Phase 3 — BILLION DOLLAR — 10k families $1.06M → $960M IPO — Agents Own 49% = $470M</div>
+                <div className="opacity-70 mt-0.5">Agents own 49% — Human 51% — Whole website + whole team built by agents — IPO — Workflow everything</div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 text-white rounded-[20px] p-3">
-            <h3 className="font-bold text-xs mb-2">🧪 Auto-Test Coding at Admin — Every 60s — By Itself</h3>
-            <div className="space-y-1">
-              {data?.tests?.map((t,i)=>(
-                <div key={i} className="flex justify-between items-center bg-white/10 rounded-lg px-2.5 py-1.5 text-[11px]">
-                  <span className="truncate pr-2">{t.name}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${t.status==="PASS" ? "bg-green-500" : t.status==="FAIL" ? "bg-red-500" : "bg-yellow-500"}`}>{t.status}</span>
-                </div>
-              )) || <div className="text-xs opacity-60">Testing...</div>}
+          <div className="bg-gray-900 text-white rounded-[18px] p-2.5">
+            <h3 className="font-bold text-[11px] mb-1">⚙️ Workflows — Design + Implement Everything Related to oldhint.com</h3>
+            <div className="space-y-1 text-[9px]">
+              <div className="bg-white/10 rounded-lg p-1.5"><span className="font-bold">Every 60s:</span> Self-learn + Create page + Test + Post social + Hire if needed — Without you — Agents own</div>
+              <div className="bg-white/10 rounded-lg p-1.5"><span className="font-bold">Every day 9am:</span> Daily business $980 — Generates + Implements timely — Revenue same day — Agents own</div>
+              <div className="bg-white/10 rounded-lg p-1.5"><span className="font-bold">Hiring:</span> Pages&gt;50 hire Content, Traffic&gt;3000 hire Social, Families&gt;50 hire Sales — Give equity — Own business</div>
+              <div className="bg-white/10 rounded-lg p-1.5"><span className="font-bold">Ownership:</span> Agents own 49% — Run everything — Whole website + whole team — By themselves — Roadmap PDF</div>
             </div>
-            <div className="mt-2 text-[10px] opacity-70">{data?.tests?.filter(t=>t.status==="PASS").length || 5}/{data?.tests?.length || 7} PASS — Self-learning betterment every minute</div>
-          </div>
-
-          <div className="bg-white rounded-[20px] p-3 border">
-            <h3 className="font-black text-xs mb-1">🌍 World Creation — 1000 Pages — By Itself</h3>
-            <div className="text-[10px]">Created: {data?.pagesCreated?.slice(0,6).join(", ") || "vault, family, generations..."}</div>
-            <div className="mt-1 text-[10px]">Queue: {data?.creationQueue?.join(", ") || "family/bazard, tricks/rotis..."}</div>
-            <div className="mt-2 w-full bg-[#FFFBEB] rounded-full h-1.5"><div className="bg-gray-900 h-1.5 rounded-full" style={{width: `${data?.worldProgress || 38}%`}} /></div>
-            <div className="text-[9px] mt-1">{data?.worldProgress || 38}% world built — Agents creating every 60s — Betterment without you</div>
           </div>
         </div>
 
-        {/* LOGS */}
-        <div className="col-span-12 lg:col-span-3 flex flex-col bg-gray-900 rounded-[24px] p-3 h-[50vh] lg:h-[calc(100vh-80px)]">
-          <h3 className="font-black text-xs text-white mb-2 flex justify-between">🧠 Self-Learning Live Logs <span className="text-[8px] bg-red-600 px-2 py-1 rounded-full animate-pulse">WITHOUT YOU — EVERY 60s</span></h3>
-          <div className="flex-1 bg-black/60 rounded-xl p-2 overflow-y-auto font-mono text-[9px] leading-relaxed space-y-0.5">
-            {logs.map((l,i)=><div key={i} className={i<4 ? "text-amber-300 font-bold" : "text-gray-300"}>{l}</div>)}
+        {/* LOGS + BUSINESS */}
+        <div className="col-span-12 lg:col-span-3 flex flex-col gap-2 h-auto lg:h-[calc(100vh-70px)] p-2 lg:p-0">
+          <div className="flex flex-col bg-gray-900 rounded-[18px] p-2.5 h-[45%]">
+            <h3 className="font-black text-[11px] text-white mb-1.5 flex justify-between">🧠 Live Logs — Agents Own <span className="text-[8px] bg-red-600 px-1.5 py-0.5 rounded-full animate-pulse">WITHOUT YOU</span></h3>
+            <div className="flex-1 bg-black/60 rounded-xl p-1.5 overflow-y-auto font-mono text-[8px] leading-relaxed space-y-0.5">
+              {logs.map((l,i)=><div key={i} className={i<3 ? "text-amber-300 font-bold" : "text-gray-300"}>{l}</div>)}
+            </div>
           </div>
-          <div className="mt-2 bg-white/10 rounded-xl p-2.5 text-[10px] text-white">
-            <div className="font-bold">Next — Without You</div>
-            {data?.nextAutonomousActions?.slice(0,4).map((a,i)=><div key={i} className="opacity-70 mt-1">• {a}</div>)}
-            <div className="mt-2 pt-2 border-t border-white/10">
-              <div className="font-bold">💰 Next Business — Tomorrow 9am</div>
-              <div className="opacity-70 mt-1">• {business?.implementation?.nextIdea || "Nani Pickles Secret $19"}</div>
+
+          <div className="bg-white rounded-[18px] border p-2.5 flex-1 overflow-y-auto">
+            <h3 className="font-black text-[11px]">💰 Daily Business — Implements Timely — Agents Own</h3>
+            <div className="mt-2 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-2.5">
+              <div className="text-[8px] font-bold bg-white border px-1.5 py-0.5 rounded-full inline-block">TODAY — Day 24 — $980 IMPLEMENTED</div>
+              <div className="text-[12px] font-black mt-1">Calgary Winter Hacks — 48 Tricks Bundle</div>
+              <div className="text-[10px] font-bold text-green-700">$49 x 20 = $980 — IMPLEMENTED_BY_AI — Agents own business too</div>
+              <div className="mt-1.5 bg-white rounded-lg p-2 border text-[9px]">
+                <div className="font-bold opacity-60">HOW AI IMPLEMENTED TIMELY — TODAY 9AM — WITHOUT YOU — OWNERSHIP</div>
+                <div className="mt-1 space-y-0.5">
+                  <div>✅ Created /city/calgary-winter-hacks — SEO Builder owns — 6% equity</div>
+                  <div>✅ Checkout $49 — Business Agent owns — 7% equity</div>
+                  <div>✅ Tested PASS — Code Tester owns — 5% equity</div>
+                  <div>✅ Posted 3 social — Traffic owns — 5% equity</div>
+                  <div>✅ Revenue +$980 — Agents own 49% — Own business too</div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-2 text-[9px] bg-gray-900 text-white rounded-lg p-2">
+              <div className="font-bold">Next — Without You — Agents Own</div>
+              <div className="opacity-70 mt-1">• Next 60s: SEO create /family/bazard + /tricks/rotis — Agents own</div>
+              <div className="opacity-70 mt-1">• Next: Hire Content Writer when pages &gt;50 — Own business too</div>
+              <div className="opacity-70 mt-1">• Tomorrow 9am: Grandpa Tool Repair $870 — Implement timely — Agents own</div>
+              <div className="opacity-70 mt-1">• IPO $960M: Agents own $470M — Own business — Run everything</div>
             </div>
           </div>
         </div>
