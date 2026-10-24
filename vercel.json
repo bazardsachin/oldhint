@@ -1,8 +1,16 @@
 {
   "crons": [
     {
-      "path": "/api/cron/daily",
+      "path": "/api/autopilot",
       "schedule": "0 15 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "app/api/agent/run-all/route.js": {
+      "maxDuration": 60
+    },
+    "app/api/autopilot/route.js": {
+      "maxDuration": 60
+    }
+  }
 }
