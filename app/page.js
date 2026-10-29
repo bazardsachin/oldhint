@@ -82,7 +82,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-[#1A1A1A]">
       <div className="bg-[#1A1A1A] text-white text-[11px] py-2 px-6 flex justify-between flex-wrap gap-2">
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />{stats.families} families joined - Old People TikTok {stats.tiktok} videos - SEO {stats.seo} - Marketing LIVE - Command: Deploy old people tik tok theme</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />{stats.families} families joined - Old People TikTok {stats.tiktok} videos - SEO {stats.seo} - Marketing LIVE - Command: Build old people TikTok site</span>
         <a href="/admin" className="bg-amber-500 text-black px-2.5 py-1 rounded-full font-black text-[10px]">BILLION AUTO ON - {stats.families} families - SEO + MARKETING + FULL STACK</a>
       </div>
 
@@ -107,7 +107,7 @@ export default function Page() {
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 bg-white border rounded-full px-4 py-1.5 text-[12px] font-bold"><span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> Old People TikTok - World First - SEO {stats.seo} + Marketing + Frontend + Backend - Command Center - {stats.tiktok} videos - Agents run freely</div>
             <h1 className="text-[40px] md:text-[54px] font-black leading-[0.9] mt-5">Old people<br />TikTok.<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-orange-600">Not on TikTok.</span><br /><span className="text-[20px] md:text-[24px] font-bold text-[#4A4A4A]">SEO 96 + Marketing + Full Stack</span></h1>
-            <p className="mt-4 text-[16px] text-[#4A4A4A] max-w-[560px]">Dada 1969 Charger + Nani Pickles + Papa 1960 Keeper - Real motion videos Moat LIVE - Old People TikTok - 48 tricks 1920-1990 - SEO Title + Meta + Schema + Keywords 96 - Marketing Hook + Trust Bar + Family Tree + CTA - Frontend TikTok UI - Backend real motion - Command: Deploy old people tik tok theme - Built by agents freely running on your command - SEO to marketing and front back end to everything</p>
+            <p className="mt-4 text-[16px] text-[#4A4A4A] max-w-[560px]">Dada 1969 Charger + Nani Pickles + Papa 1960 Keeper - Real motion videos Moat LIVE - Old People TikTok - 48 tricks 1920-1990 - SEO Title + Meta + Schema + Keywords 96 - Marketing Hook + Trust Bar + Family Tree + CTA - Frontend TikTok UI - Backend real motion - Command: Build old people TikTok site - Built by agents freely running on your command - SEO to marketing and front back end to everything</p>
 
             <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
               <button onClick={() => setActiveTab("foryou")} className={`whitespace-nowrap text-[13px] font-black px-5 py-2.5 rounded-full ${activeTab === "foryou" ? "bg-[#1A1A1A] text-white" : "bg-white border"}`}>For You - SEO 96 - Frontend</button>
@@ -158,13 +158,13 @@ export default function Page() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 bg-green-500/20 border border-green-500/30 rounded-xl p-3 text-[11px]"><span className="font-black">SEO TO MARKETING AND FRONT BACK END TO EVERYTHING - All In One - Command: Deploy old people tik tok theme - Agents run freely on your command - Take care of all work related to website - Backend to frontend to testing codes in it and applying correct changes - No errors - Whole site built by command only - SEO 96 + Marketing Hook + Trust + Frontend TikTok + Backend Real Motion + Testing + Fixing + Deploy</span></div>
+                <div className="mt-4 bg-green-500/20 border border-green-500/30 rounded-xl p-3 text-[11px]"><span className="font-black">SEO TO MARKETING AND FRONT BACK END TO EVERYTHING - All In One - Command: Build old people TikTok site - Agents run freely on your command - Take care of all work related to website - Backend to frontend to testing codes in it and applying correct changes - No errors - Whole site built by command only - SEO 96 + Marketing Hook + Trust + Frontend TikTok + Backend Real Motion + Testing + Fixing + Deploy</span></div>
               </div>
             )}
 
             <div className="mt-6 bg-white rounded-[24px] border p-5">
               <div className="font-black">Join 100 Founding Families - Old People TikTok - SEO 96 - Marketing - Full Stack - Built by agents on your command</div>
-              <div className="text-[11px] mt-1 text-[#6B6B6B]">{joined} of 100 joined - SEO Title + Meta + Schema - Marketing Hook + Trust Bar + Family Tree - Frontend TikTok UI - Backend Real Motion - Built freely by agents running on your command: Deploy old people tik tok theme</div>
+              <div className="text-[11px] mt-1 text-[#6B6B6B]">{joined} of 100 joined - SEO Title + Meta + Schema - Marketing Hook + Trust Bar + Family Tree - Frontend TikTok UI - Backend Real Motion - Built freely by agents running on your command: Build old people TikTok site</div>
               <div className="mt-4 flex gap-2.5"><input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email - Join Old People TikTok - SEO + Marketing" className="flex-1 px-5 py-3.5 rounded-full bg-[#FFFBEB] border text-[14px]" /><button onClick={() => { setJoined((j) => (typeof j === "number" ? j + 1 : 42)); setEmail(""); }} className="px-8 py-3.5 rounded-full bg-[#1A1A1A] text-white font-black">Join - SEO + Marketing</button></div>
               <div className="mt-3 w-full bg-[#FFFBEB] rounded-full h-2.5 border"><div className="bg-[#1A1A1A] h-2.5 rounded-full" style={{ width: `${typeof joined === "number" ? joined : 41}%` }} /></div>
               <div className="mt-3 text-[10px] bg-[#FFFBEB] border rounded-xl p-2.5"><span className="font-black">SEO:</span> Title Old People TikTok - Your grandpas tricks Not on Google | <span className="font-black">Marketing:</span> Hook + Trust Bar 40 years 3 gen + Family Tree ROOT→LEAF + CTA Join 100 Founding Families | <span className="font-black">Frontend:</span> TikTok For You vertical + Family Tree timeline + Trust Bar | <span className="font-black">Backend:</span> Real motion Dada Charger + Nani Pickles Moat LIVE + APIs | <span className="font-black">Testing + Fixing:</span> Build + runtime safe guards No join error No DOCTYPE | <span className="font-black">Deploy:</span> GitHub + Vercel Ready - All in one - By command only</div>
@@ -174,7 +174,7 @@ export default function Page() {
           <div className="lg:col-span-5 space-y-4">
             <div className="bg-white rounded-[24px] border p-4">
               <div className="font-black text-[13px]">Command Center - SEO to Marketing and Front Back End to Everything - All In One</div>
-              <div className="text-[11px] text-[#6B6B6B] mt-1">Your command: <span className="font-black text-[#1A1A1A]">Deploy old people tik tok theme</span> - Agents did: SEO Title Meta Schema Sitemap 96 + Marketing Hook Trust CTA + Frontend TikTok UI + Backend Real Motion + Testing + Fixing + Commit - No errors - Whole site - All work</div>
+              <div className="text-[11px] text-[#6B6B6B] mt-1">Your command: <span className="font-black text-[#1A1A1A]">Build old people TikTok site</span> - Agents did: SEO Title Meta Schema Sitemap 96 + Marketing Hook Trust CTA + Frontend TikTok UI + Backend Real Motion + Testing + Fixing + Commit - No errors - Whole site - All work</div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-[10px]">
                 <div className="bg-green-50 border border-green-200 rounded-xl p-2.5"><div className="font-black">SEO - Title Meta Schema - 96</div><div className="opacity-60">Title + Meta + Keywords + Schema + Sitemap - home, tiktok, vault, family, generations, 1920s-tricks, 1960s-keeper, pricing, about, blog - Safe</div></div>
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5"><div className="font-black">Marketing - Hook Trust CTA</div><div className="opacity-60">Hook Not on Google - Trust 40 years - Family Tree - Join CTA - More appealing</div></div>
@@ -199,7 +199,7 @@ export default function Page() {
                 <div className="flex justify-between bg-white/10 rounded-xl p-2.5"><span>Agent 9 - Command Center - Coordinates - 5 percent</span><span className="text-green-400">DONE - Free running</span></div>
                 <div className="flex justify-between bg-white/10 rounded-xl p-2.5"><span>Agent 10 - Business Daily - 980 daily - 4 percent</span><span className="text-green-400">DONE - 980 daily</span></div>
               </div>
-              <div className="mt-3 text-[10px] bg-amber-500/20 border border-amber-500/30 rounded-xl p-2.5"><span className="font-black">SEO TO MARKETING AND FRONT BACK END TO EVERYTHING - All In One - They run freely on your commands - You said: "Deploy old people tik tok theme" - They did: SEO 96 + Marketing Hook Trust CTA + Frontend TikTok UI + Backend Real Motion + Testing + Fixing + Deploy - Whole site - No errors - All work - Command only - home, tiktok, vault, family, generations, 1920s-tricks, 1960s-keeper, pricing, about, blog - Old people TikTok site - More appealing</span></div>
+              <div className="mt-3 text-[10px] bg-amber-500/20 border border-amber-500/30 rounded-xl p-2.5"><span className="font-black">SEO TO MARKETING AND FRONT BACK END TO EVERYTHING - All In One - They run freely on your commands - You said: "Build old people TikTok site" - They did: SEO 96 + Marketing Hook Trust CTA + Frontend TikTok UI + Backend Real Motion + Testing + Fixing + Deploy - Whole site - No errors - All work - Command only - home, tiktok, vault, family, generations, 1920s-tricks, 1960s-keeper, pricing, about, blog - Old people TikTok site - More appealing</span></div>
             </div>
           </div>
         </div>
