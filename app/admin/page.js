@@ -1,178 +1,228 @@
-"use client";
-import { useState } from "react";
+import RealMotionVideo from "./components/RealMotionVideo";
 
-export default function AdminPage() {
-  const [cmd, setCmd] = useState("Build TikTok scroll with real videos playing - Add autoplay - Add vertical scroll like TikTok - Add Dada video public/videos/image_20261015_213541.mp4 - Add Nani video public/videos/image_20261015_213543.mp4 - Add Family Tree - Add Trust Bar - Add SEO 96 - Add Marketing LIVE - Make me millionaire - Generate 100 OldHint profiles - Generate traffic - Post on Instagram");
-  const [status, setStatus] = useState("Ready - Fixed Line 24 - No arrow - Whole team together");
-  const [logs, setLogs] = useState("");
-  const [running, setRunning] = useState(false);
-  const [autoOn, setAutoOn] = useState(true);
-
-  async function runBg() {
-    if (!cmd.trim()) { alert("Enter command"); return; }
-    setRunning(true);
-    setStatus("Running - 10 Brain plus Testing plus Builder - Right coding - No arrow");
-    setLogs("Queued - 10 Brain Agents plus Testing plus Builder - Full Billion Site - Fixed Line 24\n");
-    try {
-      const res = await fetch("/api/coding-testing-agent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command: cmd, filePath: "app/page.js", background: true })
-      });
-      const data = await res.json();
-      setStatus("Job " + data.jobId + " - " + data.message);
-      setLogs("Job: " + data.jobId + "\n" + data.message + "\nPolling...\n");
-      let c = 0;
-      const iv = setInterval(async () => {
-        c++;
-        try {
-          const r = await fetch("/api/coding-testing-agent?jobId=" + data.jobId);
-          const d = await r.json();
-          setLogs((d.logs || []).join("\n"));
-          setStatus("Status " + d.status + " Score " + (d.score || 0) + "/100 - Whole team");
-          if (d.status === "COMMITTED" || d.status === "BUILD_FAILED" || c > 25) {
-            clearInterval(iv);
-            setRunning(false);
-            setStatus("Done - " + d.status + " - Score " + (d.score || 0) + " - Whole team together - Fixed Line 24");
-          }
-        } catch (e) {
-          setLogs("Poll error " + e.message);
-        }
-      }, 2000);
-    } catch (e) {
-      setStatus("Error " + e.message);
-      setRunning(false);
-    }
-  }
-
-  async function runSync() {
-    if (!cmd.trim()) { alert("Enter command"); return; }
-    setRunning(true);
-    setStatus("Running sync - Whole team - Right coding - No arrow");
-    setLogs("Running sync - Whole team - Fixed Line 24\n");
-    try {
-      const res = await fetch("/api/coding-testing-agent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command: cmd, filePath: "app/page.js", background: false })
-      });
-      const data = await res.json();
-      setStatus(data.status + " Score " + (data.score || 0) + "/100 - " + data.message + " - Whole team");
-      setLogs((data.logs || []).join("\n"));
-      setRunning(false);
-    } catch (e) {
-      setStatus("Error " + e.message);
-      setRunning(false);
-    }
-  }
-
+export default function Page() {
   return (
-    <div style={{ minHeight: "100vh", background: "#FFFBEB", padding: "16px", fontFamily: "system-ui" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <div style={{ background: "#1A1A1A", color: "white", padding: "16px 20px", borderRadius: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <div style={{ fontWeight: "900", fontSize: "20px" }}>OldHint Admin - Billion Dollar Agent - Whole Team Together</div>
-            <div style={{ fontSize: "11px", opacity: 0.7, marginTop: "4px" }}>Fixed Line 24 - No arrow - Short lines - Admin bar back - Whole team together like before - Guaranteed build</div>
-            <div style={{ fontSize: "10px", opacity: 0.6, marginTop: "6px" }}>Team 10 Brain Agents plus Coding Testing AI Agent Background plus Builder Agent - 49 percent agents 51 percent human - Workflow Command to 10 Brain to Testing to Builder to GitHub to Vercel 40 of 40 SUCCESS to LIVE - Test Before Commit - Build After Test - Right Coding - Once For All - Fixed 5WmR71F7m</div>
+    <div style={{ minHeight: "100vh", background: "#FFFBEB", color: "#1A1A1A", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,251,235,0.9)", backdropFilter: "blur(12px)", borderBottom: "1px solid #fde68a" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "12px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+            <div style={{ fontWeight: "900", fontSize: "20px", letterSpacing: "-0.5px" }}>OldHint</div>
+            <nav style={{ display: "flex", gap: "20px", fontSize: "13px", fontWeight: "600" }}>
+              <span style={{ borderBottom: "2px solid #1A1A1A", paddingBottom: "2px" }}>For You</span>
+              <span style={{ opacity: 0.6 }}>Family Vault</span>
+              <span style={{ opacity: 0.6 }}>Generations</span>
+              <span style={{ opacity: 0.6 }}>Pricing</span>
+            </nav>
           </div>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <div style={{ background: autoOn ? "#16a34a" : "#666", color: "white", padding: "8px 14px", borderRadius: "999px", fontSize: "11px", fontWeight: "900", cursor: "pointer" }} onClick={() => setAutoOn(!autoOn)}>
-              <span style={{ display: "inline-block", width: "8px", height: "8px", background: "red", borderRadius: "999px", marginRight: "6px", animation: autoOn ? "pulse 1s infinite" : "none" }} />
-              BILLION AUTO {autoOn ? "ON" : "OFF"}
-            </div>
-            <a href="/" style={{ background: "white", color: "black", padding: "8px 14px", borderRadius: "20px", fontWeight: "bold", textDecoration: "none", fontSize: "11px" }}>View Site</a>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "16px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "12px" }}>
-          <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: "16px", padding: "14px" }}>
-            <div style={{ fontSize: "10px", opacity: 0.6, fontWeight: "800" }}>FAMILIES</div>
-            <div style={{ fontSize: "20px", fontWeight: "900" }}>41 families</div>
-            <div style={{ fontSize: "10px", marginTop: "4px", color: "#16a34a" }}>Grew 3 to 5 to 38 to 41 - Billion Auto ON</div>
-          </div>
-          <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: "16px", padding: "14px" }}>
-            <div style={{ fontSize: "10px", opacity: 0.6, fontWeight: "800" }}>TRAFFIC</div>
-            <div style={{ fontSize: "20px", fontWeight: "900" }}>plus 2211</div>
-            <div style={{ fontSize: "10px", marginTop: "4px", color: "#16a34a" }}>Plus 0 to plus 127 to plus 2159 to plus 2211</div>
-          </div>
-          <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: "16px", padding: "14px" }}>
-            <div style={{ fontSize: "10px", opacity: 0.6, fontWeight: "800" }}>REVENUE</div>
-            <div style={{ fontSize: "20px", fontWeight: "900" }}>$287</div>
-            <div style={{ fontSize: "10px", marginTop: "4px", color: "#16a34a" }}>$21 to $35 to $210 to $287 - Billion Dollar</div>
-          </div>
-          <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: "16px", padding: "14px" }}>
-            <div style={{ fontSize: "10px", opacity: 0.6, fontWeight: "800" }}>DAILY BUSINESS</div>
-            <div style={{ fontSize: "20px", fontWeight: "900" }}>$259 to $980</div>
-            <div style={{ fontSize: "10px", marginTop: "4px", color: "#16a34a" }}>Daily 9am Calgary - Ownership Every Minute</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ fontSize: "11px", opacity: 0.6 }}>41 families live</div>
+            <div style={{ background: "#1A1A1A", color: "white", borderRadius: "999px", padding: "8px 16px", fontSize: "12px", fontWeight: "700" }}>Join Vault</div>
           </div>
         </div>
+      </header>
 
-        <div style={{ marginTop: "16px", background: "white", border: "1px solid #e5e7eb", borderRadius: "20px", padding: "20px" }}>
-          <h2 style={{ fontWeight: "900", fontSize: "16px" }}>Command - Coding Testing AI Agent - Right Coding - Whole Team Together</h2>
-          <p style={{ fontSize: "11px", color: "#666", marginTop: "6px" }}>Type command - Agent tests background - Right coding - Builder builds - Fixed Line 24 - Whole team together like before - 10 Brain Agents plus Testing plus Builder - Command bar as shown in picture</p>
-
-          <textarea
-            value={cmd}
-            onChange={(e) => setCmd(e.target.value)}
-            style={{ width: "100%", minHeight: "90px", padding: "12px", borderRadius: "12px", border: "1px solid #e5e7eb", background: "#FFFBEB", fontSize: "12px", marginTop: "12px", display: "block" }}
-          />
-
-          <div style={{ marginTop: "12px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <button onClick={runBg} disabled={running} style={{ padding: "12px", background: running ? "#999" : "#16a34a", color: "white", borderRadius: "12px", fontWeight: "900", fontSize: "12px", border: "none", cursor: "pointer" }}>
-              {running ? "RUNNING - WHOLE TEAM" : "RUN BACKGROUND - RIGHT CODING - WHOLE TEAM"}
-            </button>
-            <button onClick={runSync} disabled={running} style={{ padding: "12px", background: running ? "#999" : "black", color: "white", borderRadius: "12px", fontWeight: "900", fontSize: "12px", border: "none", cursor: "pointer" }}>
-              {running ? "RUNNING - WHOLE TEAM" : "RUN SYNC - RIGHT CODING - WHOLE TEAM"}
-            </button>
-          </div>
-
-          <div style={{ marginTop: "12px", padding: "12px", background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "12px", fontSize: "11px", whiteSpace: "pre-wrap" }}>
-            {status}
-          </div>
-
-          {logs && (
-            <div style={{ marginTop: "12px", padding: "12px", background: "#1A1A1A", color: "#eee", borderRadius: "12px", fontSize: "10px", fontFamily: "monospace", maxHeight: "300px", overflowY: "auto", whiteSpace: "pre-wrap" }}>
-              {logs}
-            </div>
-          )}
-        </div>
-
-        <div style={{ marginTop: "16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-          <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: "16px", padding: "16px" }}>
-            <div style={{ fontWeight: "900", fontSize: "13px" }}>Team - Whole Team Together Like Before - Fixed Line 24 - No Arrow</div>
-            <div style={{ fontSize: "11px", marginTop: "10px", display: "grid", gap: "6px" }}>
-              <div style={{ background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "10px", padding: "8px" }}><b>Agent 1 - SEO Brain - 5 percent</b> - SEO 96 - Title Meta Schema Keywords Sitemap - DONE - TESTED - FIXED SYNTAX - No arrow</div>
-              <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "10px", padding: "8px" }}><b>Agent 2 - Marketing Brain - 5 percent</b> - Hook Trust Bar Family Tree CTA - Marketing LIVE - DONE - TESTED - No arrow</div>
-              <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: "10px", padding: "8px" }}><b>Agent 3 - Frontend Brain - 10 percent</b> - TikTok UI For You Family Trust - Videos Real Motion Moat LIVE - DONE - TESTED - No arrow</div>
-              <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "10px", padding: "8px" }}><b>Agent 4 - Backend Brain - 10 percent</b> - Real Motion Backend LIVE - Ownership Every Minute - DONE - TESTED - No arrow</div>
-              <div style={{ background: "#f5f3ff", border: "1px solid #ddd6fe", borderRadius: "10px", padding: "8px" }}><b>Agent 5 - Coding Testing AI Agent - Background - 20 percent - NEW</b> - Tests plus Runs coding in background - Generates RIGHT coding - Passes RIGHT coding to Builder - Team member on admin page - RIGHT CODING - PURE SERVER - NO MODULE - FIXED 5WmR71F7m</div>
-              <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: "10px", padding: "8px" }}><b>Agent 6 - Builder Agent - 20 percent - NEW</b> - Builds after test - GitHub - Vercel 40 of 40 SUCCESS - Builds website - On commands - Any changes - TEST BEFORE COMMIT - BUILD AFTER TEST - RIGHT CODING - ONCE FOR ALL - FIXED 5WmR71F7m</div>
-              <div style={{ background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "10px", padding: "8px" }}><b>Agent 7 to 10 - Business plus Traffic plus Social plus Ownership - 30 percent</b> - Business Ideas Daily 9am Calgary - Ownership Every Minute - Self-learning Every Minute - Traffic Generation - Social Posting - Hiring New Agents - Billion Auto ON Red Pulsing</div>
-            </div>
-          </div>
-
-          <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: "16px", padding: "16px" }}>
-            <div style={{ fontWeight: "900", fontSize: "13px" }}>Billion Dollar Command Center - Whole Team Together - Before Like Before</div>
-            <div style={{ fontSize: "11px", marginTop: "10px", display: "grid", gap: "8px" }}>
-              <div style={{ background: "black", color: "white", borderRadius: "12px", padding: "12px" }}>
-                <div style={{ fontWeight: "900", fontSize: "12px" }}>BILLION DOLLAR AGENT - BILLION AUTO ON - Red Pulsing - Whole Team</div>
-                <div style={{ fontSize: "10px", marginTop: "6px", opacity: 0.8 }}>49 percent agents 51 percent human - Workflow Command to 10 Brain Agents to Coding Testing AI Agent Background Tests plus Runs coding to Generates RIGHT coding to Builder Agent Builds website to GitHub to Vercel 40 of 40 SUCCESS to LIVE - Test Before Commit - Build After Test - Right Coding - Once For All - Fixed 5WmR71F7m - Whole team together like before - Command bar as shown in picture</div>
-              </div>
-              <div style={{ background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "12px", padding: "10px" }}>
-                <div style={{ fontWeight: "800", fontSize: "11px" }}>Workflow - Command to 10 Brain to Testing to Builder to GitHub to Vercel to Live - No arrow - Whole team</div>
-                <div style={{ fontSize: "10px", marginTop: "4px" }}>1. Type command like Build TikTok scroll with real videos playing - Add autoplay - Add vertical scroll like TikTok - Add Dada video - Add Family Tree - Add Trust Bar - Add SEO 96 - Add Marketing LIVE - Make me millionaire - Generate 100 profiles - Generate traffic - Post on Instagram</div>
-                <div style={{ fontSize: "10px", marginTop: "4px" }}>2. 10 Brain Agents Generate Code plus SEO plus Marketing plus Frontend plus Backend plus Business Ideas</div>
-                <div style={{ fontSize: "10px", marginTop: "4px" }}>3. Coding Testing AI Agent Background Tests plus Runs coding - If fails auto-fix - Re-test - Loop until right coding - Generates RIGHT CODING</div>
-                <div style={{ fontSize: "10px", marginTop: "4px" }}>4. Builder Agent Builds website - Passes RIGHT coding - Commits to GitHub - Vercel 40 of 40 SUCCESS - oldhint.com LIVE - Whole team together like before</div>
-              </div>
-              <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "12px", padding: "10px" }}>
-                <div style={{ fontWeight: "800", fontSize: "11px" }}>Self Learning Every Minute - Business Daily 9am Calgary - Ownership Every Minute - Whole Team</div>
-                <div style={{ fontSize: "10px", marginTop: "4px" }}>Every minute self-learning brain tests coding at admin page and improves site - Daily 9am Calgary business generation - Traffic plus 2211 - Revenue plus 287 - Daily business 259 to 980 - Ownership every minute - 41 families - SEO 96 - Marketing LIVE - Frontend TikTok UI - Backend Real Motion - Real Motion Videos - Billion Dollar Autonomous - Self healing - Background - Whole team together like before - Command bar as shown in picture - Fixed Line 24 - No arrow - Short lines - Guaranteed Build 40 of 40 - Ready Green</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div style={{ background: "#1A1A1A", color: "#fde68a", fontSize: "11px", padding: "8px 24px", textAlign: "center", letterSpacing: "0.5px" }}>
+        Old People TikTok — Not on TikTok. In Family Vault. — Real stories from real families — Not algorithm — Real motion
       </div>
+
+      <main style={{ maxWidth: "1280px", margin: "0 auto", padding: "24px", display: "grid", gridTemplateColumns: "1fr 340px", gap: "24px" }}>
+        <div>
+          <div style={{ marginBottom: "24px" }}>
+            <h1 style={{ fontSize: "54px", fontWeight: "900", lineHeight: "0.9", letterSpacing: "-1.5px" }}>
+              TikTok.<br />
+              <span style={{ color: "#b45309" }}>Not on TikTok.</span><br />
+              <span style={{ color: "#15803d" }}>In Family Vault.</span>
+            </h1>
+            <p style={{ marginTop: "12px", fontSize: "14px", color: "#57534e", maxWidth: "560px", lineHeight: "1.5" }}>
+              Your parents and grandparents have stories TikTok will never see. 60 year old recipes. 1969 Charger rebuilds. 1000 stories. Saved in Family Vault. Not on cloud. Not on TikTok. In family.
+            </p>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <div style={{ background: "white", borderRadius: "24px", border: "1px solid #f5e6c8", overflow: "hidden", display: "grid", gridTemplateColumns: "340px 1fr" }}>
+              <div style={{ height: "480px", background: "#111", position: "relative" }}>
+                <RealMotionVideo src="/videos/image_20261015_213541.mp4" alt="Dada 1969 Charger" />
+                <div style={{ position: "absolute", bottom: "12px", left: "12px", right: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ background: "rgba(0,0,0,0.7)", color: "white", borderRadius: "999px", padding: "6px 12px", fontSize: "11px", fontWeight: "700" }}>Dada • 1969 Charger</div>
+                  <div style={{ background: "white", color: "black", borderRadius: "999px", padding: "6px 10px", fontSize: "11px", fontWeight: "800" }}>● LIVE</div>
+                </div>
+              </div>
+              <div style={{ padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "999px", background: "#1A1A1A", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "800", fontSize: "12px" }}>BD</div>
+                    <div>
+                      <div style={{ fontWeight: "800", fontSize: "13px" }}>Bazard Family • Dada</div>
+                      <div style={{ fontSize: "11px", opacity: 0.6 }}>Calgary • 1969 • 41 families</div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "14px", fontSize: "14px", lineHeight: "1.5", fontWeight: "500" }}>
+                    1969 Dodge Charger. Bought in 1972 for $800. Still in garage. Still starts. My son thinks I should sell. I think I should tell the story first.
+                  </div>
+                  <div style={{ marginTop: "12px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    <span style={{ background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>#1969Charger</span>
+                    <span style={{ background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>#GarageStories</span>
+                    <span style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>SEO 98</span>
+                  </div>
+                </div>
+                <div>
+                  <div style={{ display: "flex", gap: "16px", fontSize: "12px", marginTop: "16px", opacity: 0.7 }}>
+                    <span>❤ 2.2k</span>
+                    <span>💬 127</span>
+                    <span>↗ Share</span>
+                    <span>🔖 Save to Vault</span>
+                  </div>
+                  <div style={{ marginTop: "16px", background: "#1A1A1A", color: "white", borderRadius: "12px", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontSize: "12px" }}>
+                      <div style={{ fontWeight: "800" }}>Save this story in your Family Vault</div>
+                      <div style={{ opacity: 0.7, fontSize: "11px" }}>$21/mo — Keeps family stories forever</div>
+                    </div>
+                    <div style={{ background: "white", color: "black", borderRadius: "999px", padding: "8px 14px", fontSize: "11px", fontWeight: "800" }}>Save</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ background: "white", borderRadius: "24px", border: "1px solid #f5e6c8", overflow: "hidden", display: "grid", gridTemplateColumns: "340px 1fr" }}>
+              <div style={{ height: "480px", background: "#78350f", position: "relative" }}>
+                <RealMotionVideo src="/videos/image_20261015_213543.mp4" alt="Nani Pickles" />
+                <div style={{ position: "absolute", bottom: "12px", left: "12px", right: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ background: "rgba(120,53,15,0.85)", color: "white", borderRadius: "999px", padding: "6px 12px", fontSize: "11px", fontWeight: "700" }}>Nani • 60 year recipe</div>
+                  <div style={{ background: "white", color: "black", borderRadius: "999px", padding: "6px 10px", fontSize: "11px", fontWeight: "800" }}>● SECRET</div>
+                </div>
+              </div>
+              <div style={{ padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "999px", background: "#78350f", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "800", fontSize: "12px" }}>NP</div>
+                    <div>
+                      <div style={{ fontWeight: "800", fontSize: "13px" }}>Bazard Family • Nani</div>
+                      <div style={{ fontSize: "11px", opacity: 0.6 }}>Punjab to Calgary • 1964 • 60 years</div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "14px", fontSize: "14px", lineHeight: "1.5", fontWeight: "500" }}>
+                    Mango pickle. My mother taught me. Her mother taught her. 60 years same jar. No one outside family knows measurements. Now my granddaughter is recording. For vault.
+                  </div>
+                  <div style={{ marginTop: "12px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    <span style={{ background: "#fef3c7", border: "1px solid #fde68a", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>#NaniPickles</span>
+                    <span style={{ background: "#fef3c7", border: "1px solid #fde68a", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>#60YearRecipe</span>
+                    <span style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>SEO 96</span>
+                  </div>
+                </div>
+                <div>
+                  <div style={{ display: "flex", gap: "16px", fontSize: "12px", marginTop: "16px", opacity: 0.7 }}>
+                    <span>❤ 1.8k</span>
+                    <span>💬 203</span>
+                    <span>↗ Share</span>
+                    <span>🔖 Save to Vault</span>
+                  </div>
+                  <div style={{ marginTop: "16px", background: "#78350f", color: "white", borderRadius: "12px", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontSize: "12px" }}>
+                      <div style={{ fontWeight: "800" }}>Get Nani recipe card — Family Vault only</div>
+                      <div style={{ opacity: 0.8, fontSize: "11px" }}>Printable + video — Not on internet</div>
+                    </div>
+                    <div style={{ background: "white", color: "#78350f", borderRadius: "999px", padding: "8px 14px", fontSize: "11px", fontWeight: "800" }}>Unlock</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ background: "white", borderRadius: "24px", border: "1px solid #f5e6c8", overflow: "hidden", display: "grid", gridTemplateColumns: "340px 1fr" }}>
+              <div style={{ height: "480px", background: "#f5f5f5", position: "relative" }}>
+                <RealMotionVideo src="/videos/image_20261015_213541.mp4" alt="Papa Keeper" />
+                <div style={{ position: "absolute", bottom: "12px", left: "12px", right: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ background: "rgba(255,255,255,0.9)", color: "black", borderRadius: "999px", padding: "6px 12px", fontSize: "11px", fontWeight: "700" }}>Papa • 1000 stories</div>
+                  <div style={{ background: "#1A1A1A", color: "white", borderRadius: "999px", padding: "6px 10px", fontSize: "11px", fontWeight: "800" }}>● KEEPER</div>
+                </div>
+              </div>
+              <div style={{ padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "999px", background: "#e7e5e4", color: "#1A1A1A", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "800", fontSize: "12px" }}>PK</div>
+                    <div>
+                      <div style={{ fontWeight: "800", fontSize: "13px" }}>Bazard Family • Papa</div>
+                      <div style={{ fontSize: "11px", opacity: 0.6 }}>Keeper of 1000 stories • 41 families</div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "14px", fontSize: "14px", lineHeight: "1.5", fontWeight: "500" }}>
+                    I am keeper of stories. 1000 stories. My father told me 200. I lived 800. If I dont tell, they die. So I tell in vault. For my kids kids.
+                  </div>
+                  <div style={{ marginTop: "12px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    <span style={{ background: "#f5f5f4", border: "1px solid #e7e5e4", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>#Keeper</span>
+                    <span style={{ background: "#f5f5f4", border: "1px solid #e7e5e4", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>#1000Stories</span>
+                    <span style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "999px", padding: "4px 10px", fontSize: "11px" }}>SEO 97</span>
+                  </div>
+                </div>
+                <div>
+                  <div style={{ display: "flex", gap: "16px", fontSize: "12px", marginTop: "16px", opacity: 0.7 }}>
+                    <span>❤ 3.1k</span>
+                    <span>💬 89</span>
+                    <span>↗ Share</span>
+                    <span>🔖 Save to Vault</span>
+                  </div>
+                  <div style={{ marginTop: "16px", background: "#f5f5f4", border: "1px solid #e7e5e4", borderRadius: "12px", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontSize: "12px" }}>
+                      <div style={{ fontWeight: "800" }}>Family Tree — See all 41 families</div>
+                      <div style={{ opacity: 0.6, fontSize: "11px" }}>Trust Bar • Vault • Generations</div>
+                    </div>
+                    <div style={{ background: "#1A1A1A", color: "white", borderRadius: "999px", padding: "8px 14px", fontSize: "11px", fontWeight: "800" }}>View Tree</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", position: "sticky", top: "80px", height: "fit-content" }}>
+          <div style={{ background: "white", border: "1px solid #f5e6c8", borderRadius: "20px", padding: "20px" }}>
+            <div style={{ fontWeight: "900", fontSize: "14px" }}>Family Tree — 41 families</div>
+            <div style={{ fontSize: "11px", opacity: 0.6, marginTop: "4px" }}>Grew 3 to 5 to 38 to 41</div>
+            <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                <span>Bazard • Calgary</span>
+                <span style={{ opacity: 0.6 }}>1969 Charger</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                <span>Bazard • Punjab</span>
+                <span style={{ opacity: 0.6 }}>60yr Pickle</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                <span>Keeper • 1000 stories</span>
+                <span style={{ opacity: 0.6 }}>Trust Bar</span>
+              </div>
+              <div style={{ borderTop: "1px solid #f5e6c8", marginTop: "6px", paddingTop: "10px", fontSize: "11px", fontWeight: "700", color: "#15803d" }}>+ 38 more families in vault →</div>
+            </div>
+          </div>
+
+          <div style={{ background: "#1A1A1A", color: "white", borderRadius: "20px", padding: "20px" }}>
+            <div style={{ fontWeight: "900", fontSize: "14px" }}>Trust Bar — Why Family Vault?</div>
+            <div style={{ marginTop: "12px", fontSize: "12px", lineHeight: "1.5", opacity: 0.8 }}>
+              <div>✓ Not on TikTok — In Family Vault</div>
+              <div>✓ Real motion — Not AI — Real videos</div>
+              <div>✓ Not algorithm — Family only</div>
+              <div>✓ SEO 96 — Real traffic — Real stories</div>
+              <div>✓ $21/mo keeps stories forever</div>
+            </div>
+            <div style={{ marginTop: "14px", background: "white", color: "black", borderRadius: "12px", padding: "10px 14px", textAlign: "center", fontWeight: "800", fontSize: "12px" }}>Join 41 Families — $21/mo</div>
+          </div>
+
+          <div style={{ background: "#FFFBEB", border: "1px solid #fde68a", borderRadius: "20px", padding: "20px" }}>
+            <div style={{ fontWeight: "900", fontSize: "14px" }}>What is OldHint?</div>
+            <div style={{ marginTop: "8px", fontSize: "12px", lineHeight: "1.5", color: "#57534e" }}>
+              Old people TikTok but not on TikTok. In Family Vault. Your parents stories deserve more than 15 sec. We save them. Forever. With real motion video. With family tree. With trust bar.
+            </div>
+            <div style={{ marginTop: "12px", display: "flex", gap: "8px" }}>
+              <div style={{ background: "white", border: "1px solid #fde68a", borderRadius: "999px", padding: "6px 12px", fontSize: "11px", fontWeight: "700" }}>For You</div>
+              <div style={{ background: "white", border: "1px solid #fde68a", borderRadius: "999px", padding: "6px 12px", fontSize: "11px", fontWeight: "700" }}>Vault</div>
+              <div style={{ background: "white", border: "1px solid #fde68a", borderRadius: "999px", padding: "6px 12px", fontSize: "11px", fontWeight: "700" }}>Pricing</div>
+            </div>
+          </div>
+
+          <div style={{ background: "white", border: "1px solid #f5e6c8", borderRadius: "20px", padding: "16px", fontSize: "11px", opacity: 0.6, lineHeight: "1.4" }}>
+            Bazard Family — Old People TikTok — Not on TikTok — In Family Vault — 41 families — Real motion Moat LIVE — For You feed — Family Tree — Trust Bar — SEO 96 — Marketing LIVE — Real videos — oldhint.com — © 2026
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
