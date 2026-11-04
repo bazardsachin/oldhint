@@ -1,81 +1,272 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
+function AiInfoVideo(props) {
+  var script = props.script || "";
+  var query = (props.query || "").toLowerCase();
+  var stepIdx = props.stepIdx || 0;
+
+  var isSBC = query.indexOf("sbc") !== -1 || query.indexOf("350") !== -1 || query.indexOf("engine") !== -1 || query.indexOf("charger") !== -1;
+  var isBiryani = query.indexOf("biryani") !== -1 || query.indexOf("rice") !== -1;
+  var isToilet = query.indexOf("toilet") !== -1 || query.indexOf("clogged") !== -1;
+  var isPickle = query.indexOf("pickle") !== -1;
+
+  var stepsVisual = [];
+  if (isSBC) {
+    stepsVisual = [
+      { icon: "Block", label: "SBC 350 Block 4.00 bore", color: "#444" },
+      { icon: "Crank", label: "Crank 3.48 stroke", color: "#666" },
+      { icon: "Rods", label: "Rods 5.7 + Pistons flat top", color: "#fde68a" },
+      { icon: "Cam", label: "Cam 204/214 lift .420", color: "#fb923c" },
+      { icon: "Heads", label: "Heads 64cc torque 65 ft-lb", color: "#1a1a1a" },
+      { icon: "Assemble", label: "Assembly lube + Torque sequence", color: "#15803d" }
+    ];
+  } else if (isBiryani) {
+    stepsVisual = [
+      { icon: "Rice", label: "Basmati 2 cups soak 20 min drain", color: "#fff" },
+      { icon: "Boil", label: "Oil in water boil", color: "#fde68a" },
+      { icon: "Layer", label: "Layer fried onions", color: "#78350f" },
+      { icon: "Chicken", label: "Chicken masala layer", color: "#ef4444" },
+      { icon: "Dum", label: "Dum low 20 min no open", color: "#1a1a1a" },
+      { icon: "Fluffy", label: "Fluffy not sticky each grain separate", color: "#15803d" }
+    ];
+  } else if (isToilet) {
+    stepsVisual = [
+      { icon: "Soap", label: "Dish soap first", color: "#3b82f6" },
+      { icon: "Wait", label: "Wait 5 min", color: "#fde68a" },
+      { icon: "Hot Water", label: "Hot water not boiling pour", color: "#fb923c" },
+      { icon: "Plunger", label: "Plunger once", color: "#1a1a1a" },
+      { icon: "Save $200", label: "Saves 200 dollars no plumber", color: "#15803d" }
+    ];
+  } else {
+    stepsVisual = [
+      { icon: "Check", label: "Check problem: " + props.query, color: "#fde68a" },
+      { icon: "Tools", label: "Gather simple tools no power", color: "#fff" },
+      { icon: "Old Trick", label: "Old trick patience not power 50 years", color: "#1a1a1a" },
+      { icon: "Try", label: "Try easy way small fix first", color: "#fb923c" },
+      { icon: "Save", label: "Save hack follow expert", color: "#15803d" }
+    ];
+  }
+
+  var cur = stepsVisual[stepIdx % stepsVisual.length];
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(135deg,#0a0a0a,#1a1a1a,#78350f)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+        color: "white"
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          top: "12px",
+          left: "12px",
+          background: "rgba(0,0,0,0.6)",
+          border: "1px solid #fde68a",
+          borderRadius: "20px",
+          padding: "6px 12px",
+          fontSize: "10px",
+          fontWeight: "900",
+          color: "#fde68a",
+          display: "flex",
+          gap: "6px",
+          alignItems: "center"
+        }}
+      >
+        <div
+          style={{
+            width: "8px",
+            height: "8px",
+            background: "#ef4444",
+            borderRadius: "50%",
+            animation: "blink 1s infinite"
+          }}
+        />
+        AI GENERATED INFO VIDEO
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: "12px",
+          right: "12px",
+          background: "#fde68a",
+          color: "#1a1a1a",
+          borderRadius: "20px",
+          padding: "6px 12px",
+          fontSize: "9px",
+          fontWeight: "900"
+        }}
+      >
+        Exact part info - Step {stepIdx + 1}/{stepsVisual.length}
+      </div>
+
+      <div
+        style={{
+          width: "200px",
+          height: "200px",
+          borderRadius: "28px",
+          background: cur.color,
+          border: "4px solid white",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          transform: "scale(" + (0.9 + Math.sin(stepIdx) * 0.05) + ")",
+          transition: "all 0.6s",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.5)"
+        }}
+      >
+        <div
+          style={{
+            fontSize: "32px",
+            fontWeight: "900",
+            color: cur.color === "#fff" || cur.color === "#fde68a" ? "#1a1a1a" : "white",
+            textAlign: "center"
+          }}
+        >
+          {cur.icon}
+        </div>
+        <div
+          style={{
+            fontSize: "10px",
+            marginTop: "8px",
+            fontWeight: "800",
+            color: cur.color === "#fff" || cur.color === "#fde68a" ? "#1a1a1a" : "white",
+            textAlign: "center",
+            padding: "0 12px"
+          }}
+        >
+          {cur.label}
+        </div>
+      </div>
+
+      <div
+        style={{
+          marginTop: "18px",
+          background: "rgba(0,0,0,0.7)",
+          borderRadius: "16px",
+          padding: "12px 16px",
+          maxWidth: "300px",
+          textAlign: "center",
+          border: "1px solid rgba(253,230,138,0.3)"
+        }}
+      >
+        <div
+          style={{
+            fontSize: "11px",
+            fontWeight: "900",
+            color: "#fde68a"
+          }}
+        >
+          {props.query ? "AI assembling: " + props.query : "AI assembling"}
+        </div>
+        <div
+          style={{
+            fontSize: "10px",
+            marginTop: "6px",
+            lineHeight: "1.4",
+            opacity: 0.9
+          }}
+        >
+          {script.slice(0, 120)}
+        </div>
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            gap: "4px",
+            justifyContent: "center"
+          }}
+        >
+          {stepsVisual.map(function (s, i) {
+            return (
+              <div
+                key={i}
+                style={{
+                  width: i === (stepIdx % stepsVisual.length) ? "20px" : "6px",
+                  height: "6px",
+                  borderRadius: "10px",
+                  background: i === (stepIdx % stepsVisual.length) ? "#fde68a" : "rgba(255,255,255,0.3)",
+                  transition: "all 0.4s"
+                }}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "12px",
+          left: "12px",
+          right: "12px",
+          background: "rgba(253,230,138,0.15)",
+          border: "1px solid rgba(253,230,138,0.3)",
+          borderRadius: "12px",
+          padding: "8px 12px",
+          fontSize: "9px",
+          lineHeight: "1.4",
+          textAlign: "center"
+        }}
+      >
+        Small AI generated info video assembling {props.query} with exact part info and more you suggested - Old expert 50 years exp - Old=Gold - Like Meta AI Google AI gives solution to anything people search for - Daily life bases
+      </div>
+
+      <style>{`
+        @keyframes blink {
+          0% { opacity: 1; }
+          50% { opacity: 0.3; }
+          100% { opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function RealVideo(props) {
   var src = props.src;
   var isActive = props.isActive;
-  var mode = props.mode || "normal";
   var vRef = useRef(null);
   var [err, setErr] = useState(false);
   useEffect(
     function () {
       var el = vRef.current;
       if (!el) return;
-      if (isActive && mode === "normal") {
+      if (isActive) {
         var p = el.play();
         if (p) p.catch(function () {});
-      } else if (mode === "normal") {
+      } else {
         el.pause();
       }
     },
-    [isActive, mode]
+    [isActive]
   );
-  if (err || mode === "ai") {
+  if (err) {
     return (
       <div
         style={{
           width: "100%",
           height: "100%",
-          background:
-            mode === "ai"
-              ? "linear-gradient(135deg,#1a1a1a,#78350f,#1a1a1a)"
-              : "linear-gradient(135deg,#0a0a0a,#78350f,#1a1a1a)",
+          background: "linear-gradient(135deg,#0a0a0a,#78350f,#1a1a1a)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: "column",
-          color: mode === "ai" ? "#fde68a" : "#fde68a",
+          color: "#fde68a",
           padding: "20px",
           textAlign: "center"
         }}
       >
-        <div
-          style={{
-            fontWeight: "900",
-            fontSize: "14px",
-            background: "rgba(0,0,0,0.5)",
-            padding: "8px 14px",
-            borderRadius: "20px",
-            marginBottom: "10px"
-          }}
-        >
-          {mode === "ai"
-            ? "AI Generated Info Video"
-            : "Real Motion"}
-        </div>
-        <div
-          style={{
-            fontSize: "11px",
-            opacity: 0.8,
-            maxWidth: "260px",
-            lineHeight: "1.4"
-          }}
-        >
-          {props.aiScript || "Assembling with exact part info - Old expert 50 years exp - Step by step - Old=Gold"}
-        </div>
-        <div
-          style={{
-            marginTop: "12px",
-            fontSize: "10px",
-            background: "#fde68a",
-            color: "#1a1a1a",
-            padding: "6px 12px",
-            borderRadius: "20px",
-            fontWeight: "800"
-          }}
-        >
-          {mode === "ai" ? "AI Video - Exact parts" : "No black box"}
-        </div>
+        Real Motion - No black box
       </div>
     );
   }
@@ -253,6 +444,7 @@ export default function TikTokFeed() {
   var [filter, setFilter] = useState("All");
   var [aiResult, setAiResult] = useState(null);
   var [aiLoading, setAiLoading] = useState(false);
+  var [aiStep, setAiStep] = useState(0);
   var [likes, setLikes] = useState(
     HACKS.map(function (f) {
       return f.likes;
@@ -312,6 +504,20 @@ export default function TikTokFeed() {
       if (u) setUser(JSON.parse(u));
     } catch (e) {}
   }, []);
+
+  useEffect(
+    function () {
+      var id = setInterval(function () {
+        setAiStep(function (s) {
+          return s + 1;
+        });
+      }, 1800);
+      return function () {
+        clearInterval(id);
+      };
+    },
+    []
+  );
 
   function doAuth() {
     if (!authForm.email || !authForm.pass) {
@@ -387,11 +593,6 @@ export default function TikTokFeed() {
         setAiLoading(false);
         return;
       }
-      if (filtered.length > 0) {
-        setAiResult(null);
-        setAiLoading(false);
-        return;
-      }
       setAiLoading(true);
       searchTimeout.current = setTimeout(function () {
         fetch("/api/ai-search", {
@@ -410,30 +611,27 @@ export default function TikTokFeed() {
           })
           .catch(function () {
             setAiResult({
-              title: "Fix for " + query,
-              summary: "Old expert trick - Old=Gold",
+              title: "Exact solution for " + query,
+              summary: "Old expert 50 years trick for " + query + " - Old=Gold - Like Meta AI Google AI gives solution to anything",
               steps: [
-                "Step 1: Check problem - " + query,
-                "Step 2: Gather simple tools",
-                "Step 3: Old trick - Patience not power",
-                "Step 4: Try easy way",
-                "Step 5: Save hack - Follow expert"
+                "Step 1: Understand problem - " + query + " - Check old skill",
+                "Step 2: Gather exact parts - Simple tools no power first - Patience",
+                "Step 3: Old expert trick - My father taught 1972 - 50 years exp",
+                "Step 4: Assemble step by step - Torque sequence - Exact part info",
+                "Step 5: Test try - Save hack - Follow expert - Family only"
               ],
-              parts: ["Simple tools", "Patience", "Old knowledge"],
-              tips: ["My father taught 1972"],
-              videoScript:
-                "AI generated info video assembling " +
-                query +
-                " with exact part info - Step by step - Old expert 50 years",
-              relatedSearch: ["clogged toilet", "biryani", "car restore"],
+              parts: ["Simple tools", "Exact parts info", "Patience 50 years", "Old knowledge"],
+              tips: ["My father taught 1972 - Patience not power", "Works on all old - Tested 50 years"],
+              videoScript: "Small AI generated info video assembling " + query + " with exact part info - Closeups old hands - Step by step - 50 years exp - Old=Gold - OldHint - Like Meta AI Google AI gives solution to anything",
+              relatedSearch: ["clogged toilet", "biryani", "sbc 350", "charger"],
               skill: "Life Hack",
               years: "50 years"
             });
             setAiLoading(false);
           });
-      }, 600);
+      }, 500);
     },
-    [query, filtered.length]
+    [query]
   );
 
   useEffect(
@@ -444,10 +642,6 @@ export default function TikTokFeed() {
         var st = el.scrollTop;
         var h = el.clientHeight;
         var idx = Math.round(st / h);
-        var max = filtered.length - 1;
-        if (aiResult) max = 0;
-        if (idx < 0) idx = 0;
-        if (idx > max) idx = max;
         setActive(idx);
       }
       el.addEventListener("scroll", onScroll);
@@ -455,7 +649,7 @@ export default function TikTokFeed() {
         el.removeEventListener("scroll", onScroll);
       };
     },
-    [filtered.length, aiResult, query, filter]
+    [filtered.length, aiResult]
   );
 
   function toggleLike(real) {
@@ -511,9 +705,7 @@ export default function TikTokFeed() {
       return;
     }
     var na = allComments.slice();
-    na[real] = na[real].concat([
-      user.name + ": " + newText[real]
-    ]);
+    na[real] = na[real].concat([user.name + ": " + newText[real]]);
     setAllComments(na);
     var nt = newText.slice();
     nt[real] = "";
@@ -530,14 +722,9 @@ export default function TikTokFeed() {
     }, 2000);
   }
 
-  var cats = [
-    "All",
-    "Build Car",
-    "Cooking",
-    "Everyday Fix",
-    "Money",
-    "Gardening"
-  ];
+  var cats = ["All", "Build Car", "Cooking", "Everyday Fix", "Money", "Gardening"];
+  var totalSnaps = (aiResult ? 1 : 0) + filtered.length;
+  var aiActive = query.trim() && active === 0 && aiResult;
 
   return (
     <div
@@ -561,22 +748,8 @@ export default function TikTokFeed() {
           zIndex: 50
         }}
       >
-        <div
-          style={{
-            fontWeight: "900",
-            fontSize: "16px",
-            whiteSpace: "nowrap"
-          }}
-        >
-          OldHint
-        </div>
-        <div
-          style={{
-            flex: 1,
-            position: "relative",
-            maxWidth: "600px"
-          }}
-        >
+        <div style={{ fontWeight: "900", fontSize: "16px", whiteSpace: "nowrap" }}>OldHint</div>
+        <div style={{ flex: 1, position: "relative", maxWidth: "700px" }}>
           <input
             value={query}
             onChange={function (e) {
@@ -586,11 +759,9 @@ export default function TikTokFeed() {
             style={{
               width: "100%",
               background: "white",
-              border: aiResult
-                ? "2px solid #1a1a1a"
-                : "1px solid #f5e6c8",
+              border: aiResult ? "2px solid #1a1a1a" : "1px solid #f5e6c8",
               borderRadius: "24px",
-              padding: "10px 18px 10px 40px",
+              padding: "10px 18px 10px 48px",
               fontSize: "13px",
               outline: "none"
             }}
@@ -601,11 +772,15 @@ export default function TikTokFeed() {
               left: "14px",
               top: "50%",
               transform: "translateY(-50%)",
-              fontSize: "14px",
-              opacity: 0.5
+              background: aiLoading ? "#fde68a" : "#1a1a1a",
+              color: aiLoading ? "#1a1a1a" : "white",
+              borderRadius: "12px",
+              padding: "4px 8px",
+              fontSize: "9px",
+              fontWeight: "900"
             }}
           >
-            {aiLoading ? "..." : "AI"}
+            {aiLoading ? "AI..." : "AI"}
           </div>
           {query ? (
             <div
@@ -630,1526 +805,177 @@ export default function TikTokFeed() {
             </div>
           ) : null}
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "8px",
-            alignItems: "center"
-          }}
-        >
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {user ? (
             <>
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: "800",
-                  background: "white",
-                  border: "1px solid #f5e6c8",
-                  borderRadius: "20px",
-                  padding: "8px 12px",
-                  whiteSpace: "nowrap"
-                }}
-              >
-                Hi {user.name}
-              </div>
-              <div
-                onClick={function () {
-                  doLogout();
-                }}
-                style={{
-                  fontSize: "11px",
-                  background: "#f5f5f4",
-                  borderRadius: "20px",
-                  padding: "8px 12px",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap"
-                }}
-              >
-                Logout
-              </div>
+              <div style={{ fontSize: "11px", fontWeight: "800", background: "white", border: "1px solid #f5e6c8", borderRadius: "20px", padding: "8px 12px", whiteSpace: "nowrap" }}>Hi {user.name}</div>
+              <div onClick={function () { doLogout(); }} style={{ fontSize: "11px", background: "#f5f5f4", borderRadius: "20px", padding: "8px 12px", cursor: "pointer", whiteSpace: "nowrap" }}>Logout</div>
             </>
           ) : (
             <>
-              <div
-                onClick={function () {
-                  setShowAuth(true);
-                  setAuthMode("login");
-                }}
-                style={{
-                  fontSize: "11px",
-                  fontWeight: "800",
-                  background: "white",
-                  border: "1px solid #f5e6c8",
-                  borderRadius: "20px",
-                  padding: "8px 14px",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap"
-                }}
-              >
-                Login
-              </div>
-              <div
-                onClick={function () {
-                  setShowAuth(true);
-                  setAuthMode("signup");
-                }}
-                style={{
-                  fontSize: "11px",
-                  fontWeight: "900",
-                  background: "#1a1a1a",
-                  color: "white",
-                  borderRadius: "20px",
-                  padding: "8px 14px",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap"
-                }}
-              >
-                Create account
-              </div>
+              <div onClick={function () { setShowAuth(true); setAuthMode("login"); }} style={{ fontSize: "11px", fontWeight: "800", background: "white", border: "1px solid #f5e6c8", borderRadius: "20px", padding: "8px 14px", cursor: "pointer", whiteSpace: "nowrap" }}>Login</div>
+              <div onClick={function () { setShowAuth(true); setAuthMode("signup"); }} style={{ fontSize: "11px", fontWeight: "900", background: "#1a1a1a", color: "white", borderRadius: "20px", padding: "8px 14px", cursor: "pointer", whiteSpace: "nowrap" }}>Create account</div>
             </>
           )}
         </div>
       </div>
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          overflow: "hidden"
-        }}
-      >
-        <div
-          ref={containerRef}
-          style={{
-            flex: 1,
-            height: "100%",
-            overflowY: "scroll",
-            scrollSnapType: "y mandatory",
-            background: "#000"
-          }}
-        >
+      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        <div ref={containerRef} style={{ flex: 1, height: "100%", overflowY: "scroll", scrollSnapType: "y mandatory", background: "#000" }}>
           {aiResult ? (
-            <div
-              style={{
-                height: "100%",
-                scrollSnapAlign: "start",
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#000"
-              }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  maxWidth: "420px",
-                  height: "100%",
-                  maxHeight: "820px",
-                  margin: "0 auto",
-                  background: "#000",
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column"
-                }}
-              >
-                <RealVideo
-                  src=""
-                  isActive={true}
-                  mode="ai"
-                  aiScript={aiResult.videoScript}
-                />
-                <div
-                  style={{
-                    flex: 1,
-                    background: "#FFFBEB",
-                    padding: "14px",
-                    overflowY: "auto"
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "6px",
-                      marginBottom: "10px"
-                    }}
-                  >
-                    <div
-                      style={{
-                        background: "#1a1a1a",
-                        color: "white",
-                        borderRadius: "20px",
-                        padding: "5px 10px",
-                        fontSize: "9px",
-                        fontWeight: "900"
-                      }}
-                    >
-                      AI Answer
-                    </div>
-                    <div
-                      style={{
-                        background: "#fde68a",
-                        borderRadius: "20px",
-                        padding: "5px 10px",
-                        fontSize: "9px",
-                        fontWeight: "800"
-                      }}
-                    >
-                      {aiResult.skill} - {aiResult.years} exp
-                    </div>
+            <div style={{ height: "100%", scrollSnapAlign: "start", position: "relative", display: "flex", justifyContent: "center", alignItems: "center", background: "#000" }}>
+              <div style={{ position: "relative", width: "100%", maxWidth: "420px", height: "100%", maxHeight: "820px", margin: "0 auto", background: "#000", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+                <div style={{ height: "48%", position: "relative" }}>
+                  <AiInfoVideo script={aiResult.videoScript} query={query} stepIdx={aiStep} />
+                  <div style={{ position: "absolute", top: "50px", left: "10px", background: "#fde68a", color: "#1a1a1a", borderRadius: "20px", padding: "5px 10px", fontSize: "9px", fontWeight: "900" }}>{aiResult.skill} - {aiResult.years} exp</div>
+                </div>
+                <div style={{ flex: 1, background: "#FFFBEB", padding: "14px", overflowY: "auto" }}>
+                  <div style={{ display: "flex", gap: "6px", marginBottom: "8px" }}>
+                    <div style={{ background: "#1a1a1a", color: "white", borderRadius: "20px", padding: "5px 10px", fontSize: "9px", fontWeight: "900" }}>AI Answer - Like Meta AI Google AI</div>
+                    <div style={{ background: "#fde68a", borderRadius: "20px", padding: "5px 10px", fontSize: "9px", fontWeight: "800" }}>Exact solution - Step by step</div>
                   </div>
-                  <div
-                    style={{
-                      fontWeight: "900",
-                      fontSize: "15px",
-                      lineHeight: "1.2"
-                    }}
-                  >
-                    {aiResult.title}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "12px",
-                      marginTop: "6px",
-                      opacity: 0.8,
-                      lineHeight: "1.4"
-                    }}
-                  >
-                    {aiResult.summary}
-                  </div>
-                  <div
-                    style={{
-                      marginTop: "12px",
-                      background: "white",
-                      border: "1px solid #f5e6c8",
-                      borderRadius: "12px",
-                      padding: "12px"
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontWeight: "900",
-                        fontSize: "11px",
-                        marginBottom: "6px"
-                      }}
-                    >
-                      Step by step - Exact solution:
-                    </div>
+                  <div style={{ fontWeight: "900", fontSize: "16px", lineHeight: "1.2" }}>{aiResult.title}</div>
+                  <div style={{ fontSize: "12px", marginTop: "6px", opacity: 0.8, lineHeight: "1.4" }}>{aiResult.summary}</div>
+                  <div style={{ marginTop: "12px", background: "white", border: "1px solid #f5e6c8", borderRadius: "12px", padding: "12px" }}>
+                    <div style={{ fontWeight: "900", fontSize: "11px", marginBottom: "6px" }}>Step by step - Exact solution - Like you asked:</div>
                     {aiResult.steps.map(function (s, i) {
                       return (
-                        <div
-                          key={i}
-                          style={{
-                            fontSize: "11px",
-                            marginTop: "6px",
-                            lineHeight: "1.4",
-                            display: "flex",
-                            gap: "6px"
-                          }}
-                        >
-                          <div
-                            style={{
-                              background: "#1a1a1a",
-                              color: "white",
-                              borderRadius: "50%",
-                              width: "18px",
-                              height: "18px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontSize: "9px",
-                              fontWeight: "900",
-                              flexShrink: 0
-                            }}
-                          >
-                            {i + 1}
-                          </div>
-                          <div>{s}</div>
+                        <div key={i} style={{ fontSize: "11px", marginTop: "6px", lineHeight: "1.4", display: "flex", gap: "6px" }}>
+                          <div style={{ background: i === (aiStep % aiResult.steps.length) ? "#fde68a" : "#1a1a1a", color: i === (aiStep % aiResult.steps.length) ? "#1a1a1a" : "white", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9px", fontWeight: "900", flexShrink: 0, transition: "all 0.3s" }}>{i + 1}</div>
+                          <div style={{ fontWeight: i === (aiStep % aiResult.steps.length) ? "900" : "400" }}>{s}</div>
                         </div>
                       );
                     })}
                   </div>
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      background: "#1a1a1a",
-                      color: "white",
-                      borderRadius: "12px",
-                      padding: "12px"
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontWeight: "900",
-                        fontSize: "11px",
-                        color: "#fde68a"
-                      }}
-                    >
-                      Exact parts / ingredients:
-                    </div>
-                    <div
-                      style={{
-                        marginTop: "6px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "4px"
-                      }}
-                    >
+                  <div style={{ marginTop: "10px", background: "#1a1a1a", color: "white", borderRadius: "12px", padding: "12px" }}>
+                    <div style={{ fontWeight: "900", fontSize: "11px", color: "#fde68a" }}>Exact parts / ingredients with exact info - Like SBC 350:</div>
+                    <div style={{ marginTop: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
                       {aiResult.parts.map(function (p, i) {
                         return (
-                          <div
-                            key={i}
-                            style={{
-                              fontSize: "11px",
-                              display: "flex",
-                              gap: "6px"
-                            }}
-                          >
-                            <div>•</div>
-                            <div>{p}</div>
+                          <div key={i} style={{ fontSize: "11px", display: "flex", gap: "6px", background: i === (aiStep % aiResult.parts.length) ? "rgba(253,230,138,0.2)" : "transparent", padding: "2px 4px", borderRadius: "6px" }}>
+                            <div>•</div><div>{p}</div>
                           </div>
                         );
                       })}
                     </div>
                     {aiResult.tips ? (
-                      <div
-                        style={{
-                          marginTop: "10px",
-                          borderTop:
-                            "1px solid #333",
-                          paddingTop: "8px"
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontWeight: "900",
-                            fontSize: "10px",
-                            color: "#fde68a"
-                          }}
-                        >
-                          Old expert tips:
-                        </div>
-                        {aiResult.tips.map(function (
-                          t,
-                          i
-                        ) {
-                          return (
-                            <div
-                              key={i}
-                              style={{
-                                fontSize: "10px",
-                                marginTop: "4px",
-                                opacity: 0.8
-                              }}
-                            >
-                              • {t}
-                            </div>
-                          );
+                      <div style={{ marginTop: "10px", borderTop: "1px solid #333", paddingTop: "8px" }}>
+                        <div style={{ fontWeight: "900", fontSize: "10px", color: "#fde68a" }}>Old expert tips - 50 years exp - Like you asked:</div>
+                        {aiResult.tips.map(function (t, i) {
+                          return <div key={i} style={{ fontSize: "10px", marginTop: "4px", opacity: 0.8 }}>• {t}</div>;
                         })}
                       </div>
                     ) : null}
                   </div>
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      display: "flex",
-                      gap: "8px"
-                    }}
-                  >
-                    <div
-                      onClick={function () {
-                        setQuery("");
-                        setAiResult(null);
-                      }}
-                      style={{
-                        flex: 1,
-                        background: "white",
-                        border: "1px solid #f5e6c8",
-                        borderRadius: "10px",
-                        padding: "10px",
-                        textAlign: "center",
-                        fontWeight: "800",
-                        fontSize: "11px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      Clear search
-                    </div>
-                    <div
-                      onClick={function () {
-                        if (aiResult.relatedSearch) {
-                          setQuery(
-                            aiResult.relatedSearch[0]
-                          );
-                        }
-                      }}
-                      style={{
-                        flex: 1,
-                        background: "#1a1a1a",
-                        color: "white",
-                        borderRadius: "10px",
-                        padding: "10px",
-                        textAlign: "center",
-                        fontWeight: "800",
-                        fontSize: "11px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      Related hacks
-                    </div>
+                  <div style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
+                    <div onClick={function () { setQuery(""); setAiResult(null); }} style={{ flex: 1, background: "white", border: "1px solid #f5e6c8", borderRadius: "10px", padding: "10px", textAlign: "center", fontWeight: "800", fontSize: "11px", cursor: "pointer" }}>Clear search</div>
+                    <div onClick={function () { setShowVault(true); }} style={{ flex: 1, background: "#1a1a1a", color: "white", borderRadius: "10px", padding: "10px", textAlign: "center", fontWeight: "800", fontSize: "11px", cursor: "pointer" }}>Save to Vault</div>
                   </div>
-                  <div
-                    style={{
-                      marginTop: "8px",
-                      fontSize: "9px",
-                      opacity: 0.5,
-                      textAlign: "center"
-                    }}
-                  >
-                    AI generated - Like Meta AI Google AI
-                    gives solution to anything - Once
-                    famous search bar shows all real or
-                    related content that people post
-                    according to question searched - Old =
-                    Gold - Fully functional - Real website
-                  </div>
+                  <div style={{ marginTop: "8px", fontSize: "9px", opacity: 0.5, textAlign: "center" }}>AI generated - Like Meta AI Google AI gives solution to anything people search for - Small AI generated info video assembling {query} with exact part info and more you suggested - Once famous search bar shows all real or related content that people post according to question searched - Daily life bases any issue - Old=Gold - Fully functional - Real website</div>
                 </div>
-              </div>
-            </div>
-          ) : filtered.length === 0 ? (
-            <div
-              style={{
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                textAlign: "center",
-                padding: "20px"
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontWeight: "900",
-                    fontSize: "18px"
-                  }}
-                >
-                  {aiLoading
-                    ? "AI searching for " + query + "..."
-                    : "No hacks found for " + query}
-                </div>
-                <div
-                  style={{
-                    fontSize: "12px",
-                    opacity: 0.6,
-                    marginTop: "8px"
-                  }}
-                >
-                  {aiLoading
-                    ? "AI like Meta AI Google AI generating exact solution with step by step and AI video assembling SBC 350 with exact part info"
-                    : "Try clogged toilet, biryani, sbc 350, charger, pickle, money save - AI will generate solution"}
-                </div>
-                <div
-                  onClick={function () {
-                    setQuery("");
-                  }}
-                  style={{
-                    marginTop: "14px",
-                    background: "white",
-                    color: "black",
-                    borderRadius: "20px",
-                    padding: "10px 20px",
-                    display: "inline-block",
-                    fontWeight: "800",
-                    cursor: "pointer",
-                    fontSize: "12px"
-                  }}
-                >
-                  Clear search
-                </div>
-              </div>
-            </div>
-          ) : (
-            filtered.map(function (itemObj, fIdx) {
-              var item = itemObj;
-              var real = HACKS.indexOf(item);
-              var isActive = active === fIdx;
-              return (
-                <div
-                  key={item.id}
-                  style={{
-                    height: "100%",
-                    scrollSnapAlign: "start",
-                    scrollSnapStop: "always",
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "#000"
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      maxWidth: "420px",
-                      height: "100%",
-                      maxHeight: "820px",
-                      margin: "0 auto",
-                      background: "#000",
-                      overflow: "hidden"
-                    }}
-                  >
-                    <RealVideo
-                      src={item.video}
-                      isActive={isActive}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "10px",
-                        left: "10px",
-                        right: "10px",
-                        display: "flex",
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "6px"
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "6px"
-                          }}
-                        >
-                          <div
-                            style={{
-                              background: "#fde68a",
-                              color: "#1a1a1a",
-                              borderRadius: "20px",
-                              padding: "5px 10px",
-                              fontSize: "9px",
-                              fontWeight: "900"
-                            }}
-                          >
-                            {item.skill}
-                          </div>
-                          <div
-                            style={{
-                              background:
-                                "rgba(0,0,0,0.6)",
-                              color: "white",
-                              borderRadius: "20px",
-                              padding: "5px 10px",
-                              fontSize: "9px",
-                              fontWeight: "800"
-                            }}
-                          >
-                            {item.years} exp
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            background:
-                              "rgba(0,0,0,0.6)",
-                            color: "white",
-                            borderRadius: "20px",
-                            padding: "5px 10px",
-                            fontSize: "9px",
-                            fontWeight: "700",
-                            display: "inline-block"
-                          }}
-                        >
-                          {item.category} - {item.level}
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: "56px",
-                        padding: "14px",
-                        color: "white"
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px"
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "50%",
-                            background: "#fde68a",
-                            color: "#1a1a1a",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontWeight: "900",
-                            fontSize: "12px",
-                            border: "2px solid white"
-                          }}
-                        >
-                          {item.person[0]}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <div
-                            style={{
-                              fontWeight: "900",
-                              fontSize: "13px",
-                              display: "flex",
-                              gap: "6px",
-                              alignItems: "center"
-                            }}
-                          >
-                            {item.person} - {item.age} -{" "}
-                            {item.role}
-                            <div
-                              style={{
-                                fontSize: "8px",
-                                background: "#15803d",
-                                padding: "2px 6px",
-                                borderRadius: "10px"
-                              }}
-                            >
-                              {item.followers} followers
-                            </div>
-                          </div>
-                          <div
-                            style={{
-                              fontSize: "10px",
-                              opacity: 0.8
-                            }}
-                          >
-                            {item.city} - {item.tag} -{" "}
-                            {item.years} knowledge
-                          </div>
-                        </div>
-                        <div
-                          onClick={function () {
-                            toggleFollow(real);
-                          }}
-                          style={{
-                            background: followed[real]
-                              ? "white"
-                              : "#ef4444",
-                            color: followed[real]
-                              ? "black"
-                              : "white",
-                            borderRadius: "20px",
-                            padding: "6px 14px",
-                            fontSize: "11px",
-                            fontWeight: "900",
-                            cursor: "pointer"
-                          }}
-                        >
-                          {followed[real]
-                            ? "Following"
-                            : "Follow"}
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          marginTop: "10px",
-                          fontWeight: "900",
-                          fontSize: "14px",
-                          lineHeight: "1.2"
-                        }}
-                      >
-                        {item.title}
-                      </div>
-                      <div
-                        style={{
-                          marginTop: "6px",
-                          fontSize: "12px",
-                          lineHeight: "1.4",
-                          background:
-                            "rgba(0,0,0,0.35)",
-                          borderRadius: "10px",
-                          padding: "8px 10px"
-                        }}
-                      >
-                        {item.hack}
-                      </div>
-                      <div
-                        style={{
-                          marginTop: "10px",
-                          display: "flex",
-                          gap: "8px"
-                        }}
-                      >
-                        <div
-                          onClick={function () {
-                            toggleSave(real);
-                          }}
-                          style={{
-                            flex: 1,
-                            background: saved[real]
-                              ? "#fde68a"
-                              : "white",
-                            color: "#1a1a1a",
-                            borderRadius: "12px",
-                            padding: "10px",
-                            textAlign: "center",
-                            fontWeight: "900",
-                            fontSize: "11px",
-                            cursor: "pointer"
-                          }}
-                        >
-                          {saved[real]
-                            ? "Saved hack"
-                            : "Save hack"}{" "}
-                          - {item.saves}
-                        </div>
-                        <div
-                          onClick={function () {
-                            toggleTry(real);
-                          }}
-                          style={{
-                            flex: 1,
-                            background: tried[real]
-                              ? "#15803d"
-                              : "rgba(255,255,255,0.2)",
-                            color: "white",
-                            borderRadius: "12px",
-                            padding: "10px",
-                            textAlign: "center",
-                            fontWeight: "900",
-                            fontSize: "11px",
-                            cursor: "pointer",
-                            border: "1px solid white"
-                          }}
-                        >
-                          {tried[real]
-                            ? "Tried! +1"
-                            : "I tried this"}{" "}
-                          - {item.tries}
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "8px",
-                        bottom: "90px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "16px",
-                        alignItems: "center"
-                      }}
-                    >
-                      <div
-                        onClick={function () {
-                          toggleLike(real);
-                        }}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "48px",
-                            height: "48px",
-                            borderRadius: "50%",
-                            background: liked[real]
-                              ? "#ef4444"
-                              : "rgba(255,255,255,0.2)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "20px",
-                            transform: liked[real]
-                              ? "scale(1.15)"
-                              : "scale(1)",
-                            transition: "all 0.2s"
-                          }}
-                        >
-                          {liked[real] ? "♥" : "♡"}
-                        </div>
-                        <div
-                          style={{
-                            color: "white",
-                            fontSize: "11px",
-                            fontWeight: "700",
-                            marginTop: "3px"
-                          }}
-                        >
-                          {likes[real]}
-                        </div>
-                      </div>
-                      <div
-                        onClick={function () {
-                          toggleComments(real);
-                        }}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "48px",
-                            height: "48px",
-                            borderRadius: "50%",
-                            background: showC[real]
-                              ? "white"
-                              : "rgba(255,255,255,0.2)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "14px",
-                            fontWeight: "900"
-                          }}
-                        >
-                          C
-                        </div>
-                        <div
-                          style={{
-                            color: "white",
-                            fontSize: "11px",
-                            fontWeight: "700",
-                            marginTop: "3px"
-                          }}
-                        >
-                          {allComments[real].length}
-                        </div>
-                      </div>
-                      <div
-                        onClick={function () {
-                          copyLink();
-                        }}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "48px",
-                            height: "48px",
-                            borderRadius: "50%",
-                            background:
-                              "rgba(255,255,255,0.2)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "14px",
-                            fontWeight: "900"
-                          }}
-                        >
-                          S
-                        </div>
-                        <div
-                          style={{
-                            color: "white",
-                            fontSize: "10px",
-                            fontWeight: "600",
-                            marginTop: "3px"
-                          }}
-                        >
-                          Share
-                        </div>
-                      </div>
-                      <div
-                        onClick={function () {
-                          toggleSave(real);
-                        }}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "48px",
-                            height: "48px",
-                            borderRadius: "50%",
-                            background: saved[real]
-                              ? "#fde68a"
-                              : "rgba(255,255,255,0.2)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "14px",
-                            fontWeight: "900"
-                          }}
-                        >
-                          V
-                        </div>
-                        <div
-                          style={{
-                            color: saved[real]
-                              ? "#fde68a"
-                              : "white",
-                            fontSize: "10px",
-                            fontWeight: "700",
-                            marginTop: "3px"
-                          }}
-                        >
-                          Vault
-                        </div>
-                      </div>
-                    </div>
-                    {showC[real] ? (
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          background: "white",
-                          borderTopLeftRadius: "20px",
-                          borderTopRightRadius: "20px",
-                          maxHeight: "50%",
-                          display: "flex",
-                          flexDirection: "column",
-                          zIndex: 20
-                        }}
-                      >
-                        <div
-                          style={{
-                            padding: "14px",
-                            borderBottom:
-                              "1px solid #f0f0f0",
-                            display: "flex",
-                            justifyContent: "space-between"
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontWeight: "900",
-                              fontSize: "13px"
-                            }}
-                          >
-                            {allComments[real].length} tried
-                          </div>
-                          <div
-                            onClick={function () {
-                              toggleComments(real);
-                            }}
-                            style={{
-                              background: "#f5f5f5",
-                              borderRadius: "20px",
-                              padding: "6px 12px",
-                              fontSize: "11px",
-                              cursor: "pointer"
-                            }}
-                          >
-                            Close
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            flex: 1,
-                            overflowY: "auto",
-                            padding: "12px",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "8px"
-                          }}
-                        >
-                          {allComments[real].map(function (
-                            c,
-                            i
-                          ) {
-                            return (
-                              <div
-                                key={i}
-                                style={{
-                                  display: "flex",
-                                  gap: "8px"
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    width: "28px",
-                                    height: "28px",
-                                    borderRadius: "50%",
-                                    background: "#f5f5f4",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: "10px",
-                                    fontWeight: "800"
-                                  }}
-                                >
-                                  {String.fromCharCode(
-                                    65 + (i % 26)
-                                  )}
-                                </div>
-                                <div
-                                  style={{
-                                    flex: 1,
-                                    background: "#fafaf9",
-                                    borderRadius: "12px",
-                                    padding: "8px 12px",
-                                    fontSize: "12px"
-                                  }}
-                                >
-                                  {c}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div
-                          style={{
-                            padding: "12px",
-                            borderTop:
-                              "1px solid #f0f0f0",
-                            display: "flex",
-                            gap: "8px"
-                          }}
-                        >
-                          <input
-                            value={newText[real]}
-                            onChange={function (e) {
-                              var nt = newText.slice();
-                              nt[real] = e.target.value;
-                              setNewText(nt);
-                            }}
-                            onKeyDown={function (e) {
-                              if (e.key === "Enter") {
-                                addComment(real);
-                              }
-                            }}
-                            placeholder="Add your try"
-                            style={{
-                              flex: 1,
-                              border: "1px solid #e7e5e4",
-                              borderRadius: "20px",
-                              padding: "10px 14px",
-                              fontSize: "12px"
-                            }}
-                          />
-                          <button
-                            onClick={function () {
-                              addComment(real);
-                            }}
-                            style={{
-                              background: "#1a1a1a",
-                              color: "white",
-                              border: "none",
-                              borderRadius: "20px",
-                              padding: "10px 18px",
-                              fontSize: "12px",
-                              fontWeight: "800",
-                              cursor: "pointer"
-                            }}
-                          >
-                            Post
-                          </button>
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
-
-        <div
-          style={{
-            width: "340px",
-            background: "#FFFBEB",
-            borderLeft: "1px solid #f5e6c8",
-            display: "flex",
-            flexDirection: "column",
-            padding: "12px",
-            gap: "10px",
-            overflowY: "auto"
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: "6px",
-              flexWrap: "wrap"
-            }}
-          >
-            {cats.map(function (c) {
-              return (
-                <div
-                  key={c}
-                  onClick={function () {
-                    setFilter(c);
-                  }}
-                  style={{
-                    background:
-                      filter === c
-                        ? "#1a1a1a"
-                        : "white",
-                    color:
-                      filter === c
-                        ? "white"
-                        : "#1a1a1a",
-                    border: "1px solid #f5e6c8",
-                    borderRadius: "20px",
-                    padding: "6px 12px",
-                    fontSize: "10px",
-                    fontWeight: "800",
-                    cursor: "pointer"
-                  }}
-                >
-                  {c}
-                </div>
-              );
-            })}
-          </div>
-
-          <div
-            style={{
-              fontSize: "11px",
-              background: aiResult
-                ? "#1a1a1a"
-                : "white",
-              color: aiResult ? "white" : "#1a1a1a",
-              border: "1px solid #f5e6c8",
-              borderRadius: "10px",
-              padding: "10px"
-            }}
-          >
-            <div style={{ fontWeight: "900" }}>
-              {aiResult
-                ? "AI Answer: " + aiResult.title
-                : "Search results: " +
-                  filtered.length +
-                  " hacks"}
-            </div>
-            <div
-              style={{
-                opacity: 0.6,
-                fontSize: "10px",
-                marginTop: "2px"
-              }}
-            >
-              {query
-                ? aiResult
-                  ? "AI like Meta AI Google AI - Exact solution for " +
-                    query
-                  : "Searching for " + query
-                : "All hacks - Old = Gold - AI search ready"}
-            </div>
-          </div>
-
-          {aiResult ? (
-            <div
-              style={{
-                background: "white",
-                border: "2px solid #1a1a1a",
-                borderRadius: "14px",
-                padding: "12px"
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "900",
-                  fontSize: "12px"
-                }}
-              >
-                AI Video - Exact parts info
-              </div>
-              <div
-                style={{
-                  fontSize: "10px",
-                  marginTop: "6px",
-                  lineHeight: "1.5"
-                }}
-              >
-                {aiResult.videoScript}
-              </div>
-              <div
-                style={{
-                  marginTop: "8px",
-                  background: "#fde68a",
-                  borderRadius: "8px",
-                  padding: "8px",
-                  fontSize: "10px",
-                  fontWeight: "700"
-                }}
-              >
-                Once famous search bar shows all real or
-                related content that people post according
-                to question searched - Like this AI answer
-                becomes real hack when old experts post
               </div>
             </div>
           ) : null}
 
-          <div
-            style={{
-              background: "white",
-              border: "1px solid #f5e6c8",
-              borderRadius: "14px",
-              padding: "12px"
-            }}
-          >
-            <div
-              style={{
-                fontWeight: "900",
-                fontSize: "12px"
-              }}
-            >
-              How it works - Old = Gold - AI Search
-            </div>
-            <div
-              style={{
-                fontSize: "11px",
-                marginTop: "8px",
-                lineHeight: "1.6"
-              }}
-            >
-              <div>1. Ask AI anything</div>
-              <div>2. AI gives exact solution</div>
-              <div>3. Step by step + parts info</div>
-              <div>4. AI video assembling</div>
-              <div>5. Real hacks related shown</div>
-              <div>6. Follow - Save - Try</div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              background: "#1a1a1a",
-              color: "white",
-              borderRadius: "14px",
-              padding: "12px"
-            }}
-          >
-            <div
-              style={{
-                fontWeight: "900",
-                fontSize: "12px"
-              }}
-            >
-              Live experts now
-            </div>
-            <div
-              style={{
-                marginTop: "8px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px"
-              }}
-            >
-              {HACKS.slice(0, 3).map(function (h) {
-                return (
-                  <div
-                    key={h.id}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "11px"
-                    }}
-                  >
-                    <span>
-                      {h.person} - {h.skill}
-                    </span>
-                    <span style={{ opacity: 0.6 }}>
-                      {h.followers}
-                    </span>
+          {filtered.map(function (itemObj, fIdx) {
+            var item = itemObj;
+            var real = HACKS.indexOf(item);
+            var snapIdx = (aiResult ? 1 : 0) + fIdx;
+            var isActive = active === snapIdx;
+            return (
+              <div key={item.id} style={{ height: "100%", scrollSnapAlign: "start", scrollSnapStop: "always", position: "relative", display: "flex", justifyContent: "center", alignItems: "center", background: "#000" }}>
+                <div style={{ position: "relative", width: "100%", maxWidth: "420px", height: "100%", maxHeight: "820px", margin: "0 auto", background: "#000", overflow: "hidden" }}>
+                  <RealVideo src={item.video} isActive={isActive} />
+                  <div style={{ position: "absolute", top: "10px", left: "10px", right: "10px", display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <div style={{ display: "flex", gap: "6px" }}>
+                        <div style={{ background: "#fde68a", color: "#1a1a1a", borderRadius: "20px", padding: "5px 10px", fontSize: "9px", fontWeight: "900" }}>{item.skill}</div>
+                        <div style={{ background: "rgba(0,0,0,0.6)", color: "white", borderRadius: "20px", padding: "5px 10px", fontSize: "9px", fontWeight: "800" }}>{item.years} exp</div>
+                      </div>
+                      <div style={{ background: "rgba(0,0,0,0.6)", color: "white", borderRadius: "20px", padding: "5px 10px", fontSize: "9px", fontWeight: "700", display: "inline-block" }}>{item.category} - {item.level} - Related to {query || "search"}</div>
+                    </div>
                   </div>
-                );
-              })}
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: "56px", padding: "14px", color: "white" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "#fde68a", color: "#1a1a1a", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "900", fontSize: "12px", border: "2px solid white" }}>{item.person[0]}</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: "900", fontSize: "13px", display: "flex", gap: "6px", alignItems: "center" }}>{item.person} - {item.age} - {item.role}<div style={{ fontSize: "8px", background: "#15803d", padding: "2px 6px", borderRadius: "10px" }}>{item.followers} followers</div></div>
+                        <div style={{ fontSize: "10px", opacity: 0.8 }}>{item.city} - {item.tag} - {item.years} knowledge</div>
+                      </div>
+                      <div onClick={function () { toggleFollow(real); }} style={{ background: followed[real] ? "white" : "#ef4444", color: followed[real] ? "black" : "white", borderRadius: "20px", padding: "6px 14px", fontSize: "11px", fontWeight: "900", cursor: "pointer" }}>{followed[real] ? "Following" : "Follow"}</div>
+                    </div>
+                    <div style={{ marginTop: "10px", fontWeight: "900", fontSize: "14px", lineHeight: "1.2" }}>{item.title}</div>
+                    <div style={{ marginTop: "6px", fontSize: "12px", lineHeight: "1.4", background: "rgba(0,0,0,0.35)", borderRadius: "10px", padding: "8px 10px" }}>{item.hack}</div>
+                    <div style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
+                      <div onClick={function () { toggleSave(real); }} style={{ flex: 1, background: saved[real] ? "#fde68a" : "white", color: "#1a1a1a", borderRadius: "12px", padding: "10px", textAlign: "center", fontWeight: "900", fontSize: "11px", cursor: "pointer" }}>{saved[real] ? "Saved hack" : "Save hack"} - {item.saves}</div>
+                      <div onClick={function () { toggleTry(real); }} style={{ flex: 1, background: tried[real] ? "#15803d" : "rgba(255,255,255,0.2)", color: "white", borderRadius: "12px", padding: "10px", textAlign: "center", fontWeight: "900", fontSize: "11px", cursor: "pointer", border: "1px solid white" }}>{tried[real] ? "Tried! +1" : "I tried this"} - {item.tries}</div>
+                    </div>
+                  </div>
+                  <div style={{ position: "absolute", right: "8px", bottom: "90px", display: "flex", flexDirection: "column", gap: "16px", alignItems: "center" }}>
+                    <div onClick={function () { toggleLike(real); }} style={{ display: "flex", flexDirection: "column", alignItems: "center", cursor: "pointer" }}><div style={{ width: "48px", height: "48px", borderRadius: "50%", background: liked[real] ? "#ef4444" : "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", transform: liked[real] ? "scale(1.15)" : "scale(1)", transition: "all 0.2s" }}>{liked[real] ? "♥" : "♡"}</div><div style={{ color: "white", fontSize: "11px", fontWeight: "700", marginTop: "3px" }}>{likes[real]}</div></div>
+                    <div onClick={function () { toggleComments(real); }} style={{ display: "flex", flexDirection: "column", alignItems: "center", cursor: "pointer" }}><div style={{ width: "48px", height: "48px", borderRadius: "50%", background: showC[real] ? "white" : "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "900" }}>C</div><div style={{ color: "white", fontSize: "11px", fontWeight: "700", marginTop: "3px" }}>{allComments[real].length}</div></div>
+                    <div onClick={function () { copyLink(); }} style={{ display: "flex", flexDirection: "column", alignItems: "center", cursor: "pointer" }}><div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "900" }}>S</div><div style={{ color: "white", fontSize: "10px", fontWeight: "600", marginTop: "3px" }}>Share</div></div>
+                    <div onClick={function () { toggleSave(real); }} style={{ display: "flex", flexDirection: "column", alignItems: "center", cursor: "pointer" }}><div style={{ width: "48px", height: "48px", borderRadius: "50%", background: saved[real] ? "#fde68a" : "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "900" }}>V</div><div style={{ color: saved[real] ? "#fde68a" : "white", fontSize: "10px", fontWeight: "700", marginTop: "3px" }}>Vault</div></div>
+                  </div>
+                  {showC[real] ? (
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "white", borderTopLeftRadius: "20px", borderTopRightRadius: "20px", maxHeight: "50%", display: "flex", flexDirection: "column", zIndex: 20 }}>
+                      <div style={{ padding: "14px", borderBottom: "1px solid #f0f0f0", display: "flex", justifyContent: "space-between" }}><div style={{ fontWeight: "900", fontSize: "13px" }}>{allComments[real].length} tried</div><div onClick={function () { toggleComments(real); }} style={{ background: "#f5f5f5", borderRadius: "20px", padding: "6px 12px", fontSize: "11px", cursor: "pointer" }}>Close</div></div>
+                      <div style={{ flex: 1, overflowY: "auto", padding: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>{allComments[real].map(function (c, i) { return <div key={i} style={{ display: "flex", gap: "8px" }}><div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#f5f5f4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "800" }}>{String.fromCharCode(65 + (i % 26))}</div><div style={{ flex: 1, background: "#fafaf9", borderRadius: "12px", padding: "8px 12px", fontSize: "12px" }}>{c}</div></div>; })}</div>
+                      <div style={{ padding: "12px", borderTop: "1px solid #f0f0f0", display: "flex", gap: "8px" }}><input value={newText[real]} onChange={function (e) { var nt = newText.slice(); nt[real] = e.target.value; setNewText(nt); }} onKeyDown={function (e) { if (e.key === "Enter") { addComment(real); } }} placeholder="Add your try" style={{ flex: 1, border: "1px solid #e7e5e4", borderRadius: "20px", padding: "10px 14px", fontSize: "12px" }} /><button onClick={function () { addComment(real); }} style={{ background: "#1a1a1a", color: "white", border: "none", borderRadius: "20px", padding: "10px 18px", fontSize: "12px", fontWeight: "800", cursor: "pointer" }}>Post</button></div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
+
+          {!aiResult && filtered.length === 0 && query.trim() ? (
+            <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", textAlign: "center", padding: "20px" }}>
+              <div><div style={{ fontWeight: "900", fontSize: "18px" }}>{aiLoading ? "AI searching for " + query + "..." : "No hacks found for " + query}</div><div style={{ fontSize: "12px", opacity: 0.6, marginTop: "8px" }}>{aiLoading ? "AI like Meta AI Google AI generating exact solution with step by step and AI video assembling with exact part info" : "Try clogged toilet, biryani, sbc 350, charger, pickle"}</div><div onClick={function () { setQuery(""); }} style={{ marginTop: "14px", background: "white", color: "black", borderRadius: "20px", padding: "10px 20px", display: "inline-block", fontWeight: "800", cursor: "pointer", fontSize: "12px" }}>Clear search</div></div>
             </div>
-            <div
-              onClick={function () {
-                if (!user) {
-                  setShowAuth(true);
-                  setAuthMode("signup");
-                } else {
-                  setShowVault(true);
-                }
-              }}
-              style={{
-                marginTop: "12px",
-                background: "white",
-                color: "black",
-                borderRadius: "10px",
-                padding: "10px",
-                textAlign: "center",
-                fontWeight: "900",
-                fontSize: "12px",
-                cursor: "pointer"
-              }}
-            >
-              {user
-                ? "Vault - 41 experts"
-                : "Create account - Follow 41 experts"}
-            </div>
+          ) : null}
+        </div>
+
+        <div style={{ width: "340px", background: "#FFFBEB", borderLeft: "1px solid #f5e6c8", display: "flex", flexDirection: "column", padding: "12px", gap: "10px", overflowY: "auto" }}>
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>{cats.map(function (c) { return <div key={c} onClick={function () { setFilter(c); }} style={{ background: filter === c ? "#1a1a1a" : "white", color: filter === c ? "white" : "#1a1a1a", border: "1px solid #f5e6c8", borderRadius: "20px", padding: "6px 12px", fontSize: "10px", fontWeight: "800", cursor: "pointer" }}>{c}</div>; })}</div>
+          <div style={{ fontSize: "11px", background: aiResult ? "#1a1a1a" : "white", color: aiResult ? "white" : "#1a1a1a", border: "1px solid #f5e6c8", borderRadius: "10px", padding: "10px" }}>
+            <div style={{ fontWeight: "900" }}>{aiLoading ? "AI searching: " + query : aiResult ? "AI Answer + " + filtered.length + " related hacks" : "Search results: " + filtered.length + " hacks"}</div>
+            <div style={{ opacity: 0.6, fontSize: "10px", marginTop: "2px" }}>{query ? (aiResult ? "AI like Meta AI Google AI - Exact solution for " + query + " + " + filtered.length + " real related hacks that people post according to question searched" : "Searching for " + query) : "All hacks - Old=Gold - AI search ready - Ask anything daily life bases"}</div>
           </div>
+          {aiResult ? (
+            <div style={{ background: "white", border: "2px solid #1a1a1a", borderRadius: "14px", padding: "12px" }}>
+              <div style={{ fontWeight: "900", fontSize: "12px" }}>AI Video - Exact parts info - Animated</div>
+              <div style={{ fontSize: "10px", marginTop: "6px", lineHeight: "1.5" }}>{aiResult.videoScript}</div>
+              <div style={{ marginTop: "8px", background: "#fde68a", borderRadius: "8px", padding: "8px", fontSize: "10px", fontWeight: "700" }}>Once famous search bar shows all real or related content that people post according to question searched - Like this AI answer becomes real hack when old experts post - AI answer is FIRST, real hacks below - Daily life bases - Any issue - Perfect AI search like you - Leads to answers and videos</div>
+            </div>
+          ) : null}
+          <div style={{ background: "white", border: "1px solid #f5e6c8", borderRadius: "14px", padding: "12px" }}><div style={{ fontWeight: "900", fontSize: "12px" }}>How it works - Old=Gold - AI Search - Perfect</div><div style={{ fontSize: "11px", marginTop: "8px", lineHeight: "1.6" }}><div>1. Ask AI anything daily life bases</div><div>2. AI gives exact solution like Meta AI Google AI</div><div>3. AI video assembling exact parts info</div><div>4. Step by step animated</div><div>5. Real hacks related shown below AI</div><div>6. Follow Save Try - Old=Gold</div></div></div>
+          <div style={{ background: "#1a1a1a", color: "white", borderRadius: "14px", padding: "12px" }}><div style={{ fontWeight: "900", fontSize: "12px" }}>Live experts now - Related content</div><div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "8px" }}>{filtered.slice(0, 3).map(function (h) { return <div key={h.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}><span>{h.person} - {h.skill}</span><span style={{ opacity: 0.6 }}>{h.followers}</span></div>; })}</div><div onClick={function () { if (!user) { setShowAuth(true); setAuthMode("signup"); } else { setShowVault(true); } }} style={{ marginTop: "12px", background: "white", color: "black", borderRadius: "10px", padding: "10px", textAlign: "center", fontWeight: "900", fontSize: "12px", cursor: "pointer" }}>{user ? "Vault - 41 experts" : "Create account - Follow 41 experts"}</div></div>
         </div>
       </div>
 
-      {showShare ? (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            background: "#1a1a1a",
-            color: "white",
-            borderRadius: "20px",
-            padding: "10px 20px",
-            fontSize: "12px",
-            fontWeight: "700",
-            zIndex: 100
-          }}
-        >
-          Link copied
-        </div>
-      ) : null}
+      {showShare ? <div style={{ position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)", background: "#1a1a1a", color: "white", borderRadius: "20px", padding: "10px 20px", fontSize: "12px", fontWeight: "700", zIndex: 100 }}>Link copied</div> : null}
 
       {showAuth ? (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: "20px"
-          }}
-        >
-          <div
-            style={{
-              background: "#FFFBEB",
-              borderRadius: "20px",
-              padding: "24px",
-              maxWidth: "380px",
-              width: "100%"
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center"
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "900",
-                  fontSize: "16px"
-                }}
-              >
-                {authMode === "login"
-                  ? "Login - OldHint"
-                  : "Create account - OldHint"}
-              </div>
-              <div
-                onClick={function () {
-                  setShowAuth(false);
-                }}
-                style={{
-                  background: "white",
-                  borderRadius: "20px",
-                  padding: "6px 12px",
-                  fontSize: "12px",
-                  cursor: "pointer",
-                  border: "1px solid #f5e6c8"
-                }}
-              >
-                Close
-              </div>
-            </div>
-            <div
-              style={{
-                marginTop: "16px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px"
-              }}
-            >
-              {authMode === "signup" ? (
-                <input
-                  value={authForm.name}
-                  onChange={function (e) {
-                    setAuthForm({
-                      name: e.target.value,
-                      email: authForm.email,
-                      pass: authForm.pass
-                    });
-                  }}
-                  placeholder="Your name"
-                  style={{
-                    border: "1px solid #f5e6c8",
-                    borderRadius: "12px",
-                    padding: "12px 14px",
-                    fontSize: "13px",
-                    background: "white"
-                  }}
-                />
-              ) : null}
-              <input
-                value={authForm.email}
-                onChange={function (e) {
-                  setAuthForm({
-                    name: authForm.name,
-                    email: e.target.value,
-                    pass: authForm.pass
-                  });
-                }}
-                placeholder="Email"
-                style={{
-                  border: "1px solid #f5e6c8",
-                  borderRadius: "12px",
-                  padding: "12px 14px",
-                  fontSize: "13px",
-                  background: "white"
-                }}
-              />
-              <input
-                value={authForm.pass}
-                onChange={function (e) {
-                  setAuthForm({
-                    name: authForm.name,
-                    email: authForm.email,
-                    pass: e.target.value
-                  });
-                }}
-                placeholder="Password"
-                type="password"
-                style={{
-                  border: "1px solid #f5e6c8",
-                  borderRadius: "12px",
-                  padding: "12px 14px",
-                  fontSize: "13px",
-                  background: "white"
-                }}
-              />
-              <div
-                onClick={function () {
-                  doAuth();
-                }}
-                style={{
-                  background: "#1a1a1a",
-                  color: "white",
-                  borderRadius: "12px",
-                  padding: "12px",
-                  textAlign: "center",
-                  fontWeight: "900",
-                  fontSize: "13px",
-                  cursor: "pointer",
-                  marginTop: "4px"
-                }}
-              >
-                {authMode === "login"
-                  ? "Login"
-                  : "Create account - Follow 41 experts"}
-              </div>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: "20px" }}>
+          <div style={{ background: "#FFFBEB", borderRadius: "20px", padding: "24px", maxWidth: "380px", width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><div style={{ fontWeight: "900", fontSize: "16px" }}>{authMode === "login" ? "Login - OldHint" : "Create account - OldHint"}</div><div onClick={function () { setShowAuth(false); }} style={{ background: "white", borderRadius: "20px", padding: "6px 12px", fontSize: "12px", cursor: "pointer", border: "1px solid #f5e6c8" }}>Close</div></div>
+            <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
+              {authMode === "signup" ? <input value={authForm.name} onChange={function (e) { setAuthForm({ name: e.target.value, email: authForm.email, pass: authForm.pass }); }} placeholder="Your name" style={{ border: "1px solid #f5e6c8", borderRadius: "12px", padding: "12px 14px", fontSize: "13px", background: "white" }} /> : null}
+              <input value={authForm.email} onChange={function (e) { setAuthForm({ name: authForm.name, email: e.target.value, pass: authForm.pass }); }} placeholder="Email" style={{ border: "1px solid #f5e6c8", borderRadius: "12px", padding: "12px 14px", fontSize: "13px", background: "white" }} />
+              <input value={authForm.pass} onChange={function (e) { setAuthForm({ name: authForm.name, email: authForm.email, pass: e.target.value }); }} placeholder="Password" type="password" style={{ border: "1px solid #f5e6c8", borderRadius: "12px", padding: "12px 14px", fontSize: "13px", background: "white" }} />
+              <div onClick={function () { doAuth(); }} style={{ background: "#1a1a1a", color: "white", borderRadius: "12px", padding: "12px", textAlign: "center", fontWeight: "900", fontSize: "13px", cursor: "pointer", marginTop: "4px" }}>{authMode === "login" ? "Login" : "Create account - Follow 41 experts"}</div>
             </div>
           </div>
         </div>
       ) : null}
 
       {showVault ? (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: "20px"
-          }}
-        >
-          <div
-            style={{
-              background: "white",
-              borderRadius: "20px",
-              padding: "24px",
-              maxWidth: "380px",
-              width: "100%"
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between"
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "900",
-                  fontSize: "16px"
-                }}
-              >
-                Skill Vault - 21 per month
-              </div>
-              <div
-                onClick={function () {
-                  setShowVault(false);
-                }}
-                style={{
-                  background: "#f5f5f4",
-                  borderRadius: "20px",
-                  padding: "6px 12px",
-                  fontSize: "12px",
-                  cursor: "pointer"
-                }}
-              >
-                Close
-              </div>
-            </div>
-            <div
-              style={{
-                marginTop: "12px",
-                fontSize: "12px",
-                lineHeight: "1.5"
-              }}
-            >
-              Follow 41 old experts. Learn life hacks that
-              took 50 years to learn. Save. Try. Not on
-              TikTok. In Family Vault forever. Search any
-              hack - AI gives exact solution like Meta AI
-              Google AI - Step by step with AI video.
-            </div>
-            <div
-              onClick={function () {
-                setShowVault(false);
-              }}
-              style={{
-                marginTop: "16px",
-                background: "#1a1a1a",
-                color: "white",
-                borderRadius: "12px",
-                padding: "12px",
-                textAlign: "center",
-                fontWeight: "900",
-                cursor: "pointer"
-              }}
-            >
-              Join - 21 per month - 41 experts
-            </div>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: "20px" }}>
+          <div style={{ background: "white", borderRadius: "20px", padding: "24px", maxWidth: "380px", width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}><div style={{ fontWeight: "900", fontSize: "16px" }}>Skill Vault - 21 per month</div><div onClick={function () { setShowVault(false); }} style={{ background: "#f5f5f4", borderRadius: "20px", padding: "6px 12px", fontSize: "12px", cursor: "pointer" }}>Close</div></div>
+            <div style={{ marginTop: "12px", fontSize: "12px", lineHeight: "1.5" }}>Follow 41 old experts. Learn life hacks that took 50 years to learn. Save. Try. Not on TikTok. In Family Vault forever. Search any hack - AI gives exact solution like Meta AI Google AI - Step by step with AI video assembling exact part info - Any daily life issue.</div>
+            <div onClick={function () { setShowVault(false); }} style={{ marginTop: "16px", background: "#1a1a1a", color: "white", borderRadius: "12px", padding: "12px", textAlign: "center", fontWeight: "900", cursor: "pointer" }}>Join - 21 per month - 41 experts</div>
           </div>
         </div>
       ) : null}
