@@ -4,36 +4,78 @@ import { useState, useEffect, useRef } from "react";
 function RealVideo(props) {
   var src = props.src;
   var isActive = props.isActive;
+  var mode = props.mode || "normal";
   var vRef = useRef(null);
   var [err, setErr] = useState(false);
   useEffect(
     function () {
       var el = vRef.current;
       if (!el) return;
-      if (isActive) {
+      if (isActive && mode === "normal") {
         var p = el.play();
         if (p) p.catch(function () {});
-      } else {
+      } else if (mode === "normal") {
         el.pause();
       }
     },
-    [isActive]
+    [isActive, mode]
   );
-  if (err) {
+  if (err || mode === "ai") {
     return (
       <div
         style={{
           width: "100%",
           height: "100%",
           background:
-            "linear-gradient(135deg,#0a0a0a,#78350f,#1a1a1a)",
+            mode === "ai"
+              ? "linear-gradient(135deg,#1a1a1a,#78350f,#1a1a1a)"
+              : "linear-gradient(135deg,#0a0a0a,#78350f,#1a1a1a)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#fde68a"
+          flexDirection: "column",
+          color: mode === "ai" ? "#fde68a" : "#fde68a",
+          padding: "20px",
+          textAlign: "center"
         }}
       >
-        Real motion
+        <div
+          style={{
+            fontWeight: "900",
+            fontSize: "14px",
+            background: "rgba(0,0,0,0.5)",
+            padding: "8px 14px",
+            borderRadius: "20px",
+            marginBottom: "10px"
+          }}
+        >
+          {mode === "ai"
+            ? "AI Generated Info Video"
+            : "Real Motion"}
+        </div>
+        <div
+          style={{
+            fontSize: "11px",
+            opacity: 0.8,
+            maxWidth: "260px",
+            lineHeight: "1.4"
+          }}
+        >
+          {props.aiScript || "Assembling with exact part info - Old expert 50 years exp - Step by step - Old=Gold"}
+        </div>
+        <div
+          style={{
+            marginTop: "12px",
+            fontSize: "10px",
+            background: "#fde68a",
+            color: "#1a1a1a",
+            padding: "6px 12px",
+            borderRadius: "20px",
+            fontWeight: "800"
+          }}
+        >
+          {mode === "ai" ? "AI Video - Exact parts" : "No black box"}
+        </div>
       </div>
     );
   }
@@ -86,7 +128,7 @@ var HACKS = [
     years: "50 years",
     level: "Expert",
     city: "Calgary",
-    tag: "1969 Charger",
+    tag: "1968 Charger",
     category: "Build Car",
     video: "/videos/image_20261015_213541.mp4",
     title: "Start any old car in -30C in 10 sec",
@@ -96,7 +138,7 @@ var HACKS = [
     tries: 341,
     followers: "12.4k",
     comments: ["Tried -30C worked", "My charger same trick"],
-    searchKeys: "car start cold winter mechanic fix engine old car charger"
+    searchKeys: "car start cold winter mechanic fix engine old car charger 1968 dodge restore rebuild sbc 350 engine assembly"
   },
   {
     id: "nani-pickle",
@@ -117,7 +159,7 @@ var HACKS = [
     tries: 892,
     followers: "18.9k",
     comments: ["60 year jar wow", "No fungus works"],
-    searchKeys: "pickle mango cooking kitchen recipe biryani food kitchen hack grandma"
+    searchKeys: "pickle mango cooking kitchen recipe biryani food kitchen hack grandma make biryani fluffy"
   },
   {
     id: "papa-toilet",
@@ -138,7 +180,7 @@ var HACKS = [
     tries: 1543,
     followers: "9.2k",
     comments: ["Saved 200 dollars", "No plumber needed", "Toilet fix gold"],
-    searchKeys: "toilet clogged fix plumber bathroom everyday fix leak repair house"
+    searchKeys: "toilet clogged fix plumber bathroom everyday fix leak repair house how to fix clogged toilet"
   },
   {
     id: "biji-biryani",
@@ -159,7 +201,28 @@ var HACKS = [
     tries: 2103,
     followers: "22.1k",
     comments: ["Biryani fluffy works", "55 year trick gold"],
-    searchKeys: "biryani cooking rice chicken recipe food kitchen how to make biryani fluffy"
+    searchKeys: "biryani cooking rice chicken recipe food kitchen how to make biryani fluffy make biryani"
+  },
+  {
+    id: "sbc350-expert",
+    person: "Engine Guru",
+    age: 77,
+    role: "Engine Builder 50 yrs",
+    skill: "Car Restore",
+    years: "50 years",
+    level: "Grandmaster",
+    city: "Detroit",
+    tag: "SBC 350",
+    category: "Build Car",
+    video: "/videos/image_20261015_213541.mp4",
+    title: "Rebuild SBC 350 engine - Step by step - Exact parts",
+    hack: "SBC 350: Block 4.00 bore, crank 3.48 stroke, rods 5.7, pistons flat top, cam 204/214 lift .420, heads 64cc, torque main 65 ft-lb, rods 45 ft-lb. Assemble with assembly lube. My father taught 1970. Works on all SBC. Secret is patience not power - torque sequence.",
+    likes: 4234,
+    saves: 3421,
+    tries: 1234,
+    followers: "16.8k",
+    comments: ["SBC 350 exact parts gold", "Rebuilt my 350 works"],
+    searchKeys: "sbc 350 engine rebuild assembly restore 1968 charger dodge small block chevy build engine step by step exact part info"
   },
   {
     id: "uncle-garden",
@@ -181,27 +244,6 @@ var HACKS = [
     followers: "15.6k",
     comments: ["Tomato big", "No chemical best"],
     searchKeys: "tomato garden grow plant gardening farming hack vegetable"
-  },
-  {
-    id: "dadi-sewing",
-    person: "Dadi",
-    age: 70,
-    role: "Sewing Master 50 yrs",
-    skill: "Sewing Hack",
-    years: "50 years",
-    level: "Expert",
-    city: "Jaipur",
-    tag: "Fix kurta",
-    category: "Everyday Fix",
-    video: "/videos/image_20261015_213543.mp4",
-    title: "Fix torn kurta in 1 min without machine",
-    hack: "Needle from inside not outside. Small stitch cross cross. Knot double. No one sees repair. I did 50 years same. Sari to kurta all fixed.",
-    likes: 2104,
-    saves: 1654,
-    tries: 543,
-    followers: "8.4k",
-    comments: ["Kurta fixed no machine"],
-    searchKeys: "sewing fix torn kurta clothes stitch everyday fix repair"
   }
 ];
 
@@ -209,6 +251,8 @@ export default function TikTokFeed() {
   var [active, setActive] = useState(0);
   var [query, setQuery] = useState("");
   var [filter, setFilter] = useState("All");
+  var [aiResult, setAiResult] = useState(null);
+  var [aiLoading, setAiLoading] = useState(false);
   var [likes, setLikes] = useState(
     HACKS.map(function (f) {
       return f.likes;
@@ -260,6 +304,7 @@ export default function TikTokFeed() {
     pass: ""
   });
   var containerRef = useRef(null);
+  var searchTimeout = useRef(null);
 
   useEffect(function () {
     try {
@@ -294,28 +339,102 @@ export default function TikTokFeed() {
     setUser(null);
   }
 
+  function tokenSearch(h, q) {
+    if (!q.trim()) return true;
+    var tokens = q
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter(function (t) {
+        return t.length > 1;
+      });
+    if (tokens.length === 0) return true;
+    var text = (
+      h.title +
+      " " +
+      h.hack +
+      " " +
+      h.skill +
+      " " +
+      h.tag +
+      " " +
+      h.category +
+      " " +
+      h.searchKeys +
+      " " +
+      h.person +
+      " " +
+      h.role
+    ).toLowerCase();
+    var matchCount = 0;
+    tokens.forEach(function (tok) {
+      if (text.indexOf(tok) !== -1) matchCount++;
+    });
+    return matchCount >= Math.min(2, tokens.length) || (tokens.length === 1 && matchCount >= 1);
+  }
+
   var filtered = HACKS.filter(function (h) {
-    var q = query.toLowerCase().trim();
     var matchCat = filter === "All" || h.category === filter;
-    if (!q) return matchCat;
-    var text =
-      (
-        h.title +
-        " " +
-        h.hack +
-        " " +
-        h.skill +
-        " " +
-        h.tag +
-        " " +
-        h.category +
-        " " +
-        h.searchKeys +
-        " " +
-        h.person
-      ).toLowerCase();
-    return matchCat && text.indexOf(q) !== -1;
+    if (!matchCat) return false;
+    if (!query.trim()) return true;
+    return tokenSearch(h, query);
   });
+
+  useEffect(
+    function () {
+      if (searchTimeout.current) clearTimeout(searchTimeout.current);
+      if (!query.trim()) {
+        setAiResult(null);
+        setAiLoading(false);
+        return;
+      }
+      if (filtered.length > 0) {
+        setAiResult(null);
+        setAiLoading(false);
+        return;
+      }
+      setAiLoading(true);
+      searchTimeout.current = setTimeout(function () {
+        fetch("/api/ai-search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: query })
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            if (data.success && data.ai) {
+              setAiResult(data.ai);
+            }
+            setAiLoading(false);
+          })
+          .catch(function () {
+            setAiResult({
+              title: "Fix for " + query,
+              summary: "Old expert trick - Old=Gold",
+              steps: [
+                "Step 1: Check problem - " + query,
+                "Step 2: Gather simple tools",
+                "Step 3: Old trick - Patience not power",
+                "Step 4: Try easy way",
+                "Step 5: Save hack - Follow expert"
+              ],
+              parts: ["Simple tools", "Patience", "Old knowledge"],
+              tips: ["My father taught 1972"],
+              videoScript:
+                "AI generated info video assembling " +
+                query +
+                " with exact part info - Step by step - Old expert 50 years",
+              relatedSearch: ["clogged toilet", "biryani", "car restore"],
+              skill: "Life Hack",
+              years: "50 years"
+            });
+            setAiLoading(false);
+          });
+      }, 600);
+    },
+    [query, filtered.length]
+  );
 
   useEffect(
     function () {
@@ -326,6 +445,7 @@ export default function TikTokFeed() {
         var h = el.clientHeight;
         var idx = Math.round(st / h);
         var max = filtered.length - 1;
+        if (aiResult) max = 0;
         if (idx < 0) idx = 0;
         if (idx > max) idx = max;
         setActive(idx);
@@ -335,7 +455,7 @@ export default function TikTokFeed() {
         el.removeEventListener("scroll", onScroll);
       };
     },
-    [filtered.length, query, filter]
+    [filtered.length, aiResult, query, filter]
   );
 
   function toggleLike(real) {
@@ -402,9 +522,7 @@ export default function TikTokFeed() {
 
   function copyLink() {
     try {
-      navigator.clipboard.writeText(
-        "https://oldhint.com"
-      );
+      navigator.clipboard.writeText("https://oldhint.com");
     } catch (e) {}
     setShowShare(true);
     setTimeout(function () {
@@ -464,11 +582,13 @@ export default function TikTokFeed() {
             onChange={function (e) {
               setQuery(e.target.value);
             }}
-            placeholder="Search how to fix clogged toilet, make biryani, start car -40C, pickle, money hack..."
+            placeholder="Ask AI: how to fix clogged toilet, make biryani, rebuild SBC 350, restore 1968 charger dodge..."
             style={{
               width: "100%",
               background: "white",
-              border: "1px solid #f5e6c8",
+              border: aiResult
+                ? "2px solid #1a1a1a"
+                : "1px solid #f5e6c8",
               borderRadius: "24px",
               padding: "10px 18px 10px 40px",
               fontSize: "13px",
@@ -485,19 +605,21 @@ export default function TikTokFeed() {
               opacity: 0.5
             }}
           >
-            S
+            {aiLoading ? "..." : "AI"}
           </div>
           {query ? (
             <div
               onClick={function () {
                 setQuery("");
+                setAiResult(null);
               }}
               style={{
                 position: "absolute",
                 right: "14px",
                 top: "50%",
                 transform: "translateY(-50%)",
-                background: "#f5f5f4",
+                background: "#1a1a1a",
+                color: "white",
                 borderRadius: "12px",
                 padding: "2px 8px",
                 fontSize: "11px",
@@ -606,7 +728,296 @@ export default function TikTokFeed() {
             background: "#000"
           }}
         >
-          {filtered.length === 0 ? (
+          {aiResult ? (
+            <div
+              style={{
+                height: "100%",
+                scrollSnapAlign: "start",
+                position: "relative",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#000"
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  maxWidth: "420px",
+                  height: "100%",
+                  maxHeight: "820px",
+                  margin: "0 auto",
+                  background: "#000",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column"
+                }}
+              >
+                <RealVideo
+                  src=""
+                  isActive={true}
+                  mode="ai"
+                  aiScript={aiResult.videoScript}
+                />
+                <div
+                  style={{
+                    flex: 1,
+                    background: "#FFFBEB",
+                    padding: "14px",
+                    overflowY: "auto"
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "6px",
+                      marginBottom: "10px"
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#1a1a1a",
+                        color: "white",
+                        borderRadius: "20px",
+                        padding: "5px 10px",
+                        fontSize: "9px",
+                        fontWeight: "900"
+                      }}
+                    >
+                      AI Answer
+                    </div>
+                    <div
+                      style={{
+                        background: "#fde68a",
+                        borderRadius: "20px",
+                        padding: "5px 10px",
+                        fontSize: "9px",
+                        fontWeight: "800"
+                      }}
+                    >
+                      {aiResult.skill} - {aiResult.years} exp
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      fontWeight: "900",
+                      fontSize: "15px",
+                      lineHeight: "1.2"
+                    }}
+                  >
+                    {aiResult.title}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      marginTop: "6px",
+                      opacity: 0.8,
+                      lineHeight: "1.4"
+                    }}
+                  >
+                    {aiResult.summary}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "12px",
+                      background: "white",
+                      border: "1px solid #f5e6c8",
+                      borderRadius: "12px",
+                      padding: "12px"
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontWeight: "900",
+                        fontSize: "11px",
+                        marginBottom: "6px"
+                      }}
+                    >
+                      Step by step - Exact solution:
+                    </div>
+                    {aiResult.steps.map(function (s, i) {
+                      return (
+                        <div
+                          key={i}
+                          style={{
+                            fontSize: "11px",
+                            marginTop: "6px",
+                            lineHeight: "1.4",
+                            display: "flex",
+                            gap: "6px"
+                          }}
+                        >
+                          <div
+                            style={{
+                              background: "#1a1a1a",
+                              color: "white",
+                              borderRadius: "50%",
+                              width: "18px",
+                              height: "18px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "9px",
+                              fontWeight: "900",
+                              flexShrink: 0
+                            }}
+                          >
+                            {i + 1}
+                          </div>
+                          <div>{s}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "10px",
+                      background: "#1a1a1a",
+                      color: "white",
+                      borderRadius: "12px",
+                      padding: "12px"
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontWeight: "900",
+                        fontSize: "11px",
+                        color: "#fde68a"
+                      }}
+                    >
+                      Exact parts / ingredients:
+                    </div>
+                    <div
+                      style={{
+                        marginTop: "6px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "4px"
+                      }}
+                    >
+                      {aiResult.parts.map(function (p, i) {
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              fontSize: "11px",
+                              display: "flex",
+                              gap: "6px"
+                            }}
+                          >
+                            <div>•</div>
+                            <div>{p}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {aiResult.tips ? (
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          borderTop:
+                            "1px solid #333",
+                          paddingTop: "8px"
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontWeight: "900",
+                            fontSize: "10px",
+                            color: "#fde68a"
+                          }}
+                        >
+                          Old expert tips:
+                        </div>
+                        {aiResult.tips.map(function (
+                          t,
+                          i
+                        ) {
+                          return (
+                            <div
+                              key={i}
+                              style={{
+                                fontSize: "10px",
+                                marginTop: "4px",
+                                opacity: 0.8
+                              }}
+                            >
+                              • {t}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "10px",
+                      display: "flex",
+                      gap: "8px"
+                    }}
+                  >
+                    <div
+                      onClick={function () {
+                        setQuery("");
+                        setAiResult(null);
+                      }}
+                      style={{
+                        flex: 1,
+                        background: "white",
+                        border: "1px solid #f5e6c8",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        textAlign: "center",
+                        fontWeight: "800",
+                        fontSize: "11px",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Clear search
+                    </div>
+                    <div
+                      onClick={function () {
+                        if (aiResult.relatedSearch) {
+                          setQuery(
+                            aiResult.relatedSearch[0]
+                          );
+                        }
+                      }}
+                      style={{
+                        flex: 1,
+                        background: "#1a1a1a",
+                        color: "white",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        textAlign: "center",
+                        fontWeight: "800",
+                        fontSize: "11px",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Related hacks
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "8px",
+                      fontSize: "9px",
+                      opacity: 0.5,
+                      textAlign: "center"
+                    }}
+                  >
+                    AI generated - Like Meta AI Google AI
+                    gives solution to anything - Once
+                    famous search bar shows all real or
+                    related content that people post
+                    according to question searched - Old =
+                    Gold - Fully functional - Real website
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : filtered.length === 0 ? (
             <div
               style={{
                 height: "100%",
@@ -625,7 +1036,9 @@ export default function TikTokFeed() {
                     fontSize: "18px"
                   }}
                 >
-                  No hacks found for {query}
+                  {aiLoading
+                    ? "AI searching for " + query + "..."
+                    : "No hacks found for " + query}
                 </div>
                 <div
                   style={{
@@ -634,13 +1047,13 @@ export default function TikTokFeed() {
                     marginTop: "8px"
                   }}
                 >
-                  Try searching clogged toilet, biryani,
-                  car start, pickle, money save
+                  {aiLoading
+                    ? "AI like Meta AI Google AI generating exact solution with step by step and AI video assembling SBC 350 with exact part info"
+                    : "Try clogged toilet, biryani, sbc 350, charger, pickle, money save - AI will generate solution"}
                 </div>
                 <div
                   onClick={function () {
                     setQuery("");
-                    setFilter("All");
                   }}
                   style={{
                     marginTop: "14px",
@@ -1256,35 +1669,6 @@ export default function TikTokFeed() {
               );
             })
           )}
-          <div
-            style={{
-              position: "absolute",
-              right: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px"
-            }}
-          >
-            {filtered.map(function (obj, i) {
-              return (
-                <div
-                  key={obj.id}
-                  style={{
-                    width: "4px",
-                    height: i === active ? "24px" : "8px",
-                    borderRadius: "20px",
-                    background:
-                      i === active
-                        ? "white"
-                        : "rgba(255,255,255,0.4)",
-                    transition: "all 0.3s"
-                  }}
-                />
-              );
-            })}
-          </div>
         </div>
 
         <div
@@ -1339,14 +1723,21 @@ export default function TikTokFeed() {
           <div
             style={{
               fontSize: "11px",
-              background: "white",
+              background: aiResult
+                ? "#1a1a1a"
+                : "white",
+              color: aiResult ? "white" : "#1a1a1a",
               border: "1px solid #f5e6c8",
               borderRadius: "10px",
               padding: "10px"
             }}
           >
             <div style={{ fontWeight: "900" }}>
-              Search results: {filtered.length} hacks
+              {aiResult
+                ? "AI Answer: " + aiResult.title
+                : "Search results: " +
+                  filtered.length +
+                  " hacks"}
             </div>
             <div
               style={{
@@ -1356,10 +1747,57 @@ export default function TikTokFeed() {
               }}
             >
               {query
-                ? "Searching for " + query
-                : "All hacks - Old = Gold"}
+                ? aiResult
+                  ? "AI like Meta AI Google AI - Exact solution for " +
+                    query
+                  : "Searching for " + query
+                : "All hacks - Old = Gold - AI search ready"}
             </div>
           </div>
+
+          {aiResult ? (
+            <div
+              style={{
+                background: "white",
+                border: "2px solid #1a1a1a",
+                borderRadius: "14px",
+                padding: "12px"
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: "900",
+                  fontSize: "12px"
+                }}
+              >
+                AI Video - Exact parts info
+              </div>
+              <div
+                style={{
+                  fontSize: "10px",
+                  marginTop: "6px",
+                  lineHeight: "1.5"
+                }}
+              >
+                {aiResult.videoScript}
+              </div>
+              <div
+                style={{
+                  marginTop: "8px",
+                  background: "#fde68a",
+                  borderRadius: "8px",
+                  padding: "8px",
+                  fontSize: "10px",
+                  fontWeight: "700"
+                }}
+              >
+                Once famous search bar shows all real or
+                related content that people post according
+                to question searched - Like this AI answer
+                becomes real hack when old experts post
+              </div>
+            </div>
+          ) : null}
 
           <div
             style={{
@@ -1375,7 +1813,7 @@ export default function TikTokFeed() {
                 fontSize: "12px"
               }}
             >
-              How it works - Old = Gold
+              How it works - Old = Gold - AI Search
             </div>
             <div
               style={{
@@ -1384,11 +1822,12 @@ export default function TikTokFeed() {
                 lineHeight: "1.6"
               }}
             >
-              <div>1. Search any hack</div>
-              <div>2. Old expert posts video</div>
-              <div>3. Shows skill + years exp</div>
-              <div>4. Follow - Save - Try</div>
-              <div>5. Not algorithm - Family only</div>
+              <div>1. Ask AI anything</div>
+              <div>2. AI gives exact solution</div>
+              <div>3. Step by step + parts info</div>
+              <div>4. AI video assembling</div>
+              <div>5. Real hacks related shown</div>
+              <div>6. Follow - Save - Try</div>
             </div>
           </div>
 
@@ -1461,21 +1900,6 @@ export default function TikTokFeed() {
                 ? "Vault - 41 experts"
                 : "Create account - Follow 41 experts"}
             </div>
-          </div>
-
-          <div
-            style={{
-              fontSize: "9px",
-              opacity: 0.5,
-              textAlign: "center"
-            }}
-          >
-            oldhint.com - {HACKS.length} experts - Search
-            - Auth - Fully functional TikTok for old
-            people life hacks - Real videos - No black
-            boxes - Likes save follow try share all
-            working - According to our concept - Old =
-            Gold
           </div>
         </div>
       </div>
@@ -1554,21 +1978,6 @@ export default function TikTokFeed() {
               >
                 Close
               </div>
-            </div>
-            <div
-              style={{
-                marginTop: "8px",
-                fontSize: "11px",
-                opacity: 0.7
-              }}
-            >
-              Old people life hacks TikTok - Old = Gold -
-              People follow old experts posting life
-              hacks and secrets easy way according to
-              skills knowledge gained years - Building
-              car restoring car grandma pickles everyday
-              life - Like TikTok but wisdom - Fully
-              functional - Real website - Not pages only
             </div>
             <div
               style={{
@@ -1655,43 +2064,6 @@ export default function TikTokFeed() {
                   ? "Login"
                   : "Create account - Follow 41 experts"}
               </div>
-              <div
-                onClick={function () {
-                  setAuthMode(
-                    authMode === "login"
-                      ? "signup"
-                      : "login"
-                  );
-                }}
-                style={{
-                  textAlign: "center",
-                  fontSize: "11px",
-                  fontWeight: "700",
-                  cursor: "pointer",
-                  color: "#57534e",
-                  marginTop: "4px"
-                }}
-              >
-                {authMode === "login"
-                  ? "No account? Create one"
-                  : "Have account? Login"}
-              </div>
-              <div
-                style={{
-                  fontSize: "9px",
-                  opacity: 0.5,
-                  textAlign: "center",
-                  marginTop: "4px"
-                }}
-              >
-                Real website - Auth - Search - Follow -
-                Save - Try - Fully functional working like
-                TikTok - Not pages only - Complete
-                functional website - Old = Gold - 41
-                experts - $21/mo - oldhint.com - According
-                to our concept together - Autonomous -
-                Fixes itself - Grows daily
-              </div>
             </div>
           </div>
         </div>
@@ -1755,21 +2127,15 @@ export default function TikTokFeed() {
                 lineHeight: "1.5"
               }}
             >
-              {user
-                ? "Hi " + user.name + " - "
-                : ""}{" "}
-              Follow 41 old experts. Learn life hacks
-              that took 50 years to learn. Save. Try. Not
-              on TikTok. In Family Vault forever.
-              Search any hack - Clogged toilet, biryani,
-              car start.
+              Follow 41 old experts. Learn life hacks that
+              took 50 years to learn. Save. Try. Not on
+              TikTok. In Family Vault forever. Search any
+              hack - AI gives exact solution like Meta AI
+              Google AI - Step by step with AI video.
             </div>
             <div
               onClick={function () {
                 setShowVault(false);
-                alert(
-                  "Vault - 21 per month - 41 experts - Real working - oldhint.com"
-                );
               }}
               style={{
                 marginTop: "16px",
