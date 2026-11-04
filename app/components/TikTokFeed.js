@@ -30,11 +30,10 @@ function RealVideo(props) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#fde68a",
-          textAlign: "center"
+          color: "#fde68a"
         }}
       >
-        Real motion - No black box
+        Real motion
       </div>
     );
   }
@@ -96,11 +95,8 @@ var HACKS = [
     saves: 892,
     tries: 341,
     followers: "12.4k",
-    comments: [
-      "Tried -30C worked! Dada thanks",
-      "My charger same trick works",
-      "Old knowledge gold"
-    ]
+    comments: ["Tried -30C worked", "My charger same trick"],
+    searchKeys: "car start cold winter mechanic fix engine old car charger"
   },
   {
     id: "nani-pickle",
@@ -115,19 +111,16 @@ var HACKS = [
     category: "Cooking",
     video: "/videos/image_20261015_213543.mp4",
     title: "Mango pickle never gets fungus - 60 yr trick",
-    hack: "Oil must be smoking hot then cool fully. Mustard oil only. Never use spoon wet. Keep in sun 3 days before close. My mother 1940 trick. Jar same 60 years no fungus.",
+    hack: "Oil must be smoking hot then cool fully. Mustard oil only. Never use wet spoon. Keep in sun 3 days before close. My mother 1940 trick. Jar same 60 years no fungus.",
     likes: 3102,
     saves: 2104,
     tries: 892,
     followers: "18.9k",
-    comments: [
-      "Nani 60 year jar wow",
-      "Tried no fungus works",
-      "Secret mustard oil"
-    ]
+    comments: ["60 year jar wow", "No fungus works"],
+    searchKeys: "pickle mango cooking kitchen recipe biryani food kitchen hack grandma"
   },
   {
-    id: "papa-house",
+    id: "papa-toilet",
     person: "Papa",
     age: 59,
     role: "House Fix 40 yrs",
@@ -135,44 +128,38 @@ var HACKS = [
     years: "40 years",
     level: "Expert",
     city: "Calgary",
-    tag: "Leak Fix",
+    tag: "Clogged Toilet",
     category: "Everyday Fix",
     video: "/videos/image_20261015_213541.mp4",
-    title: "Fix tap leak without plumber - 2 min",
-    hack: "Turn off water. Open tap. Small rubber inside cut from old tube. Put new. Tight. Done. Plumber charges 200. I learned from my dad. 40 years no plumber called.",
+    title: "Fix clogged toilet without plumber - 2 min",
+    hack: "Hot water not boiling. Pour dish soap first. Wait 5 min. Pour hot water. Plunger once. My dad taught. Saves 200 dollars. Works on all toilets. Secret is soap not power.",
     likes: 4521,
     saves: 3210,
     tries: 1543,
     followers: "9.2k",
-    comments: [
-      "Saved 200 dollars",
-      "Papa hack real gold",
-      "No plumber needed"
-    ]
+    comments: ["Saved 200 dollars", "No plumber needed", "Toilet fix gold"],
+    searchKeys: "toilet clogged fix plumber bathroom everyday fix leak repair house"
   },
   {
-    id: "biji-money",
+    id: "biji-biryani",
     person: "Biji",
     age: 75,
-    role: "Money Saver 55 yrs",
-    skill: "Money Hack",
+    role: "Biryani Master 55 yrs",
+    skill: "Cooking Hack",
     years: "55 years",
-    level: "Wise",
+    level: "Grandmaster",
     city: "Delhi",
-    tag: "Save Money",
-    category: "Money",
+    tag: "Chicken Biryani",
+    category: "Cooking",
     video: "/videos/image_20261015_213543.mp4",
-    title: "Save 30% groceries with one list trick",
-    hack: "Write list after eating not before. Hungry makes buy extra. Also buy only Tuesday. Tuesday cheapest. I did 55 years same. Family of 10 saved enough to buy house.",
+    title: "Make biryani fluffy not sticky - 55 yr trick",
+    hack: "Soak rice 20 min not more. Water drain fully. Oil in water before boil. Layer with fried onions. Dum on low 20 min no open. My mother 1965 trick. Biryani fluffy each grain separate.",
     likes: 5832,
     saves: 4102,
     tries: 2103,
     followers: "22.1k",
-    comments: [
-      "Tuesday trick real",
-      "After eating list wow",
-      "Biji wise"
-    ]
+    comments: ["Biryani fluffy works", "55 year trick gold"],
+    searchKeys: "biryani cooking rice chicken recipe food kitchen how to make biryani fluffy"
   },
   {
     id: "uncle-garden",
@@ -187,21 +174,41 @@ var HACKS = [
     category: "Gardening",
     video: "/videos/image_20261015_213541.mp4",
     title: "Grow tomatoes 2x bigger with ash",
-    hack: "Wood ash from chulha. Mix in soil. Not too much. One handful per plant. Ash has potassium. My grandfather taught 1955. Tomatoes big like apple. No chemical.",
+    hack: "Wood ash from chulha. Mix in soil. One handful per plant. Ash has potassium. My grandfather taught 1955. Tomatoes big like apple. No chemical.",
     likes: 3921,
     saves: 2891,
     tries: 1204,
     followers: "15.6k",
-    comments: [
-      "Ash trick tomato big",
-      "No chemical best",
-      "65 years knowledge"
-    ]
+    comments: ["Tomato big", "No chemical best"],
+    searchKeys: "tomato garden grow plant gardening farming hack vegetable"
+  },
+  {
+    id: "dadi-sewing",
+    person: "Dadi",
+    age: 70,
+    role: "Sewing Master 50 yrs",
+    skill: "Sewing Hack",
+    years: "50 years",
+    level: "Expert",
+    city: "Jaipur",
+    tag: "Fix kurta",
+    category: "Everyday Fix",
+    video: "/videos/image_20261015_213543.mp4",
+    title: "Fix torn kurta in 1 min without machine",
+    hack: "Needle from inside not outside. Small stitch cross cross. Knot double. No one sees repair. I did 50 years same. Sari to kurta all fixed.",
+    likes: 2104,
+    saves: 1654,
+    tries: 543,
+    followers: "8.4k",
+    comments: ["Kurta fixed no machine"],
+    searchKeys: "sewing fix torn kurta clothes stitch everyday fix repair"
   }
 ];
 
 export default function TikTokFeed() {
   var [active, setActive] = useState(0);
+  var [query, setQuery] = useState("");
+  var [filter, setFilter] = useState("All");
   var [likes, setLikes] = useState(
     HACKS.map(function (f) {
       return f.likes;
@@ -244,13 +251,70 @@ export default function TikTokFeed() {
   );
   var [showShare, setShowShare] = useState(false);
   var [showVault, setShowVault] = useState(false);
-  var [showSkill, setShowSkill] = useState(false);
-  var [filter, setFilter] = useState("All");
+  var [showAuth, setShowAuth] = useState(false);
+  var [authMode, setAuthMode] = useState("login");
+  var [user, setUser] = useState(null);
+  var [authForm, setAuthForm] = useState({
+    name: "",
+    email: "",
+    pass: ""
+  });
   var containerRef = useRef(null);
-  var filtered = HACKS.map(function (h, i) {
-    return { h: h, i: i };
-  }).filter(function (x) {
-    return filter === "All" || x.h.category === filter;
+
+  useEffect(function () {
+    try {
+      var u = localStorage.getItem("oldhint_user");
+      if (u) setUser(JSON.parse(u));
+    } catch (e) {}
+  }, []);
+
+  function doAuth() {
+    if (!authForm.email || !authForm.pass) {
+      alert("Add email and pass");
+      return;
+    }
+    var newUser = {
+      name: authForm.name || authForm.email.split("@")[0],
+      email: authForm.email,
+      joined: new Date().toISOString(),
+      following: 41,
+      saved: 0
+    };
+    localStorage.setItem(
+      "oldhint_user",
+      JSON.stringify(newUser)
+    );
+    setUser(newUser);
+    setShowAuth(false);
+    setAuthForm({ name: "", email: "", pass: "" });
+  }
+
+  function doLogout() {
+    localStorage.removeItem("oldhint_user");
+    setUser(null);
+  }
+
+  var filtered = HACKS.filter(function (h) {
+    var q = query.toLowerCase().trim();
+    var matchCat = filter === "All" || h.category === filter;
+    if (!q) return matchCat;
+    var text =
+      (
+        h.title +
+        " " +
+        h.hack +
+        " " +
+        h.skill +
+        " " +
+        h.tag +
+        " " +
+        h.category +
+        " " +
+        h.searchKeys +
+        " " +
+        h.person
+      ).toLowerCase();
+    return matchCat && text.indexOf(q) !== -1;
   });
 
   useEffect(
@@ -271,11 +335,10 @@ export default function TikTokFeed() {
         el.removeEventListener("scroll", onScroll);
       };
     },
-    [filtered.length]
+    [filtered.length, query, filter]
   );
 
-  function toggleLike(idx) {
-    var real = filtered[idx].i;
+  function toggleLike(real) {
     var nl = liked.slice();
     var nLikes = likes.slice();
     nl[real] = !nl[real];
@@ -286,40 +349,51 @@ export default function TikTokFeed() {
     if (nl[real] && navigator.vibrate) navigator.vibrate(50);
   }
 
-  function toggleSave(idx) {
-    var real = filtered[idx].i;
+  function toggleSave(real) {
     var ns = saved.slice();
     ns[real] = !ns[real];
     setSaved(ns);
+    if (!user) {
+      setShowAuth(true);
+      setAuthMode("signup");
+      return;
+    }
     if (ns[real]) setShowVault(true);
   }
 
-  function toggleFollow(idx) {
-    var real = filtered[idx].i;
+  function toggleFollow(real) {
+    if (!user) {
+      setShowAuth(true);
+      setAuthMode("signup");
+      return;
+    }
     var nf = followed.slice();
     nf[real] = !nf[real];
     setFollowed(nf);
   }
 
-  function toggleTry(idx) {
-    var real = filtered[idx].i;
+  function toggleTry(real) {
     var nt = tried.slice();
     nt[real] = !nt[real];
     setTried(nt);
   }
 
-  function toggleComments(idx) {
+  function toggleComments(real) {
     var ns = showC.slice();
-    var real = filtered[idx].i;
     ns[real] = !ns[real];
     setShowC(ns);
   }
 
-  function addComment(idx) {
-    var real = filtered[idx].i;
+  function addComment(real) {
     if (!newText[real].trim()) return;
+    if (!user) {
+      setShowAuth(true);
+      return;
+    }
     var na = allComments.slice();
-    na[real] = na[real].concat([newText[real]]);
+    na[real] = na[real].concat([
+      user.name + ": " + newText[real]
+    ]);
     setAllComments(na);
     var nt = newText.slice();
     nt[real] = "";
@@ -328,7 +402,9 @@ export default function TikTokFeed() {
 
   function copyLink() {
     try {
-      navigator.clipboard.writeText("https://oldhint.com");
+      navigator.clipboard.writeText(
+        "https://oldhint.com"
+      );
     } catch (e) {}
     setShowShare(true);
     setTimeout(function () {
@@ -352,873 +428,1055 @@ export default function TikTokFeed() {
         height: "100vh",
         background: "#000",
         overflow: "hidden",
-        display: "flex"
+        display: "flex",
+        flexDirection: "column"
       }}
     >
       <div
-        ref={containerRef}
         style={{
-          flex: 1,
-          height: "100vh",
-          overflowY: "scroll",
-          scrollSnapType: "y mandatory",
-          background: "#000"
+          background: "#FFFBEB",
+          borderBottom: "1px solid #f5e6c8",
+          padding: "10px 14px",
+          display: "flex",
+          gap: "12px",
+          alignItems: "center",
+          zIndex: 50
         }}
       >
-        {filtered.map(function (itemObj, fIdx) {
-          var item = itemObj.h;
-          var real = itemObj.i;
-          var isActive = active === fIdx;
-          return (
+        <div
+          style={{
+            fontWeight: "900",
+            fontSize: "16px",
+            whiteSpace: "nowrap"
+          }}
+        >
+          OldHint
+        </div>
+        <div
+          style={{
+            flex: 1,
+            position: "relative",
+            maxWidth: "600px"
+          }}
+        >
+          <input
+            value={query}
+            onChange={function (e) {
+              setQuery(e.target.value);
+            }}
+            placeholder="Search how to fix clogged toilet, make biryani, start car -40C, pickle, money hack..."
+            style={{
+              width: "100%",
+              background: "white",
+              border: "1px solid #f5e6c8",
+              borderRadius: "24px",
+              padding: "10px 18px 10px 40px",
+              fontSize: "13px",
+              outline: "none"
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: "14px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              fontSize: "14px",
+              opacity: 0.5
+            }}
+          >
+            S
+          </div>
+          {query ? (
             <div
-              key={item.id}
+              onClick={function () {
+                setQuery("");
+              }}
               style={{
-                height: "100vh",
-                scrollSnapAlign: "start",
-                scrollSnapStop: "always",
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#000"
+                position: "absolute",
+                right: "14px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "#f5f5f4",
+                borderRadius: "12px",
+                padding: "2px 8px",
+                fontSize: "11px",
+                cursor: "pointer"
               }}
             >
+              Clear
+            </div>
+          ) : null}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            alignItems: "center"
+          }}
+        >
+          {user ? (
+            <>
               <div
                 style={{
-                  position: "relative",
-                  width: "100%",
-                  maxWidth: "420px",
-                  height: "100vh",
-                  maxHeight: "820px",
-                  margin: "0 auto",
-                  background: "#000",
-                  overflow: "hidden"
+                  fontSize: "11px",
+                  fontWeight: "800",
+                  background: "white",
+                  border: "1px solid #f5e6c8",
+                  borderRadius: "20px",
+                  padding: "8px 12px",
+                  whiteSpace: "nowrap"
                 }}
               >
-                <RealVideo
-                  src={item.video}
-                  isActive={isActive}
-                />
+                Hi {user.name}
+              </div>
+              <div
+                onClick={function () {
+                  doLogout();
+                }}
+                style={{
+                  fontSize: "11px",
+                  background: "#f5f5f4",
+                  borderRadius: "20px",
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                Logout
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                onClick={function () {
+                  setShowAuth(true);
+                  setAuthMode("login");
+                }}
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "800",
+                  background: "white",
+                  border: "1px solid #f5e6c8",
+                  borderRadius: "20px",
+                  padding: "8px 14px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                Login
+              </div>
+              <div
+                onClick={function () {
+                  setShowAuth(true);
+                  setAuthMode("signup");
+                }}
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "900",
+                  background: "#1a1a1a",
+                  color: "white",
+                  borderRadius: "20px",
+                  padding: "8px 14px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                Create account
+              </div>
+            </>
+          )}
+        </div>
+      </div>
 
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          overflow: "hidden"
+        }}
+      >
+        <div
+          ref={containerRef}
+          style={{
+            flex: 1,
+            height: "100%",
+            overflowY: "scroll",
+            scrollSnapType: "y mandatory",
+            background: "#000"
+          }}
+        >
+          {filtered.length === 0 ? (
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                textAlign: "center",
+                padding: "20px"
+              }}
+            >
+              <div>
                 <div
                   style={{
-                    position: "absolute",
-                    top: "10px",
-                    left: "10px",
-                    right: "10px",
+                    fontWeight: "900",
+                    fontSize: "18px"
+                  }}
+                >
+                  No hacks found for {query}
+                </div>
+                <div
+                  style={{
+                    fontSize: "12px",
+                    opacity: 0.6,
+                    marginTop: "8px"
+                  }}
+                >
+                  Try searching clogged toilet, biryani,
+                  car start, pickle, money save
+                </div>
+                <div
+                  onClick={function () {
+                    setQuery("");
+                    setFilter("All");
+                  }}
+                  style={{
+                    marginTop: "14px",
+                    background: "white",
+                    color: "black",
+                    borderRadius: "20px",
+                    padding: "10px 20px",
+                    display: "inline-block",
+                    fontWeight: "800",
+                    cursor: "pointer",
+                    fontSize: "12px"
+                  }}
+                >
+                  Clear search
+                </div>
+              </div>
+            </div>
+          ) : (
+            filtered.map(function (itemObj, fIdx) {
+              var item = itemObj;
+              var real = HACKS.indexOf(item);
+              var isActive = active === fIdx;
+              return (
+                <div
+                  key={item.id}
+                  style={{
+                    height: "100%",
+                    scrollSnapAlign: "start",
+                    scrollSnapStop: "always",
+                    position: "relative",
                     display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-start"
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "#000"
                   }}
                 >
                   <div
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "6px"
+                      position: "relative",
+                      width: "100%",
+                      maxWidth: "420px",
+                      height: "100%",
+                      maxHeight: "820px",
+                      margin: "0 auto",
+                      background: "#000",
+                      overflow: "hidden"
                     }}
                   >
+                    <RealVideo
+                      src={item.video}
+                      isActive={isActive}
+                    />
                     <div
                       style={{
-                        display: "flex",
-                        gap: "6px"
-                      }}
-                    >
-                      <div
-                        style={{
-                          background: "#fde68a",
-                          color: "#1a1a1a",
-                          borderRadius: "20px",
-                          padding: "5px 10px",
-                          fontSize: "9px",
-                          fontWeight: "900"
-                        }}
-                      >
-                        {item.skill}
-                      </div>
-                      <div
-                        style={{
-                          background: "rgba(0,0,0,0.6)",
-                          color: "white",
-                          borderRadius: "20px",
-                          padding: "5px 10px",
-                          fontSize: "9px",
-                          fontWeight: "800"
-                        }}
-                      >
-                        {item.years} exp
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        background: "rgba(0,0,0,0.6)",
-                        color: "white",
-                        borderRadius: "20px",
-                        padding: "5px 10px",
-                        fontSize: "9px",
-                        fontWeight: "700",
-                        display: "inline-block"
-                      }}
-                    >
-                      {item.category} - {item.level}
-                    </div>
-                  </div>
-                  <div
-                    onClick={function () {
-                      setShowSkill(true);
-                    }}
-                    style={{
-                      background: "white",
-                      color: "black",
-                      borderRadius: "20px",
-                      padding: "6px 12px",
-                      fontSize: "10px",
-                      fontWeight: "900",
-                      cursor: "pointer"
-                    }}
-                  >
-                    Skill Vault
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: "56px",
-                    padding: "14px",
-                    color: "white"
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        borderRadius: "50%",
-                        background: "#fde68a",
-                        color: "#1a1a1a",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: "900",
-                        fontSize: "12px",
-                        border: "2px solid white"
-                      }}
-                    >
-                      {item.person[0]}
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div
-                        style={{
-                          fontWeight: "900",
-                          fontSize: "13px",
-                          display: "flex",
-                          gap: "6px",
-                          alignItems: "center"
-                        }}
-                      >
-                        {item.person} - {item.age} -{" "}
-                        {item.role}
-                        <div
-                          style={{
-                            fontSize: "8px",
-                            background: "#15803d",
-                            padding: "2px 6px",
-                            borderRadius: "10px"
-                          }}
-                        >
-                          {item.followers} followers
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          fontSize: "10px",
-                          opacity: 0.8
-                        }}
-                      >
-                        {item.city} - {item.tag} -{" "}
-                        {item.years} knowledge
-                      </div>
-                    </div>
-                    <div
-                      onClick={function () {
-                        toggleFollow(fIdx);
-                      }}
-                      style={{
-                        background: followed[real]
-                          ? "white"
-                          : "#ef4444",
-                        color: followed[real]
-                          ? "black"
-                          : "white",
-                        borderRadius: "20px",
-                        padding: "6px 14px",
-                        fontSize: "11px",
-                        fontWeight: "900",
-                        cursor: "pointer"
-                      }}
-                    >
-                      {followed[real]
-                        ? "Following"
-                        : "Follow"}
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      fontWeight: "900",
-                      fontSize: "14px",
-                      lineHeight: "1.2"
-                    }}
-                  >
-                    {item.title}
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: "6px",
-                      fontSize: "12px",
-                      lineHeight: "1.4",
-                      background: "rgba(0,0,0,0.35)",
-                      borderRadius: "10px",
-                      padding: "8px 10px"
-                    }}
-                  >
-                    {item.hack}
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      display: "flex",
-                      gap: "8px"
-                    }}
-                  >
-                    <div
-                      onClick={function () {
-                        toggleSave(fIdx);
-                      }}
-                      style={{
-                        flex: 1,
-                        background: saved[real]
-                          ? "#fde68a"
-                          : "white",
-                        color: "#1a1a1a",
-                        borderRadius: "12px",
-                        padding: "10px",
-                        textAlign: "center",
-                        fontWeight: "900",
-                        fontSize: "11px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      {saved[real]
-                        ? "Saved hack"
-                        : "Save hack"}{" "}
-                      - {item.saves}
-                    </div>
-                    <div
-                      onClick={function () {
-                        toggleTry(fIdx);
-                      }}
-                      style={{
-                        flex: 1,
-                        background: tried[real]
-                          ? "#15803d"
-                          : "rgba(255,255,255,0.2)",
-                        color: "white",
-                        borderRadius: "12px",
-                        padding: "10px",
-                        textAlign: "center",
-                        fontWeight: "900",
-                        fontSize: "11px",
-                        cursor: "pointer",
-                        border: "1px solid white"
-                      }}
-                    >
-                      {tried[real]
-                        ? "Tried! +1"
-                        : "I tried this"}{" "}
-                      - {item.tries}
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "8px",
-                    bottom: "90px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "16px",
-                    alignItems: "center"
-                  }}
-                >
-                  <div
-                    onClick={function () {
-                      toggleLike(fIdx);
-                    }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "50%",
-                        background: liked[real]
-                          ? "#ef4444"
-                          : "rgba(255,255,255,0.2)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "20px",
-                        transform: liked[real]
-                          ? "scale(1.15)"
-                          : "scale(1)",
-                        transition: "all 0.2s"
-                      }}
-                    >
-                      {liked[real] ? "♥" : "♡"}
-                    </div>
-                    <div
-                      style={{
-                        color: "white",
-                        fontSize: "11px",
-                        fontWeight: "700",
-                        marginTop: "3px"
-                      }}
-                    >
-                      {likes[real]}
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={function () {
-                      toggleComments(real);
-                    }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "50%",
-                        background: showC[real]
-                          ? "white"
-                          : "rgba(255,255,255,0.2)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "14px",
-                        fontWeight: "900"
-                      }}
-                    >
-                      C
-                    </div>
-                    <div
-                      style={{
-                        color: "white",
-                        fontSize: "11px",
-                        fontWeight: "700",
-                        marginTop: "3px"
-                      }}
-                    >
-                      {allComments[real].length}
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={function () {
-                      copyLink();
-                    }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "50%",
-                        background:
-                          "rgba(255,255,255,0.2)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "14px",
-                        fontWeight: "900"
-                      }}
-                    >
-                      S
-                    </div>
-                    <div
-                      style={{
-                        color: "white",
-                        fontSize: "10px",
-                        fontWeight: "600",
-                        marginTop: "3px"
-                      }}
-                    >
-                      Share
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={function () {
-                      toggleSave(fIdx);
-                    }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "50%",
-                        background: saved[real]
-                          ? "#fde68a"
-                          : "rgba(255,255,255,0.2)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "14px",
-                        fontWeight: "900"
-                      }}
-                    >
-                      V
-                    </div>
-                    <div
-                      style={{
-                        color: saved[real]
-                          ? "#fde68a"
-                          : "white",
-                        fontSize: "10px",
-                        fontWeight: "700",
-                        marginTop: "3px"
-                      }}
-                    >
-                      Vault
-                    </div>
-                  </div>
-                </div>
-
-                {showC[real] ? (
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background: "white",
-                      borderTopLeftRadius: "20px",
-                      borderTopRightRadius: "20px",
-                      maxHeight: "50%",
-                      display: "flex",
-                      flexDirection: "column",
-                      zIndex: 20
-                    }}
-                  >
-                    <div
-                      style={{
-                        padding: "14px",
-                        borderBottom: "1px solid #f0f0f0",
+                        position: "absolute",
+                        top: "10px",
+                        left: "10px",
+                        right: "10px",
                         display: "flex",
                         justifyContent: "space-between"
                       }}
                     >
                       <div
                         style={{
-                          fontWeight: "900",
-                          fontSize: "13px"
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px"
                         }}
                       >
-                        {allComments[real].length} people tried
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "6px"
+                          }}
+                        >
+                          <div
+                            style={{
+                              background: "#fde68a",
+                              color: "#1a1a1a",
+                              borderRadius: "20px",
+                              padding: "5px 10px",
+                              fontSize: "9px",
+                              fontWeight: "900"
+                            }}
+                          >
+                            {item.skill}
+                          </div>
+                          <div
+                            style={{
+                              background:
+                                "rgba(0,0,0,0.6)",
+                              color: "white",
+                              borderRadius: "20px",
+                              padding: "5px 10px",
+                              fontSize: "9px",
+                              fontWeight: "800"
+                            }}
+                          >
+                            {item.years} exp
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            background:
+                              "rgba(0,0,0,0.6)",
+                            color: "white",
+                            borderRadius: "20px",
+                            padding: "5px 10px",
+                            fontSize: "9px",
+                            fontWeight: "700",
+                            display: "inline-block"
+                          }}
+                        >
+                          {item.category} - {item.level}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: "56px",
+                        padding: "14px",
+                        color: "white"
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px"
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            background: "#fde68a",
+                            color: "#1a1a1a",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: "900",
+                            fontSize: "12px",
+                            border: "2px solid white"
+                          }}
+                        >
+                          {item.person[0]}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div
+                            style={{
+                              fontWeight: "900",
+                              fontSize: "13px",
+                              display: "flex",
+                              gap: "6px",
+                              alignItems: "center"
+                            }}
+                          >
+                            {item.person} - {item.age} -{" "}
+                            {item.role}
+                            <div
+                              style={{
+                                fontSize: "8px",
+                                background: "#15803d",
+                                padding: "2px 6px",
+                                borderRadius: "10px"
+                              }}
+                            >
+                              {item.followers} followers
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "10px",
+                              opacity: 0.8
+                            }}
+                          >
+                            {item.city} - {item.tag} -{" "}
+                            {item.years} knowledge
+                          </div>
+                        </div>
+                        <div
+                          onClick={function () {
+                            toggleFollow(real);
+                          }}
+                          style={{
+                            background: followed[real]
+                              ? "white"
+                              : "#ef4444",
+                            color: followed[real]
+                              ? "black"
+                              : "white",
+                            borderRadius: "20px",
+                            padding: "6px 14px",
+                            fontSize: "11px",
+                            fontWeight: "900",
+                            cursor: "pointer"
+                          }}
+                        >
+                          {followed[real]
+                            ? "Following"
+                            : "Follow"}
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          fontWeight: "900",
+                          fontSize: "14px",
+                          lineHeight: "1.2"
+                        }}
+                      >
+                        {item.title}
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "6px",
+                          fontSize: "12px",
+                          lineHeight: "1.4",
+                          background:
+                            "rgba(0,0,0,0.35)",
+                          borderRadius: "10px",
+                          padding: "8px 10px"
+                        }}
+                      >
+                        {item.hack}
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          display: "flex",
+                          gap: "8px"
+                        }}
+                      >
+                        <div
+                          onClick={function () {
+                            toggleSave(real);
+                          }}
+                          style={{
+                            flex: 1,
+                            background: saved[real]
+                              ? "#fde68a"
+                              : "white",
+                            color: "#1a1a1a",
+                            borderRadius: "12px",
+                            padding: "10px",
+                            textAlign: "center",
+                            fontWeight: "900",
+                            fontSize: "11px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          {saved[real]
+                            ? "Saved hack"
+                            : "Save hack"}{" "}
+                          - {item.saves}
+                        </div>
+                        <div
+                          onClick={function () {
+                            toggleTry(real);
+                          }}
+                          style={{
+                            flex: 1,
+                            background: tried[real]
+                              ? "#15803d"
+                              : "rgba(255,255,255,0.2)",
+                            color: "white",
+                            borderRadius: "12px",
+                            padding: "10px",
+                            textAlign: "center",
+                            fontWeight: "900",
+                            fontSize: "11px",
+                            cursor: "pointer",
+                            border: "1px solid white"
+                          }}
+                        >
+                          {tried[real]
+                            ? "Tried! +1"
+                            : "I tried this"}{" "}
+                          - {item.tries}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "8px",
+                        bottom: "90px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "16px",
+                        alignItems: "center"
+                      }}
+                    >
+                      <div
+                        onClick={function () {
+                          toggleLike(real);
+                        }}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "50%",
+                            background: liked[real]
+                              ? "#ef4444"
+                              : "rgba(255,255,255,0.2)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "20px",
+                            transform: liked[real]
+                              ? "scale(1.15)"
+                              : "scale(1)",
+                            transition: "all 0.2s"
+                          }}
+                        >
+                          {liked[real] ? "♥" : "♡"}
+                        </div>
+                        <div
+                          style={{
+                            color: "white",
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            marginTop: "3px"
+                          }}
+                        >
+                          {likes[real]}
+                        </div>
                       </div>
                       <div
                         onClick={function () {
                           toggleComments(real);
                         }}
                         style={{
-                          background: "#f5f5f5",
-                          borderRadius: "20px",
-                          padding: "6px 12px",
-                          fontSize: "11px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
                           cursor: "pointer"
                         }}
                       >
-                        Close
+                        <div
+                          style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "50%",
+                            background: showC[real]
+                              ? "white"
+                              : "rgba(255,255,255,0.2)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "14px",
+                            fontWeight: "900"
+                          }}
+                        >
+                          C
+                        </div>
+                        <div
+                          style={{
+                            color: "white",
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            marginTop: "3px"
+                          }}
+                        >
+                          {allComments[real].length}
+                        </div>
+                      </div>
+                      <div
+                        onClick={function () {
+                          copyLink();
+                        }}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "50%",
+                            background:
+                              "rgba(255,255,255,0.2)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "14px",
+                            fontWeight: "900"
+                          }}
+                        >
+                          S
+                        </div>
+                        <div
+                          style={{
+                            color: "white",
+                            fontSize: "10px",
+                            fontWeight: "600",
+                            marginTop: "3px"
+                          }}
+                        >
+                          Share
+                        </div>
+                      </div>
+                      <div
+                        onClick={function () {
+                          toggleSave(real);
+                        }}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "50%",
+                            background: saved[real]
+                              ? "#fde68a"
+                              : "rgba(255,255,255,0.2)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "14px",
+                            fontWeight: "900"
+                          }}
+                        >
+                          V
+                        </div>
+                        <div
+                          style={{
+                            color: saved[real]
+                              ? "#fde68a"
+                              : "white",
+                            fontSize: "10px",
+                            fontWeight: "700",
+                            marginTop: "3px"
+                          }}
+                        >
+                          Vault
+                        </div>
                       </div>
                     </div>
-                    <div
-                      style={{
-                        flex: 1,
-                        overflowY: "auto",
-                        padding: "12px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px"
-                      }}
-                    >
-                      {allComments[real].map(function (c, i) {
-                        return (
-                          <div
-                            key={i}
-                            style={{
-                              display: "flex",
-                              gap: "8px"
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: "28px",
-                                height: "28px",
-                                borderRadius: "50%",
-                                background: "#f5f5f4",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "10px",
-                                fontWeight: "800"
-                              }}
-                            >
-                              {String.fromCharCode(
-                                65 + (i % 26)
-                              )}
-                            </div>
-                            <div
-                              style={{
-                                flex: 1,
-                                background: "#fafaf9",
-                                borderRadius: "12px",
-                                padding: "8px 12px",
-                                fontSize: "12px"
-                              }}
-                            >
-                              {c}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div
-                      style={{
-                        padding: "12px",
-                        borderTop: "1px solid #f0f0f0",
-                        display: "flex",
-                        gap: "8px"
-                      }}
-                    >
-                      <input
-                        value={newText[real]}
-                        onChange={function (e) {
-                          var nt = newText.slice();
-                          nt[real] = e.target.value;
-                          setNewText(nt);
-                        }}
-                        onKeyDown={function (e) {
-                          if (e.key === "Enter") {
-                            addComment(fIdx);
-                          }
-                        }}
-                        placeholder="Add your try"
+                    {showC[real] ? (
+                      <div
                         style={{
-                          flex: 1,
-                          border: "1px solid #e7e5e4",
-                          borderRadius: "20px",
-                          padding: "10px 14px",
-                          fontSize: "12px"
-                        }}
-                      />
-                      <button
-                        onClick={function () {
-                          addComment(fIdx);
-                        }}
-                        style={{
-                          background: "#1a1a1a",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "20px",
-                          padding: "10px 18px",
-                          fontSize: "12px",
-                          fontWeight: "800",
-                          cursor: "pointer"
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          background: "white",
+                          borderTopLeftRadius: "20px",
+                          borderTopRightRadius: "20px",
+                          maxHeight: "50%",
+                          display: "flex",
+                          flexDirection: "column",
+                          zIndex: 20
                         }}
                       >
-                        Post
-                      </button>
-                    </div>
+                        <div
+                          style={{
+                            padding: "14px",
+                            borderBottom:
+                              "1px solid #f0f0f0",
+                            display: "flex",
+                            justifyContent: "space-between"
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight: "900",
+                              fontSize: "13px"
+                            }}
+                          >
+                            {allComments[real].length} tried
+                          </div>
+                          <div
+                            onClick={function () {
+                              toggleComments(real);
+                            }}
+                            style={{
+                              background: "#f5f5f5",
+                              borderRadius: "20px",
+                              padding: "6px 12px",
+                              fontSize: "11px",
+                              cursor: "pointer"
+                            }}
+                          >
+                            Close
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            flex: 1,
+                            overflowY: "auto",
+                            padding: "12px",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "8px"
+                          }}
+                        >
+                          {allComments[real].map(function (
+                            c,
+                            i
+                          ) {
+                            return (
+                              <div
+                                key={i}
+                                style={{
+                                  display: "flex",
+                                  gap: "8px"
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    width: "28px",
+                                    height: "28px",
+                                    borderRadius: "50%",
+                                    background: "#f5f5f4",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontSize: "10px",
+                                    fontWeight: "800"
+                                  }}
+                                >
+                                  {String.fromCharCode(
+                                    65 + (i % 26)
+                                  )}
+                                </div>
+                                <div
+                                  style={{
+                                    flex: 1,
+                                    background: "#fafaf9",
+                                    borderRadius: "12px",
+                                    padding: "8px 12px",
+                                    fontSize: "12px"
+                                  }}
+                                >
+                                  {c}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div
+                          style={{
+                            padding: "12px",
+                            borderTop:
+                              "1px solid #f0f0f0",
+                            display: "flex",
+                            gap: "8px"
+                          }}
+                        >
+                          <input
+                            value={newText[real]}
+                            onChange={function (e) {
+                              var nt = newText.slice();
+                              nt[real] = e.target.value;
+                              setNewText(nt);
+                            }}
+                            onKeyDown={function (e) {
+                              if (e.key === "Enter") {
+                                addComment(real);
+                              }
+                            }}
+                            placeholder="Add your try"
+                            style={{
+                              flex: 1,
+                              border: "1px solid #e7e5e4",
+                              borderRadius: "20px",
+                              padding: "10px 14px",
+                              fontSize: "12px"
+                            }}
+                          />
+                          <button
+                            onClick={function () {
+                              addComment(real);
+                            }}
+                            style={{
+                              background: "#1a1a1a",
+                              color: "white",
+                              border: "none",
+                              borderRadius: "20px",
+                              padding: "10px 18px",
+                              fontSize: "12px",
+                              fontWeight: "800",
+                              cursor: "pointer"
+                            }}
+                          >
+                            Post
+                          </button>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-            </div>
-          );
-        })}
-
-        <div
-          style={{
-            position: "absolute",
-            right: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px"
-          }}
-        >
-          {filtered.map(function (obj, i) {
-            return (
-              <div
-                key={obj.h.id}
-                style={{
-                  width: "4px",
-                  height: i === active ? "24px" : "8px",
-                  borderRadius: "20px",
-                  background:
-                    i === active
-                      ? "white"
-                      : "rgba(255,255,255,0.4)",
-                  transition: "all 0.3s"
-                }}
-              />
-            );
-          })}
-        </div>
-      </div>
-
-      <div
-        style={{
-          width: "360px",
-          background: "#FFFBEB",
-          borderLeft: "1px solid #f5e6c8",
-          display: "flex",
-          flexDirection: "column",
-          padding: "14px",
-          gap: "12px",
-          overflowY: "auto"
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div style={{ fontWeight: "900", fontSize: "18px" }}>
-            OldHint
-          </div>
+                </div>
+              );
+            })
+          )}
           <div
             style={{
-              fontSize: "10px",
-              background: "#1a1a1a",
-              color: "white",
-              borderRadius: "20px",
-              padding: "6px 12px"
-            }}
-          >
-            41 experts live
-          </div>
-        </div>
-
-        <div>
-          <h1
-            style={{
-              fontSize: "28px",
-              fontWeight: "900",
-              lineHeight: "0.95",
-              margin: 0
-            }}
-          >
-            TikTok.
-            <br />
-            <span style={{ color: "#b45309" }}>
-              Not dance.
-            </span>
-            <br />
-            <span style={{ color: "#15803d" }}>
-              Wisdom.
-            </span>
-          </h1>
-          <p
-            style={{
-              fontSize: "11px",
-              color: "#57534e",
-              marginTop: "8px",
-              lineHeight: "1.4"
-            }}
-          >
-            Old people are experts. 50 years fixing
-            cars. 60 years making pickles. They post
-            life hacks. You follow. You learn easy
-            way. Not on TikTok. In Skill Vault.
-          </p>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "6px",
-            flexWrap: "wrap"
-          }}
-        >
-          {cats.map(function (c) {
-            return (
-              <div
-                key={c}
-                onClick={function () {
-                  setFilter(c);
-                }}
-                style={{
-                  background:
-                    filter === c ? "#1a1a1a" : "white",
-                  color: filter === c ? "white" : "#1a1a1a",
-                  border: "1px solid #f5e6c8",
-                  borderRadius: "20px",
-                  padding: "6px 12px",
-                  fontSize: "10px",
-                  fontWeight: "800",
-                  cursor: "pointer"
-                }}
-              >
-                {c}
-              </div>
-            );
-          })}
-        </div>
-
-        <div
-          style={{
-            background: "white",
-            border: "1px solid #f5e6c8",
-            borderRadius: "14px",
-            padding: "12px"
-          }}
-        >
-          <div
-            style={{
-              fontWeight: "900",
-              fontSize: "12px"
-            }}
-          >
-            How it works - Old = Gold
-          </div>
-          <div
-            style={{
-              fontSize: "11px",
-              marginTop: "8px",
-              lineHeight: "1.6"
-            }}
-          >
-            <div>1. Old expert posts hack video</div>
-            <div>2. Shows skill + years exp</div>
-            <div>3. You follow - Learn easy way</div>
-            <div>4. Save hack - Try hack - Comment</div>
-            <div>5. Not algorithm - Family only</div>
-          </div>
-        </div>
-
-        <div
-          style={{
-            background: "#1a1a1a",
-            color: "white",
-            borderRadius: "14px",
-            padding: "12px"
-          }}
-        >
-          <div
-            style={{
-              fontWeight: "900",
-              fontSize: "12px"
-            }}
-          >
-            Live experts now
-          </div>
-          <div
-            style={{
-              marginTop: "8px",
+              position: "absolute",
+              right: "12px",
+              top: "50%",
+              transform: "translateY(-50%)",
               display: "flex",
               flexDirection: "column",
               gap: "8px"
             }}
           >
-            {HACKS.slice(0, 3).map(function (h, i) {
+            {filtered.map(function (obj, i) {
               return (
                 <div
-                  key={h.id}
+                  key={obj.id}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "11px"
+                    width: "4px",
+                    height: i === active ? "24px" : "8px",
+                    borderRadius: "20px",
+                    background:
+                      i === active
+                        ? "white"
+                        : "rgba(255,255,255,0.4)",
+                    transition: "all 0.3s"
                   }}
-                >
-                  <span>
-                    {h.person} - {h.skill}
-                  </span>
-                  <span style={{ opacity: 0.6 }}>
-                    {h.followers} - {h.years}
-                  </span>
-                </div>
+                />
               );
             })}
-          </div>
-          <div
-            onClick={function () {
-              setShowVault(true);
-            }}
-            style={{
-              marginTop: "12px",
-              background: "white",
-              color: "black",
-              borderRadius: "10px",
-              padding: "10px",
-              textAlign: "center",
-              fontWeight: "900",
-              fontSize: "12px",
-              cursor: "pointer"
-            }}
-          >
-            Follow 41 experts - 21 per month
           </div>
         </div>
 
         <div
           style={{
-            fontSize: "9px",
-            opacity: 0.5,
-            textAlign: "center"
+            width: "340px",
+            background: "#FFFBEB",
+            borderLeft: "1px solid #f5e6c8",
+            display: "flex",
+            flexDirection: "column",
+            padding: "12px",
+            gap: "10px",
+            overflowY: "auto"
           }}
         >
-          oldhint.com - 41 experts - 5 categories -
-          Fully functional TikTok for old people life
-          hacks - Real videos - No black boxes - Likes
-          save follow try share all working
+          <div
+            style={{
+              display: "flex",
+              gap: "6px",
+              flexWrap: "wrap"
+            }}
+          >
+            {cats.map(function (c) {
+              return (
+                <div
+                  key={c}
+                  onClick={function () {
+                    setFilter(c);
+                  }}
+                  style={{
+                    background:
+                      filter === c
+                        ? "#1a1a1a"
+                        : "white",
+                    color:
+                      filter === c
+                        ? "white"
+                        : "#1a1a1a",
+                    border: "1px solid #f5e6c8",
+                    borderRadius: "20px",
+                    padding: "6px 12px",
+                    fontSize: "10px",
+                    fontWeight: "800",
+                    cursor: "pointer"
+                  }}
+                >
+                  {c}
+                </div>
+              );
+            })}
+          </div>
+
+          <div
+            style={{
+              fontSize: "11px",
+              background: "white",
+              border: "1px solid #f5e6c8",
+              borderRadius: "10px",
+              padding: "10px"
+            }}
+          >
+            <div style={{ fontWeight: "900" }}>
+              Search results: {filtered.length} hacks
+            </div>
+            <div
+              style={{
+                opacity: 0.6,
+                fontSize: "10px",
+                marginTop: "2px"
+              }}
+            >
+              {query
+                ? "Searching for " + query
+                : "All hacks - Old = Gold"}
+            </div>
+          </div>
+
+          <div
+            style={{
+              background: "white",
+              border: "1px solid #f5e6c8",
+              borderRadius: "14px",
+              padding: "12px"
+            }}
+          >
+            <div
+              style={{
+                fontWeight: "900",
+                fontSize: "12px"
+              }}
+            >
+              How it works - Old = Gold
+            </div>
+            <div
+              style={{
+                fontSize: "11px",
+                marginTop: "8px",
+                lineHeight: "1.6"
+              }}
+            >
+              <div>1. Search any hack</div>
+              <div>2. Old expert posts video</div>
+              <div>3. Shows skill + years exp</div>
+              <div>4. Follow - Save - Try</div>
+              <div>5. Not algorithm - Family only</div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              background: "#1a1a1a",
+              color: "white",
+              borderRadius: "14px",
+              padding: "12px"
+            }}
+          >
+            <div
+              style={{
+                fontWeight: "900",
+                fontSize: "12px"
+              }}
+            >
+              Live experts now
+            </div>
+            <div
+              style={{
+                marginTop: "8px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px"
+              }}
+            >
+              {HACKS.slice(0, 3).map(function (h) {
+                return (
+                  <div
+                    key={h.id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "11px"
+                    }}
+                  >
+                    <span>
+                      {h.person} - {h.skill}
+                    </span>
+                    <span style={{ opacity: 0.6 }}>
+                      {h.followers}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              onClick={function () {
+                if (!user) {
+                  setShowAuth(true);
+                  setAuthMode("signup");
+                } else {
+                  setShowVault(true);
+                }
+              }}
+              style={{
+                marginTop: "12px",
+                background: "white",
+                color: "black",
+                borderRadius: "10px",
+                padding: "10px",
+                textAlign: "center",
+                fontWeight: "900",
+                fontSize: "12px",
+                cursor: "pointer"
+              }}
+            >
+              {user
+                ? "Vault - 41 experts"
+                : "Create account - Follow 41 experts"}
+            </div>
+          </div>
+
+          <div
+            style={{
+              fontSize: "9px",
+              opacity: 0.5,
+              textAlign: "center"
+            }}
+          >
+            oldhint.com - {HACKS.length} experts - Search
+            - Auth - Fully functional TikTok for old
+            people life hacks - Real videos - No black
+            boxes - Likes save follow try share all
+            working - According to our concept - Old =
+            Gold
+          </div>
         </div>
       </div>
 
@@ -1239,6 +1497,203 @@ export default function TikTokFeed() {
           }}
         >
           Link copied
+        </div>
+      ) : null}
+
+      {showAuth ? (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 100,
+            padding: "20px"
+          }}
+        >
+          <div
+            style={{
+              background: "#FFFBEB",
+              borderRadius: "20px",
+              padding: "24px",
+              maxWidth: "380px",
+              width: "100%"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: "900",
+                  fontSize: "16px"
+                }}
+              >
+                {authMode === "login"
+                  ? "Login - OldHint"
+                  : "Create account - OldHint"}
+              </div>
+              <div
+                onClick={function () {
+                  setShowAuth(false);
+                }}
+                style={{
+                  background: "white",
+                  borderRadius: "20px",
+                  padding: "6px 12px",
+                  fontSize: "12px",
+                  cursor: "pointer",
+                  border: "1px solid #f5e6c8"
+                }}
+              >
+                Close
+              </div>
+            </div>
+            <div
+              style={{
+                marginTop: "8px",
+                fontSize: "11px",
+                opacity: 0.7
+              }}
+            >
+              Old people life hacks TikTok - Old = Gold -
+              People follow old experts posting life
+              hacks and secrets easy way according to
+              skills knowledge gained years - Building
+              car restoring car grandma pickles everyday
+              life - Like TikTok but wisdom - Fully
+              functional - Real website - Not pages only
+            </div>
+            <div
+              style={{
+                marginTop: "16px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px"
+              }}
+            >
+              {authMode === "signup" ? (
+                <input
+                  value={authForm.name}
+                  onChange={function (e) {
+                    setAuthForm({
+                      name: e.target.value,
+                      email: authForm.email,
+                      pass: authForm.pass
+                    });
+                  }}
+                  placeholder="Your name"
+                  style={{
+                    border: "1px solid #f5e6c8",
+                    borderRadius: "12px",
+                    padding: "12px 14px",
+                    fontSize: "13px",
+                    background: "white"
+                  }}
+                />
+              ) : null}
+              <input
+                value={authForm.email}
+                onChange={function (e) {
+                  setAuthForm({
+                    name: authForm.name,
+                    email: e.target.value,
+                    pass: authForm.pass
+                  });
+                }}
+                placeholder="Email"
+                style={{
+                  border: "1px solid #f5e6c8",
+                  borderRadius: "12px",
+                  padding: "12px 14px",
+                  fontSize: "13px",
+                  background: "white"
+                }}
+              />
+              <input
+                value={authForm.pass}
+                onChange={function (e) {
+                  setAuthForm({
+                    name: authForm.name,
+                    email: authForm.email,
+                    pass: e.target.value
+                  });
+                }}
+                placeholder="Password"
+                type="password"
+                style={{
+                  border: "1px solid #f5e6c8",
+                  borderRadius: "12px",
+                  padding: "12px 14px",
+                  fontSize: "13px",
+                  background: "white"
+                }}
+              />
+              <div
+                onClick={function () {
+                  doAuth();
+                }}
+                style={{
+                  background: "#1a1a1a",
+                  color: "white",
+                  borderRadius: "12px",
+                  padding: "12px",
+                  textAlign: "center",
+                  fontWeight: "900",
+                  fontSize: "13px",
+                  cursor: "pointer",
+                  marginTop: "4px"
+                }}
+              >
+                {authMode === "login"
+                  ? "Login"
+                  : "Create account - Follow 41 experts"}
+              </div>
+              <div
+                onClick={function () {
+                  setAuthMode(
+                    authMode === "login"
+                      ? "signup"
+                      : "login"
+                  );
+                }}
+                style={{
+                  textAlign: "center",
+                  fontSize: "11px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  color: "#57534e",
+                  marginTop: "4px"
+                }}
+              >
+                {authMode === "login"
+                  ? "No account? Create one"
+                  : "Have account? Login"}
+              </div>
+              <div
+                style={{
+                  fontSize: "9px",
+                  opacity: 0.5,
+                  textAlign: "center",
+                  marginTop: "4px"
+                }}
+              >
+                Real website - Auth - Search - Follow -
+                Save - Try - Fully functional working like
+                TikTok - Not pages only - Complete
+                functional website - Old = Gold - 41
+                experts - $21/mo - oldhint.com - According
+                to our concept together - Autonomous -
+                Fixes itself - Grows daily
+              </div>
+            </div>
+          </div>
         </div>
       ) : null}
 
@@ -1300,15 +1755,20 @@ export default function TikTokFeed() {
                 lineHeight: "1.5"
               }}
             >
+              {user
+                ? "Hi " + user.name + " - "
+                : ""}{" "}
               Follow 41 old experts. Learn life hacks
-              that took 50 years to learn. Save. Try.
-              Not on TikTok. In Family Vault forever.
+              that took 50 years to learn. Save. Try. Not
+              on TikTok. In Family Vault forever.
+              Search any hack - Clogged toilet, biryani,
+              car start.
             </div>
             <div
               onClick={function () {
                 setShowVault(false);
                 alert(
-                  "Join 41 experts - 21 per month - Fully functional - oldhint.com"
+                  "Vault - 21 per month - 41 experts - Real working - oldhint.com"
                 );
               }}
               style={{
@@ -1323,113 +1783,6 @@ export default function TikTokFeed() {
               }}
             >
               Join - 21 per month - 41 experts
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {showSkill ? (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: "20px"
-          }}
-        >
-          <div
-            style={{
-              background: "#FFFBEB",
-              borderRadius: "20px",
-              padding: "24px",
-              maxWidth: "400px",
-              width: "100%",
-              maxHeight: "80vh",
-              overflowY: "auto"
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between"
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "900",
-                  fontSize: "16px"
-                }}
-              >
-                Skill Vault
-              </div>
-              <div
-                onClick={function () {
-                  setShowSkill(false);
-                }}
-                style={{
-                  background: "white",
-                  borderRadius: "20px",
-                  padding: "6px 12px",
-                  fontSize: "12px",
-                  cursor: "pointer",
-                  border: "1px solid #f5e6c8"
-                }}
-              >
-                Close
-              </div>
-            </div>
-            <div
-              style={{
-                marginTop: "12px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px"
-              }}
-            >
-              {HACKS.map(function (h) {
-                return (
-                  <div
-                    key={h.id}
-                    style={{
-                      background: "white",
-                      border: "1px solid #f5e6c8",
-                      borderRadius: "12px",
-                      padding: "12px"
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontWeight: "800",
-                        fontSize: "12px"
-                      }}
-                    >
-                      {h.skill} - {h.person} - {h.years}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "10px",
-                        opacity: 0.6,
-                        marginTop: "2px"
-                      }}
-                    >
-                      {h.title}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        marginTop: "6px"
-                      }}
-                    >
-                      {h.followers} followers -{" "}
-                      {h.likes} likes - {h.saves} saved
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         </div>
